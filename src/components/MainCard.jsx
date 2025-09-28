@@ -19,12 +19,13 @@ const MainCard = forwardRef(
       className,
       headerClassName,
       bodyClassName,
-      footerClassName
+      footerClassName,
+      ...props
     },
     ref
   ) => {
     return (
-      <Card ref={ref} className={className}>
+      <Card ref={ref} className={className} {...props}>
         {/* Header Section */}
         {title && (
           <Card.Header className={headerClassName}>

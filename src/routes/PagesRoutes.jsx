@@ -15,7 +15,7 @@ const LoginV2Page = Loadable(lazy(() => import('views/auth/login/LoginV2')));
 const LoginV3Page = Loadable(lazy(() => import('views/auth/login/LoginV3')));
 const LoginV4Page = Loadable(lazy(() => import('views/auth/login/LoginV4')));
 const LoginV5Page = Loadable(lazy(() => import('views/auth/login/LoginV5')));
-const Login = Loadable(lazy(() => import('../pages/Login')));
+const Login = Loadable(lazy(() => import('views/pages/Login')));
 
 // render - register pages
 const RegisterV1Page = Loadable(lazy(() => import('views/auth/register/RegisterV1')));

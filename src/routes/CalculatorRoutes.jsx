@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import DashboardLayout from 'layout/Dashboard';
 import Visit from '../sections/calculator/structure/Visit';
+import Category from '../sections/calculator/structure/Category';
 
 // render - other pages
 // const OtherSamplePage = Loadable(lazy(() => import('views/SamplePage')));
@@ -42,6 +43,10 @@ const CalculatorRoutes = {
             {
               path: 'visit/:id',
               element: <Visit />
+            },
+            {
+              path: 'category/:struid/:id',
+              element: <Category />
             },
             {
               path: 'helpdesk',

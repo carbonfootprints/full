@@ -59,6 +59,7 @@ function Structure() {
   };
 
   const handleAdd = () => {
+    console.log('handleAdd');
     setEditingStructure(null);
     setModalOpen(true);
   };

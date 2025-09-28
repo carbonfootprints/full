@@ -18,13 +18,16 @@ export default function VisitEditModal({ show, onClose, onSave, visit }) {
   useEffect(() => {
     if (visit) {
       setFormData({
-        name: visit.name || '',
-        siteName: visit.siteName || '',
-        companyRegNo: visit.companyRegNo || '',
+        name: visit.organisationname || '',
+        siteName: visit.sitename || '',
+        companyRegNo: visit.registernumber || '',
         address: visit.address || '',
-        contactPerson: visit.contactPerson || '',
+        contactPerson: visit.contactperson || '',
         email: visit.email || '',
-        phone: visit.phone || ''
+        phone: visit.phonenumber || '',
+        noOfEmployees: visit.noofemployees || '',
+        description: visit.description || '',
+        coordinates: visit.coordinates ? visit.coordinates.join(',') : '' // convert array to string
       });
     } else {
       setFormData({
@@ -34,7 +37,10 @@ export default function VisitEditModal({ show, onClose, onSave, visit }) {
         address: '',
         contactPerson: '',
         email: '',
-        phone: ''
+        phone: '',
+        noOfEmployees: '',
+        description: '',
+        coordinates: ''
       });
     }
   }, [visit]);
@@ -48,8 +54,23 @@ export default function VisitEditModal({ show, onClose, onSave, visit }) {
   };
 
   const handleSubmit = () => {
+    console.log('handleSubmit');
     if (!formData.name.trim()) return;
-    onSave({ ...visit, ...formData });
+
+    onSave({
+      ...visit,
+      organisationname: formData.name,
+      sitename: formData.siteName,
+      registernumber: formData.companyRegNo,
+      address: formData.address,
+      contactperson: formData.contactPerson,
+      email: formData.email,
+      phonenumber: formData.phone,
+      noofemployees: Number(formData.noOfEmployees) || 0,
+      description: formData.description || '',
+      coordinates: formData.coordinates ? formData.coordinates.split(',').map(Number) : [0, 0],
+      status: visit?.status || 'pending'
+    });
   };
 
   return (
@@ -112,6 +133,40 @@ export default function VisitEditModal({ show, onClose, onSave, visit }) {
           <Form.Group className="mb-3" controlId="phone">
             <Form.Label>Phone</Form.Label>
             <Form.Control type="text" placeholder="Enter phone number" name="phone" value={formData.phone} onChange={handleChange} />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="noOfEmployees">
+            <Form.Label>No of Employees</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter number of employees"
+              name="noOfEmployees"
+              value={formData.noOfEmployees}
+              onChange={handleChange}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="description">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={2}
+              placeholder="Enter description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="coordinates">
+            <Form.Label>Coordinates (lat,lng)</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter latitude,longitude"
+              name="coordinates"
+              value={formData.coordinates}
+              onChange={(e) => setFormData((prev) => ({ ...prev, coordinates: e.target.value }))}
+            />
           </Form.Group>
         </Form>
       </Modal.Body>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Row from 'react-bootstrap/Row';
@@ -11,6 +11,7 @@ import VisitEditModal from './VisitEditModel';
 
 function Visit() {
   const { id: structureId } = useParams(); // clearer name
+  const navigate = useNavigate();
   const [visits, setVisits] = useState([]); // always an array
   const [modalOpen, setModalOpen] = useState(false);
   const [editingVisit, setEditingVisit] = useState(null);
@@ -44,7 +45,7 @@ function Visit() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:8000/api/admin/visits/${visitId}`);
+          await axios.delete(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}`);
           fetchVisits();
           Swal.fire('Deleted!', 'The visit has been deleted.', 'success');
         } catch (err) {
@@ -58,6 +59,7 @@ function Visit() {
   // Edit
   const handleEdit = (visitId) => {
     const visit = visits.find((v) => v._id === visitId);
+    console.log('Editing visit:', visit);
     setEditingVisit(visit);
     setModalOpen(true);
   };
@@ -69,18 +71,42 @@ function Visit() {
   };
 
   const handleClose = () => setModalOpen(false);
+  const handleView = (visitId) => {
+    console.log('view', visitId);
+    navigate(`/calculate/category/${structureId}/${visitId}`);
+  };
 
   // Save (Create / Update)
   const handleSave = async (data) => {
     try {
+      let coordinates = [0, 0];
+
+      if (typeof data.coordinates === 'string') {
+        // user typed "12.34,56.78"
+        coordinates = data.coordinates.split(',').map((c) => Number(c.trim()));
+      } else if (Array.isArray(data.coordinates)) {
+        // already array from backend
+        coordinates = data.coordinates.map(Number);
+      }
+      const payload = {
+        organisationname: data.organisationname || data.name,
+        sitename: data.sitename || data.siteName,
+        registernumber: data.registernumber || data.companyRegNo,
+        address: data.address,
+        contactperson: data.contactperson || data.contactPerson,
+        email: data.email,
+        phonenumber: data.phonenumber || data.phone,
+        noofemployees: Number(data.noofemployees || data.noOfEmployees) || 0,
+        description: data.description || '',
+        status: data.status || 'pending',
+        coordinates,
+        categories: data.categories || []
+      };
+
       if (data._id) {
-        await axios.put(`http://localhost:8000/api/admin/visits/${data._id}`, data);
+        await axios.put(`http://localhost:8000/api/admin/structures/${structureId}/visits/${data._id}`, payload);
       } else {
-        // attach structureId when creating a new visit
-        await axios.post('http://localhost:8000/api/admin/visits', {
-          ...data,
-          structureId
-        });
+        await axios.post(`http://localhost:8000/api/admin/structures/${structureId}/visits`, payload);
       }
 
       Swal.fire({
@@ -111,7 +137,7 @@ function Visit() {
           <Col key={visit._id} xs={12} md={6} lg={4}>
             <VisitCard
               visit={visit}
-              onView={() => console.log('Viewing', visit._id)}
+              onView={() => handleView(visit._id)}
               onEdit={() => handleEdit(visit._id)}
               onDelete={() => handleDelete(visit._id)}
               className="rounded-lg shadow"

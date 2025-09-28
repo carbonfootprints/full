@@ -16,34 +16,35 @@ export default function StructureEditModal({ show, onClose, onSave, structure })
     }
   }, [structure]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (!name.trim()) return;
     onSave({ ...structure, name });
   };
 
   return (
     <Modal className="modal-animate anim-sticky-up" show={show} onHide={onClose} centered>
-      <Modal.Header className="bg-dark" closeButton closeVariant="white">
-        <Modal.Title className="text-white">{structure ? 'Edit Structure' : 'Create Structure'}</Modal.Title>
-      </Modal.Header>
+      <Form onSubmit={handleSubmit}>
+        <Modal.Header className="bg-dark" closeButton closeVariant="white">
+          <Modal.Title className="text-white">{structure ? 'Edit Structure' : 'Create Structure'}</Modal.Title>
+        </Modal.Header>
 
-      <Modal.Body>
-        <Form>
+        <Modal.Body>
           <Form.Group className="mb-3" controlId="structureName">
             <Form.Label>Structure Name</Form.Label>
             <Form.Control type="text" placeholder="Enter structure name" value={name} onChange={(e) => setName(e.target.value)} />
           </Form.Group>
-        </Form>
-      </Modal.Body>
+        </Modal.Body>
 
-      <Modal.Footer>
-        <Button variant="outline-secondary" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={handleSubmit}>
-          {structure ? 'Update' : 'Create'}
-        </Button>
-      </Modal.Footer>
+        <Modal.Footer>
+          <Button variant="outline-secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="submit" variant="primary" onClick={handleSubmit}>
+            {structure ? 'Update' : 'Create'}
+          </Button>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 }
