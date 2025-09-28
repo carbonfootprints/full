@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // react-bootstrap
 import Button from 'react-bootstrap/Button';
@@ -8,6 +9,8 @@ import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import Nav from 'react-bootstrap/Nav';
 import Stack from 'react-bootstrap/Stack';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 // project-imports
 import MainCard from 'components/MainCard';
@@ -82,6 +85,33 @@ export default function Header() {
 
   const handleListItemClick = (lang) => {
     onChangeLocalization(lang);
+  };
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:8000/api/user/logout', null, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged out',
+        text: 'You have been logged out successfully.'
+      });
+
+      // use replace to prevent back navigation
+      navigate('/auth/login', { replace: true });
+    } catch (error) {
+      console.error('Logout error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Something went wrong during logout.'
+      });
+    }
   };
 
   return (
@@ -291,7 +321,7 @@ export default function Header() {
                       Change Password
                     </Dropdown.Item>
                     <div className="d-grid my-2">
-                      <Button>
+                      <Button onClick={handleLogout}>
                         <i className="ph ph-sign-out align-middle me-2" />
                         Logout
                       </Button>

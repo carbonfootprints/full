@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Stack from 'react-bootstrap/Stack';
+import Swal from 'sweetalert2';
 
 // third-party
 import { useForm } from 'react-hook-form';
@@ -58,9 +59,21 @@ export default function AuthLoginForm({ className, link, resetLink }) {
         window.location.href = '/dashboard/default';
       } else {
         setError('Login failed, please try again.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: 'Login failed, please try again.'
+        });
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+      const message = err.response?.data?.message || 'Invalid email or password';
+      setError(message);
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: message
+      });
     }
   };
 
