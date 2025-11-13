@@ -4,129 +4,106 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
-import VisitCard from './VisitCard';
 import MainCard from 'components/MainCard';
+import VisitCard from './VisitCard';
 import VisitEditModal from './VisitEditModel';
 
 function Visit() {
-  const { id: structureId } = useParams(); // clearer name
+  const { id: structureId } = useParams();
   const navigate = useNavigate();
-  const [visits, setVisits] = useState([]); // always an array
+  const [visits, setVisits] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingVisit, setEditingVisit] = useState(null);
 
-  // Fetch visits for the structure
   const fetchVisits = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/admin/structures/${structureId}/visits`);
-      console.log('response', response);
-      setVisits(response.data?.data?.filter((v) => v !== null) || []);
-    } catch (error) {
-      console.error('Error fetching visits:', error);
-      setVisits([]); // prevent map error
+      const res = await axios.get(`http://localhost:8000/api/admin/structures/${structureId}/getvisits`);
+      console.log('Visits Response:', res.data);
+
+      // ✅ Correct path to your visit array
+      setVisits(res.data?.data || []);
+    } catch (err) {
+      console.error('Error fetching visits:', err);
+      setVisits([]);
     }
   };
+
+  console.log('visits', visits);
 
   useEffect(() => {
     if (structureId) fetchVisits();
   }, [structureId]);
 
-  // Delete
-  const handleDelete = async (visitId) => {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You won’t be able to revert this action!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axios.delete(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}`);
-          fetchVisits();
-          Swal.fire('Deleted!', 'The visit has been deleted.', 'success');
-        } catch (err) {
-          console.error('Delete error:', err);
-          Swal.fire('Error!', 'Something went wrong while deleting.', 'error');
-        }
-      }
-    });
-  };
-
-  // Edit
-  const handleEdit = (visitId) => {
-    const visit = visits.find((v) => v._id === visitId);
-    console.log('Editing visit:', visit);
-    setEditingVisit(visit);
-    setModalOpen(true);
-  };
-
-  // Add
+  // Add visit (opens modal)
   const handleAdd = () => {
     setEditingVisit(null);
     setModalOpen(true);
   };
 
+  const handleEdit = (visitId) => {
+    const visit = visits.find((v) => v._id === visitId);
+    setEditingVisit(visit);
+    setModalOpen(true);
+  };
+
+  const handleDelete = async (visitId) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'This visit will be permanently deleted.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!'
+    });
+    if (!result.isConfirmed) return;
+
+    try {
+      await axios.delete(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}`);
+      Swal.fire('Deleted!', 'Visit deleted successfully.', 'success');
+      fetchVisits();
+    } catch (err) {
+      console.error('Delete error:', err);
+      Swal.fire('Error!', 'Failed to delete visit.', 'error');
+    }
+  };
+
   const handleClose = () => setModalOpen(false);
+
   const handleView = (visitId) => {
-    console.log('view', visitId);
     navigate(`/calculate/category/${structureId}/${visitId}`);
   };
 
-  // Save (Create / Update)
-  const handleSave = async (data) => {
+  /**
+   * ✅ handleSave — Admin creates visit templates
+   * - When admin saves, we store their fields in `dataTemplate`
+   * - Not in `dataValues`
+   */
+  const handleSave = async (visitData) => {
     try {
-      let coordinates = [0, 0];
+      // Use admin-entered template directly
+      const filledTemplate = visitData.dataTemplate;
 
-      if (typeof data.coordinates === 'string') {
-        // user typed "12.34,56.78"
-        coordinates = data.coordinates.split(',').map((c) => Number(c.trim()));
-      } else if (Array.isArray(data.coordinates)) {
-        // already array from backend
-        coordinates = data.coordinates.map(Number);
-      }
-      const payload = {
-        organisationname: data.organisationname || data.name,
-        sitename: data.sitename || data.siteName,
-        registernumber: data.registernumber || data.companyRegNo,
-        address: data.address,
-        contactperson: data.contactperson || data.contactPerson,
-        email: data.email,
-        phonenumber: data.phonenumber || data.phone,
-        noofemployees: Number(data.noofemployees || data.noOfEmployees) || 0,
-        description: data.description || '',
-        status: data.status || 'pending',
-        coordinates,
-        categories: data.categories || []
-      };
-
-      if (data._id) {
-        await axios.put(`http://localhost:8000/api/admin/structures/${structureId}/visits/${data._id}`, payload);
+      if (!visitData._id) {
+        // Create new visit template
+        await axios.post(`http://localhost:8000/api/admin/structures/${structureId}/visits`, {
+          dataTemplate: filledTemplate,
+          dataValues: {}, // user will fill later
+          status: visitData.status || 'pending'
+        });
+        Swal.fire('Created!', 'Visit template created successfully.', 'success');
       } else {
-        await axios.post(`http://localhost:8000/api/admin/structures/${structureId}/visits`, payload);
+        // Update existing visit template
+        await axios.put(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitData._id}`, {
+          dataTemplate: filledTemplate,
+          dataValues: {}
+        });
+        Swal.fire('Updated!', 'Visit template updated successfully.', 'success');
       }
-
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Visit saved successfully',
-        showConfirmButton: false,
-        timer: 1500
-      });
 
       setModalOpen(false);
       fetchVisits();
-    } catch (error) {
-      console.error('Error saving visit:', error);
-
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong while saving!'
-      });
+    } catch (err) {
+      console.error('Error saving visit:', err.response?.data || err.message);
+      Swal.fire('Error!', 'Something went wrong while saving.', 'error');
     }
   };
 
@@ -140,17 +117,16 @@ function Visit() {
               onView={() => handleView(visit._id)}
               onEdit={() => handleEdit(visit._id)}
               onDelete={() => handleDelete(visit._id)}
-              className="rounded-lg shadow"
             />
           </Col>
         ))
       ) : (
         <Col>
-          <p>No visits available for this structure.</p>
+          <p className="text-muted">No visits available. Click below to create one.</p>
         </Col>
       )}
 
-      {/* Add Visit Card */}
+      {/* Add Visit Button */}
       <Col xs={12} md={6} lg={4}>
         <MainCard
           className="rounded-lg shadow cursor-pointer"
@@ -158,11 +134,11 @@ function Visit() {
           onClick={handleAdd}
         >
           <i className="ti ti-plus text-dark mb-2" style={{ fontSize: '24px' }} />
-          <h6 className="fw-bold text-dark">Add Visit</h6>
+          <h6 className="fw-bold text-dark">Add Visit Template</h6>
         </MainCard>
       </Col>
 
-      <VisitEditModal show={modalOpen} onClose={handleClose} onSave={handleSave} visit={editingVisit} />
+      {modalOpen && <VisitEditModal show={modalOpen} visit={editingVisit} onClose={handleClose} onSave={handleSave} />}
     </Row>
   );
 }

@@ -5,6 +5,9 @@ import Loadable from 'components/Loadable';
 import DashboardLayout from 'layout/Dashboard';
 import Visit from '../sections/calculator/structure/Visit';
 import Category from '../sections/calculator/structure/Category';
+import StructureView from '../sections/calculator/structure/StructureView';
+import VisitForm from '../sections/calculator/structure/VisitForm';
+import UserMain from '../sections/calculator/structure/UserMain';
 
 // render - other pages
 // const OtherSamplePage = Loadable(lazy(() => import('views/SamplePage')));
@@ -77,6 +80,14 @@ const CalculatorRoutes = {
                   element: <CustomersMain />
                 }
               ]
+            },
+            {
+              path: 'structureview',
+              element: <StructureView />
+            },
+            {
+              path: 'usermain/:id',
+              element: <UserMain />
             }
           ]
         }

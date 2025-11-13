@@ -10,6 +10,13 @@ const calculate = {
       icon: <i className="ph ph-calendar-blank" />,
       url: '/calculate/structure'
     },
+    {
+      id: 'calculateview',
+      title: 'calculateview',
+      type: 'item',
+      icon: <i className="ph ph-calendar-blank" />,
+      url: '/calculate/structureview'
+    },
     // {
     //   id: 'visit',
     //   title: 'visit',
