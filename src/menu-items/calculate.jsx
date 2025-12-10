@@ -3,13 +3,13 @@ const calculate = {
   title: 'calculate',
   type: 'group',
   children: [
-    {
-      id: 'structure',
-      title: 'structure',
-      type: 'item',
-      icon: <i className="ph ph-calendar-blank" />,
-      url: '/calculate/structure'
-    },
+    // {
+    //   id: 'structure',
+    //   title: 'structure',
+    //   type: 'item',
+    //   icon: <i className="ph ph-calendar-blank" />,
+    //   url: '/calculate/structure'
+    // },
     {
       id: 'calculateview',
       title: 'calculateview',

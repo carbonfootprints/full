@@ -1,50 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import VisitShowTemplate from './VisitShowTemplate';
 
-function VisitForm({ structureId }) {
+function VisitForm({ structureId, visitId, enableCategories }) {
   console.log('structureId:', structureId);
-  const navigate = useNavigate();
 
   const [form, setForm] = useState({});
   const [existingVisit, setExistingVisit] = useState(null);
   const [isEditing, setIsEditing] = useState(true);
 
   useEffect(() => {
+    if (!existingVisit) {
+      setForm({});
+    }
+  }, [existingVisit]);
+
+  useEffect(() => {
     const fetchVisit = async () => {
       try {
         const res = await axios.get(`http://localhost:8000/api/admin/structures/${structureId}/getvisits`);
-        console.log('res', res);
 
-        const visitList = res.data?.data?.data || res.data?.data;
-        if (visitList && visitList.length > 0) {
-          const visit = visitList[0];
-          setExistingVisit(visit);
+        const visitList = res.data?.data?.data || res.data?.data || [];
 
-          // ✅ Use values of dataTemplate (eeerr, yyy, etc.) as labels
-          const mergedForm = {};
-          Object.entries(visit.dataTemplate || {}).forEach(([key, label]) => {
-            mergedForm[label] = visit.dataValues?.[label] ?? ''; // key = label now
+        let selectedVisit = null;
+
+        // If visitId is provided → load that visit
+        if (visitId) {
+          selectedVisit = visitList.find((v) => v._id === visitId);
+        }
+
+        // fallback → first visit
+        if (!selectedVisit && visitList.length > 0) {
+          selectedVisit = visitList[0];
+        }
+
+        setExistingVisit(selectedVisit);
+
+        if (selectedVisit) {
+          const merged = {};
+          Object.entries(selectedVisit.dataTemplate || {}).forEach(([key, label]) => {
+            merged[label] = selectedVisit.dataValues?.[label] || '';
           });
-
-          setForm(mergedForm);
-        } else {
-          console.warn('No visits found for this structure.');
+          setForm(merged);
         }
       } catch (error) {
         console.error('Error fetching visit:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Failed to load visit data.'
-        });
       }
     };
 
-    if (structureId) fetchVisit();
-  }, [structureId]);
+    fetchVisit();
+  }, [structureId, visitId]);
 
   // ✅ Update form value
   const handleChange = (label, value) => {
@@ -89,7 +95,7 @@ function VisitForm({ structureId }) {
         timer: 1200
       });
 
-      navigate(`/categories/${existingVisit._id}`);
+      if (enableCategories) enableCategories();
     } catch (err) {
       console.error('Error saving visit:', err);
       Swal.fire({

@@ -2,21 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 function StructureView() {
   const [structures, setStructures] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  // Recursive function to count all nested subcategories
-  const countSubcategories = (category) => {
-    if (!category.children || category.children.length === 0) return 0;
-    let count = category.children.length;
-    category.children.forEach((child) => {
-      count += countSubcategories(child); // recursive count
-    });
-    return count;
-  };
 
   const fetchStructures = async () => {
     try {
@@ -36,65 +27,85 @@ function StructureView() {
 
   if (loading) return <div className="text-center my-5">Loading…</div>;
 
-  const handleOpen = (structure) => {
-    let totalCategories = 0;
-    let totalSubcategories = 0;
-    let totalSubSubcategories = 0;
+  // -----------------------------
+  // OPEN EXISTING VISITS
+  // -----------------------------
+  const handleOpenExisting = (structure) => {
+    navigate(`/calculate/list`);
+    // navigate(`/calculate/list?structureId=${structure._id}`);
+  };
 
-    structure.visits?.forEach((visit) => {
-      visit?.categories?.forEach((cat) => {
-        totalCategories++;
-        const subCount = cat.children?.length || 0;
-        totalSubcategories += subCount;
+  // -----------------------------
+  // CREATE NEW VISIT
+  // -----------------------------
+  const handleCreateNewVisit = async (structure) => {
+    try {
+      // 🔥 Prevent crash if no base visit exists
+      if (!structure.visits || structure.visits.length === 0) {
+        Swal.fire('No Base Visit', 'Please create a base visit first.', 'warning');
+        return;
+      }
 
-        // Count sub-subcategories recursively
-        cat.children?.forEach((child) => {
-          totalSubSubcategories += countSubcategories(child);
-        });
+      // Ask for visit name
+      const { value: visitName } = await Swal.fire({
+        title: 'Enter Visit Name',
+        input: 'text',
+        inputPlaceholder: 'Visit name',
+        showCancelButton: true,
+        confirmButtonText: 'Create',
+        inputValidator: (value) => {
+          if (!value) {
+            return 'Please enter a visit name';
+          }
+        }
       });
-    });
 
-    // Send counts as params
-    navigate(
-      `/calculate/usermain/${structure._id}?categories=${totalCategories}&subcategories=${totalSubcategories}&subsub=${totalSubSubcategories}`
-    );
+      if (!visitName) return;
+
+      const res = await axios.post(`http://localhost:8000/api/admin/structures/${structure._id}/visits`, { visitName });
+
+      const newVisit = res.data.visit;
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Visit created!',
+        timer: 1200,
+        showConfirmButton: false
+      });
+
+      navigate(`/calculate/usermain/${structure._id}?visitId=${newVisit._id}`);
+    } catch (err) {
+      console.error('Error creating new visit:', err);
+      Swal.fire('Error', 'Failed to create visit', 'error');
+    }
   };
 
   return (
     <div className="container my-4">
       <h3 className="fw-bold mb-4 text-center">Select a Structure</h3>
-      {structures.map((s) => {
-        // Precalculate for UI display
-        let catCount = 0,
-          subCount = 0,
-          subSubCount = 0;
 
-        s.visits?.forEach((v) => {
-          v?.categories?.forEach((c) => {
-            catCount++;
-            subCount += c.children?.length || 0;
-            c.children?.forEach((child) => {
-              subSubCount += countSubcategories(child);
-            });
-          });
-        });
+      {structures.map((s) => (
+        <Card key={s._id} className="mb-3 shadow-sm border">
+          <Card.Body className="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 className="m-0">{s.name}</h5>
+              <small className="text-muted">Visits: {s.visits?.length || 0}</small>
+            </div>
 
-        return (
-          <Card key={s._id} className="mb-3 shadow-sm border">
-            <Card.Body className="d-flex justify-content-between align-items-center">
-              <div>
-                <h5 className="m-0">{s.name}</h5>
-                <small className="text-muted">
-                  Categories: {catCount} | Subcategories: {subCount} | Nested Subs: {subSubCount}
-                </small>
-              </div>
-              <Button variant="primary" onClick={() => handleOpen(s)}>
-                Open
+            <div className="d-flex gap-2">
+              {/* OPEN EXISTING VISITS */}
+              <Button variant="secondary" onClick={() => handleOpenExisting(s)}>
+                Open Existing Visit
               </Button>
-            </Card.Body>
-          </Card>
-        );
-      })}
+
+              {/* CREATE NEW VISIT */}
+              <Button variant="primary" onClick={() => handleCreateNewVisit(s)}>
+                New Visit
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+      ))}
     </div>
   );
 }

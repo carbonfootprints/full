@@ -8,6 +8,8 @@ import Category from '../sections/calculator/structure/Category';
 import StructureView from '../sections/calculator/structure/StructureView';
 import VisitForm from '../sections/calculator/structure/VisitForm';
 import UserMain from '../sections/calculator/structure/UserMain';
+import OrgUser from '../sections/calculator/orguser/OrgUser';
+import AllUser from '../sections/calculator/orguser/AllUser';
 
 // render - other pages
 // const OtherSamplePage = Loadable(lazy(() => import('views/SamplePage')));
@@ -38,6 +40,14 @@ const CalculatorRoutes = {
             {
               path: 'list',
               element: <List />
+            },
+            {
+              path: 'orguser',
+              element: <OrgUser />
+            },
+            {
+              path: 'alluser',
+              element: <AllUser />
             },
             {
               path: 'structure',
