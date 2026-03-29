@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 
 // project-imports
 import Drawer from './Drawer';
@@ -13,6 +13,15 @@ import NavigationScroll from 'components/NavigationScroll';
 
 export default function MainLayout() {
   const { container } = useConfig();
+
+  // Auth guard — redirect to appropriate login if no token
+  const token = localStorage.getItem('token');
+  const userType = localStorage.getItem('userType');
+
+  if (!token) {
+    const loginPath = userType === 'orguser' ? '/orguser/login' : '/auth/login';
+    return <Navigate to={loginPath} replace />;
+  }
 
   return (
     <>

@@ -12,21 +12,38 @@ import adminStruct from './admin-struct';
 // import navigation from './navigation';
 
 // ==============================|| MENU ITEMS ||============================== //
-const userData = localStorage.getItem('user');
-let role = null;
 
-if (userData) {
-  try {
-    role = JSON.parse(userData).role; // Extract role
-  } catch (e) {
-    console.error('Invalid user data in localStorage');
+// Function to get menu items dynamically based on current user
+const getMenuItems = () => {
+  const userData = localStorage.getItem('user');
+  const userType = localStorage.getItem('userType');
+  let role = null;
+
+  if (userData) {
+    try {
+      const parsedUser = JSON.parse(userData);
+      role = parsedUser.role; // Extract role
+    } catch (e) {
+      console.error('Invalid user data in localStorage');
+    }
   }
-}
-// const menuItems = {
-//   items: [navigation, adminPanel, uiComponents, calculate, formComponents, tableRoutes, chartsMaps, application, pages, other]
-// };
-const menuItems = {
-  items: role === 'admin' ? [adminStruct] : [calculate]
+
+  // Determine menu based on user role or userType
+  let menuConfig = [calculate]; // Default for regular users
+
+  if (role === 'admin' || role === 'superadmin') {
+    menuConfig = [adminStruct];
+  } else if (role === 'orguser' || userType === 'orguser') {
+    menuConfig = [calculate];
+  }
+
+  return {
+    items: menuConfig
+  };
 };
 
+// Export default as function result for backward compatibility
+const menuItems = getMenuItems();
+
 export default menuItems;
+export { getMenuItems };

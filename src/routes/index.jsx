@@ -15,6 +15,7 @@ import TablesRoutes from './TablesRoutes';
 import Loadable from 'components/Loadable';
 import SimpleLayout from 'layout/Simple';
 import CalculatorRoutes from './CalculatorRoutes';
+import OrguserRoutes from './OrguserRoutes';
 
 const PagesLanding = Loadable(lazy(() => import('../views/Landing')));
 
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
     ApplicationRoutes,
     CalculatorRoutes,
     AdminPanelRoutes,
+    OrguserRoutes,
     NavigationRoutes,
     ComponentsRoutes,
     FormsRoutes,

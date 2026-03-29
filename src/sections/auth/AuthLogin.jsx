@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+
 // react-bootstrap
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -28,6 +30,9 @@ import DarkLogo from 'assets/images/logo-dark.svg';
 export default function AuthLoginForm({ className, link, resetLink }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const { mode } = useConfig();
   const resolvedTheme = getResolvedTheme(mode);
@@ -38,74 +43,113 @@ export default function AuthLoginForm({ className, link, resetLink }) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm();
 
+  // Load saved email on mount
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if (savedEmail) {
+      setValue('email', savedEmail);
+      setRememberMe(true);
+    }
+  }, [setValue]);
+
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
+    setShowPassword((prev) => !prev);
   };
 
   const onSubmit = async (data) => {
-    console.log('data', data);
     setError('');
+    setLoading(true);
     try {
-      const res = await axios.post('http://localhost:8000/api/user/login', data);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const res = await axios.post(`${apiUrl}/api/user/login`, data);
 
       if (res.data.token) {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
+        // Handle Remember Me — store only email, never the password
+        if (rememberMe) {
+          localStorage.setItem('rememberedEmail', data.email);
+        } else {
+          localStorage.removeItem('rememberedEmail');
+        }
 
-        // redirect after login
-        window.location.href = '/dashboard/default';
+        localStorage.setItem('token', res.data.token);
+        if (res.data.refreshToken) {
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+        }
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        localStorage.setItem('userType', 'admin');
+
+        const userRole = res.data.user?.role;
+        const redirectPath =
+          userRole === 'admin' || userRole === 'superadmin'
+            ? '/admin-panel/orgusers/list'
+            : '/calculate/helpdesk/ticket/list';
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome back!',
+          text: `Logged in as ${res.data.user?.name || res.data.user?.email}`,
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          navigate(redirectPath, { replace: true });
+        });
       } else {
         setError('Login failed, please try again.');
-        Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
-          text: 'Login failed, please try again.'
-        });
       }
     } catch (err) {
       const message = err.response?.data?.message || 'Invalid email or password';
       setError(message);
-
       Swal.fire({
         icon: 'error',
         title: 'Login Failed',
         text: message
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <MainCard className="mb-0">
-      <div className="text-center">
+      <div className="text-center mb-2">
         <a>
-          <Image src={logo} alt="img" />
+          <Image src={logo} alt="logo" />
         </a>
       </div>
+
+      <h4 className={`text-center f-w-500 mt-3 mb-1 ${className}`}>Admin Login</h4>
+      <p className={`text-center mb-4 ${className ? className : 'text-muted'}`} style={{ fontSize: '0.875rem' }}>
+        Sign in to manage your platform
+      </p>
+
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <h4 className={`text-center f-w-500 mt-4 mb-3 ${className}`}>Login</h4>
         <Form.Group className="mb-3" controlId="formEmail">
+          <Form.Label className={className}>Email Address</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Email Address"
+            placeholder="admin@example.com"
             {...register('email', emailSchema)}
             isInvalid={!!errors.email}
-            className={className && 'bg-transparent border-white text-white border-opacity-25 '}
+            className={className && 'bg-transparent border-white text-white border-opacity-25'}
           />
           <Form.Control.Feedback type="invalid">{errors.email?.message}</Form.Control.Feedback>
         </Form.Group>
+
         <Form.Group className="mb-3" controlId="formPassword">
+          <Form.Label className={className}>Password</Form.Label>
           <InputGroup>
             <Form.Control
               type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
+              placeholder="Enter your password"
               {...register('password', passwordSchema)}
               isInvalid={!!errors.password}
-              className={className && 'bg-transparent border-white text-white border-opacity-25 '}
+              className={className && 'bg-transparent border-white text-white border-opacity-25'}
             />
-            <Button onClick={togglePasswordVisibility}>
+            <Button variant="outline-secondary" onClick={togglePasswordVisibility} tabIndex={-1}>
               {showPassword ? <i className="ti ti-eye" /> : <i className="ti ti-eye-off" />}
             </Button>
           </InputGroup>
@@ -113,30 +157,34 @@ export default function AuthLoginForm({ className, link, resetLink }) {
         </Form.Group>
 
         <Stack direction="horizontal" className="mt-1 justify-content-between align-items-center">
-          <Form.Group controlId="customCheckc1">
+          <Form.Group controlId="rememberMe">
             <Form.Check
               type="checkbox"
-              label="Remember me?"
-              defaultChecked
-              className={`input-primary ${className ? className : 'text-muted'} `}
+              label="Remember me"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className={`input-primary ${className ? className : 'text-muted'}`}
             />
           </Form.Group>
-          <a href={resetLink ?? '/'} className={`text-secondary f-w-400 mb-0  ${className}`}>
+          <Link to={resetLink ?? '/auth/forgot-password'} className={`text-secondary f-w-400 mb-0 ${className}`}>
             Forgot Password?
-          </a>
+          </Link>
         </Stack>
-        <div className="text-center mt-4">
-          <Button type="submit" className="shadow px-sm-4">
-            Login
+
+        <div className="d-grid mt-4">
+          <Button type="submit" size="lg" className="shadow" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+                Signing in...
+              </>
+            ) : (
+              'Sign In'
+            )}
           </Button>
         </div>
-        <Stack direction="horizontal" className="justify-content-between align-items-end mt-4">
-          <h6 className={`f-w-500 mb-0 ${className}`}>Don't have an Account?</h6>
-          <a href={link} className="link-primary">
-            Create Account
-          </a>
-        </Stack>
       </Form>
+
     </MainCard>
   );
 }

@@ -15,11 +15,30 @@ import AllUser from '../sections/calculator/orguser/AllUser';
 // const OtherSamplePage = Loadable(lazy(() => import('views/SamplePage')));
 
 // render - helpdesk pages
-const CreateMain = Loadable(lazy(() => import('views/pages/helpdesk/tickets/CreateMain')));
+const CreateTicket = Loadable(lazy(() => import('sections/calculator/helpdesk/tickets/Create')));
+const TicketsList = Loadable(lazy(() => import('sections/calculator/helpdesk/tickets/TicketsList')));
+const UserTicketDetails = Loadable(lazy(() => import('sections/calculator/helpdesk/tickets/UserTicketDetails')));
 const CustomersMain = Loadable(lazy(() => import('views/pages/helpdesk/Customers')));
 const DashboardMain = Loadable(lazy(() => import('views/pages/helpdesk/Dashboard')));
-const DetailsMain = Loadable(lazy(() => import('views/pages/helpdesk/tickets/DetailsMain')));
-const ListMain = Loadable(lazy(() => import('views/pages/helpdesk/tickets/ListMain')));
+
+// render - carbon footprint calculator pages
+const CategoryWizard = Loadable(lazy(() => import('sections/calculator/carbon-footprint/CategoryWizard')));
+const Category1_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_1Form')));
+const Category1_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_2Form')));
+const Category1_3Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_3Form')));
+const Category1_4Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_4Form')));
+const Category1_5Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_5Form')));
+const Category2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category2Form')));
+const Category3_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_1Form')));
+const Category3_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_2Form')));
+const Category3_3_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_3_1Form')));
+const Category3_3_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_3_2Form')));
+const Category3_4_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_4_1Form')));
+const Category3_4_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_4_2Form')));
+const Category3_5_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_5_1Form')));
+const Category3_5_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_5_2Form')));
+const Category3_2_3aForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_2_3aForm')));
+const Category3_2_3bForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_2_3bForm')));
 
 const List = Loadable(lazy(() => import('views/pages/invoice/List.jsx')));
 
@@ -73,21 +92,94 @@ const CalculatorRoutes = {
                   children: [
                     {
                       path: 'create',
-                      element: <CreateMain />
+                      element: <CreateTicket />
                     },
                     {
                       path: 'list',
-                      element: <ListMain />
+                      element: <TicketsList />
                     },
                     {
-                      path: 'details',
-                      element: <DetailsMain />
+                      path: 'details/:ticketId',
+                      element: <UserTicketDetails />
                     }
                   ]
                 },
                 {
                   path: 'customers',
                   element: <CustomersMain />
+                }
+              ]
+            },
+            {
+              path: 'carbon-footprint',
+              children: [
+                {
+                  path: '',
+                  element: <CategoryWizard />
+                },
+                {
+                  path: 'category/1.1',
+                  element: <Category1_1Form />
+                },
+                {
+                  path: 'category/1.2',
+                  element: <Category1_2Form />
+                },
+                {
+                  path: 'category/1.3',
+                  element: <Category1_3Form />
+                },
+                {
+                  path: 'category/1.4',
+                  element: <Category1_4Form />
+                },
+                {
+                  path: 'category/1.5',
+                  element: <Category1_5Form />
+                },
+                {
+                  path: 'category/2',
+                  element: <Category2Form />
+                },
+                {
+                  path: 'category/3.1',
+                  element: <Category3_1Form />
+                },
+                {
+                  path: 'category/3.2',
+                  element: <Category3_2Form />
+                },
+                {
+                  path: 'category/3.3.1',
+                  element: <Category3_3_1Form />
+                },
+                {
+                  path: 'category/3.3.2',
+                  element: <Category3_3_2Form />
+                },
+                {
+                  path: 'category/3.4.1',
+                  element: <Category3_4_1Form />
+                },
+                {
+                  path: 'category/3.4.2',
+                  element: <Category3_4_2Form />
+                },
+                {
+                  path: 'category/3.5.1',
+                  element: <Category3_5_1Form />
+                },
+                {
+                  path: 'category/3.5.2',
+                  element: <Category3_5_2Form />
+                },
+                {
+                  path: 'category/3.2.3a',
+                  element: <Category3_2_3aForm />
+                },
+                {
+                  path: 'category/3.2.3b',
+                  element: <Category3_2_3bForm />
                 }
               ]
             },

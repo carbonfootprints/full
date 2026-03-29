@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // react-bootstrap
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -8,7 +8,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import NavItem from './NavItem';
 import NavGroup from './NavGroup';
 import { MenuOrientation } from 'config';
-import menuItems from 'menu-items';
+import { getMenuItems } from 'menu-items';
 import useConfig from 'hooks/useConfig';
 
 // ==============================|| NAVIGATION ||============================== //
@@ -16,7 +16,28 @@ import useConfig from 'hooks/useConfig';
 export default function Navigation({ selectedItems, setSelectedItems, setSelectTab }) {
   const [selectedID, setSelectedID] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(0);
+  const [menuItems, setMenuItems] = useState(getMenuItems());
   const { menuOrientation } = useConfig();
+
+  // Refresh menu items when user logs in/out
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setMenuItems(getMenuItems());
+    };
+
+    // Listen for storage changes (login/logout)
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also check on mount and when component updates
+    const interval = setInterval(() => {
+      setMenuItems(getMenuItems());
+    }, 1000); // Check every second for user changes
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
 
   const lastItem = null;
   let lastItemIndex = menuItems.items.length - 1;

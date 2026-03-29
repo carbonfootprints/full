@@ -14,12 +14,13 @@ import { useGetMenuMaster } from 'api/menu';
 import SimpleBarScroll from 'components/third-party/SimpleBar';
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
-import menuItems from 'menu-items';
+import { getMenuItems } from 'menu-items';
 
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
 
 export default function DrawerContent({ selectedItems, setSelectedItems }) {
   const { onChangeMenuOrientation, menuOrientation } = useConfig();
+  const menuItems = getMenuItems();
   const [selectTab, setSelectTab] = useState(menuItems.items[0]);
   const { menuMaster } = useGetMenuMaster();
   const { pathname } = useLocation();

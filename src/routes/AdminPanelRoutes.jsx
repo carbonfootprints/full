@@ -21,11 +21,10 @@ const OnlineCourseSettingsPricing = Loadable(lazy(() => import('views/admin-pane
 const OnlineCourseSettingsNotification = Loadable(lazy(() => import('views/admin-panel/online-courses/settings/Notification')));
 
 // render - helpdesk pages
-const CreateMain = Loadable(lazy(() => import('views/admin-panel/helpdesk/tickets/CreateMain')));
+const AdminTicketsList = Loadable(lazy(() => import('sections/admin-panel/helpdesk/tickets/AdminTicketsList')));
+const AdminTicketDetails = Loadable(lazy(() => import('sections/admin-panel/helpdesk/tickets/AdminTicketDetails')));
 const CustomersMain = Loadable(lazy(() => import('views/admin-panel/helpdesk/Customers')));
 const DashboardMain = Loadable(lazy(() => import('views/admin-panel/helpdesk/Dashboard')));
-const DetailsMain = Loadable(lazy(() => import('views/admin-panel/helpdesk/tickets/DetailsMain')));
-const ListMain = Loadable(lazy(() => import('views/admin-panel/helpdesk/tickets/ListMain')));
 
 // render - membership pages
 const DashboardPage = Loadable(lazy(() => import('views/admin-panel/membership/DashboardMain')));
@@ -39,6 +38,13 @@ const InvoiceDetails = Loadable(lazy(() => import('views/admin-panel/invoice/Det
 const InvoiceCreate = Loadable(lazy(() => import('views/admin-panel/invoice/Create')));
 const InvoiceList = Loadable(lazy(() => import('views/admin-panel/invoice/List')));
 const InvoiceEdit = Loadable(lazy(() => import('views/admin-panel/invoice/Edit')));
+
+// render - orguser management pages
+const OrgusersList = Loadable(lazy(() => import('views/admin/orgusers/OrgusersList')));
+
+// render - carbon reports pages
+const CarbonReportsList = Loadable(lazy(() => import('views/admin/carbon/CarbonReportsList')));
+const CarbonReportDetail = Loadable(lazy(() => import('views/admin/carbon/CarbonReportDetail')));
 
 // ==============================|| ADMIN PANEL ROUTING ||============================== //
 
@@ -165,16 +171,12 @@ const AdminPanelRoutes = {
                   path: 'ticket',
                   children: [
                     {
-                      path: 'create',
-                      element: <CreateMain />
-                    },
-                    {
                       path: 'list',
-                      element: <ListMain />
+                      element: <AdminTicketsList />
                     },
                     {
-                      path: 'details',
-                      element: <DetailsMain />
+                      path: 'details/:ticketId',
+                      element: <AdminTicketDetails />
                     }
                   ]
                 },
@@ -206,6 +208,28 @@ const AdminPanelRoutes = {
                 {
                   path: 'edit',
                   element: <InvoiceEdit />
+                }
+              ]
+            },
+            {
+              path: 'orgusers',
+              children: [
+                {
+                  path: 'list',
+                  element: <OrgusersList />
+                }
+              ]
+            },
+            {
+              path: 'carbon-reports',
+              children: [
+                {
+                  path: '',
+                  element: <CarbonReportsList />
+                },
+                {
+                  path: ':id',
+                  element: <CarbonReportDetail />
                 }
               ]
             }

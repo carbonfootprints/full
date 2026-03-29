@@ -8,12 +8,13 @@ import Row from 'react-bootstrap/Row';
 
 // project-imports
 import { APP_DEFAULT_PATH } from 'config';
-import navigation from 'menu-items';
+import { getMenuItems } from 'menu-items';
 
 // ==============================|| MAIN BREADCRUMB ||============================== //
 
 export default function Breadcrumbs() {
   const location = useLocation();
+  const navigation = getMenuItems();
 
   const [main, setMain] = useState({});
   const [item, setItem] = useState({});

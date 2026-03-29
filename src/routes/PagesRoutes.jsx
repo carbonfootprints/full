@@ -17,6 +17,9 @@ const LoginV4Page = Loadable(lazy(() => import('views/auth/login/LoginV4')));
 const LoginV5Page = Loadable(lazy(() => import('views/auth/login/LoginV5')));
 const Login = Loadable(lazy(() => import('views/pages/Login')));
 
+// render - forgot password page
+const ForgotPassword = Loadable(lazy(() => import('views/pages/ForgotPassword')));
+
 // render - register pages
 const RegisterV1Page = Loadable(lazy(() => import('views/auth/register/RegisterV1')));
 const RegisterV2Page = Loadable(lazy(() => import('views/auth/register/RegisterV2')));
@@ -96,6 +99,10 @@ const PagesRoutes = {
             {
               path: 'login',
               element: <Login />
+            },
+            {
+              path: 'forgot-password',
+              element: <ForgotPassword />
             },
             {
               path: 'register-v1',

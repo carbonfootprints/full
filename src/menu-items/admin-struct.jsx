@@ -1,28 +1,51 @@
 const calculate = {
   id: 'group-application',
-  title: 'calculate',
+  title: 'Management',
   type: 'group',
   children: [
     {
       id: 'structure',
-      title: 'structure',
+      title: 'Structure',
       type: 'item',
-      icon: <i className="ph ph-calendar-blank" />,
+      icon: <i className="ph ph-stack" />,
       url: '/calculate/structure'
     },
     {
-      id: 'orguser',
-      title: 'Create User',
-      type: 'item',
-      icon: <i className="ph ph-calendar-blank" />,
-      url: '/calculate/orguser'
+      id: 'organizations',
+      title: 'Organizations',
+      type: 'collapse',
+      icon: <i className="ph ph-buildings" />,
+      children: [
+        {
+          id: 'orguser-create',
+          title: 'Create New',
+          type: 'item',
+          icon: <i className="ph ph-plus-circle" />,
+          url: '/calculate/orguser'
+        },
+        {
+          id: 'orguser-list',
+          title: 'View All',
+          type: 'item',
+          icon: <i className="ph ph-list-bullets" />,
+          url: '/calculate/alluser'
+        }
+      ]
     },
     {
-      id: 'alluser',
-      title: 'All Users',
-      type: 'item',
-      icon: <i className="ph ph-calendar-blank" />,
-      url: '/calculate/alluser'
+      id: 'support',
+      title: 'Support Tickets',
+      type: 'collapse',
+      icon: <i className="ph ph-headset" />,
+      children: [
+        {
+          id: 'support-all-tickets',
+          title: 'All Tickets',
+          type: 'item',
+          icon: <i className="ph ph-list-bullets" />,
+          url: '/admin-panel/helpdesk/ticket/list'
+        }
+      ]
     }
   ]
 };

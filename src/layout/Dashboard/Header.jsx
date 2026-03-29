@@ -76,6 +76,13 @@ const notifications = [
 export default function Header() {
   const { i18n, onChangeLocalization, onChangeMode, mode } = useConfig();
 
+  // Read real user from localStorage
+  const storedUser = (() => {
+    try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; }
+  })();
+  const displayName = storedUser?.name || storedUser?.contactPerson || 'User';
+  const displayEmail = storedUser?.email || '';
+
   useEffect(() => {
     setResolvedTheme(mode);
   }, [mode]);
@@ -90,27 +97,74 @@ export default function Header() {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:8000/api/user/logout', null, {
+      // Determine user type before clearing localStorage
+      const userType = localStorage.getItem('userType');
+      const userData = localStorage.getItem('user');
+      let userRole = null;
+
+      if (userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          userRole = parsedUser.role;
+        } catch (e) {
+          console.error('Error parsing user data:', e);
+        }
+      }
+
+      // Call logout API
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      await axios.post(`${apiUrl}/api/user/logout`, null, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+
+      // Clear all localStorage
+      localStorage.clear();
 
       Swal.fire({
         icon: 'success',
         title: 'Logged out',
-        text: 'You have been logged out successfully.'
+        text: 'You have been logged out successfully.',
+        timer: 1500,
+        showConfirmButton: false
       });
 
-      // use replace to prevent back navigation
-      navigate('/auth/login', { replace: true });
+      // Redirect based on user type
+      if (userType === 'orguser' || userRole === 'orguser') {
+        navigate('/orguser/login', { replace: true });
+      } else {
+        navigate('/auth/login', { replace: true });
+      }
     } catch (error) {
       console.error('Logout error:', error);
+
+      // Still clear localStorage and redirect even if API call fails
+      const userType = localStorage.getItem('userType');
+      const userData = localStorage.getItem('user');
+      let userRole = null;
+
+      if (userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          userRole = parsedUser.role;
+        } catch (e) {
+          console.error('Error parsing user data:', e);
+        }
+      }
+
+      localStorage.clear();
+
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Something went wrong during logout.'
+        icon: 'warning',
+        title: 'Logged out',
+        text: 'You have been logged out.'
       });
+
+      // Redirect based on user type
+      if (userType === 'orguser' || userRole === 'orguser') {
+        navigate('/orguser/login', { replace: true });
+      } else {
+        navigate('/auth/login', { replace: true });
+      }
     }
   };
 
@@ -224,7 +278,7 @@ export default function Header() {
                   <i className="ph ph-lock-key" />
                   Lock Screen
                 </Dropdown.Item>
-                <Dropdown.Item>
+                <Dropdown.Item onClick={handleLogout} className="text-danger">
                   <i className="ph ph-power" />
                   Logout
                 </Dropdown.Item>
@@ -300,8 +354,8 @@ export default function Header() {
                       <Image src={Img2} alt="user-avatar" className="user-avatar wid-35" roundedCircle />
                     </div>
                     <Stack gap={1}>
-                      <h6 className="text-white mb-0">Carson Darrin 🖖</h6>
-                      <span className="text-white text-opacity-75">carson.darrin@company.io</span>
+                      <h6 className="text-white mb-0">{displayName}</h6>
+                      <span className="text-white text-opacity-75" style={{ fontSize: '0.8rem' }}>{displayEmail}</span>
                     </Stack>
                   </Stack>
                 </Dropdown.Header>

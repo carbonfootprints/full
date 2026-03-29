@@ -63,6 +63,8 @@
     "imask": "7.6.1",
     "intro.js": "7.2.0",
     "isotope-layout": "3.0.6",
+    "jspdf": "^4.2.0",
+    "jspdf-autotable": "^5.0.7",
     "jsvectormap": "1.6.0",
     "jwt-decode": "4.0.0",
     "lodash-es": "4.17.21",
@@ -96,6 +98,7 @@
     "react-syntax-highlighter": "15.6.1",
     "react-to-print": "3.1.0",
     "react-toastify": "10.0.6",
+    "reactstrap": "^9.2.3",
     "simplebar-react": "3.3.0",
     "slick-carousel": "1.8.1",
     "sweetalert2": "11.14.5",
@@ -104,6 +107,7 @@
     "uuid": "11.0.5",
     "vite": "6.0.2",
     "vite-jsconfig-paths": "2.0.1",
+    "xlsx": "^0.18.5",
     "yup": "1.6.1"
   },
   "devDependencies": {

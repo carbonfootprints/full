@@ -44,26 +44,20 @@ export default function HeaderSection() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarTogglerDemo01" />
         <Navbar.Collapse id="navbarTogglerDemo01">
-          <Nav className="ms-auto mb-2 mb-md-0 align-items-start">
-            {/* <Nav.Item className="px-1">
-              <Link to="https://codedthemes.gitbook.io/datta" target="_blank" className="nav-link">
-                Documentation
-              </Link>
-            </Nav.Item> */}
-            {/* <Nav.Item className="px-1">
-              <Link to="/dashboard/default" target="_blank" className="nav-link">
-                Live Preview
-              </Link>
-            </Nav.Item> */}
-            {/* <Nav.Item className="px-1">
-              <Link to="/basic/alert" target="_blank" className="nav-link me-sm-3">
-                Components
-              </Link>
-            </Nav.Item> */}
+          <Nav className="ms-auto mb-2 mb-md-0 align-items-center gap-2">
             <Nav.Item>
-              <Link to={'/auth/login'}>
-                <Button variant="dark">
-                  Login <i className="ph ph-user" />
+              <Link to="/orguser/login">
+                <Button variant="outline-light" size="sm">
+                  <i className="ph ph-buildings me-1" />
+                  Organization Login
+                </Button>
+              </Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link to="/auth/login">
+                <Button variant="light" size="sm">
+                  <i className="ph ph-shield-check me-1" />
+                  Admin Login
                 </Button>
               </Link>
             </Nav.Item>

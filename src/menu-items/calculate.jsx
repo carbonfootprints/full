@@ -1,78 +1,77 @@
 const calculate = {
   id: 'group-application',
-  title: 'calculate',
+  title: 'Dashboard',
   type: 'group',
   children: [
-    // {
-    //   id: 'structure',
-    //   title: 'structure',
-    //   type: 'item',
-    //   icon: <i className="ph ph-calendar-blank" />,
-    //   url: '/calculate/structure'
-    // },
     {
-      id: 'calculateview',
-      title: 'calculateview',
+      id: 'orguser-dashboard',
+      title: 'Home',
       type: 'item',
-      icon: <i className="ph ph-calendar-blank" />,
-      url: '/calculate/structureview'
-    },
-    // {
-    //   id: 'visit',
-    //   title: 'visit',
-    //   type: 'item',
-    //   icon: <i className="ph ph-calendar-blank" />,
-    //   url: '/calculate/visit'
-    // },
-    {
-      id: 'list',
-      title: 'list',
-      type: 'item',
-      icon: <i className="ph ph-calendar-blank" />,
-      url: '/calculate/list'
+      icon: <i className="ph ph-house" />,
+      url: '/orguser/dashboard'
     },
     {
-      id: 'helpdesk',
-      title: 'helpdesk',
+      id: 'organization-setup',
+      title: 'Organization Profile',
+      type: 'item',
+      icon: <i className="ph ph-buildings" />,
+      url: '/orguser/organization-setup'
+    },
+    {
+      id: 'sites-management',
+      title: 'Sites Management',
+      type: 'item',
+      icon: <i className="ph ph-map-pin" />,
+      url: '/orguser/sites'
+    },
+    {
+      id: 'carbon-footprint',
+      title: 'Carbon Data Entry',
+      type: 'item',
+      icon: <i className="ph ph-leaf" />,
+      url: '/orguser/carbon-footprint'
+    },
+    {
+      id: 'reports-section',
+      title: 'Reports',
+      type: 'collapse',
+      icon: <i className="ph ph-file-text" />,
+      children: [
+        {
+          id: 'overview',
+          title: 'Overview',
+          type: 'item',
+          icon: <i className="ph ph-chart-line" />,
+          url: '/calculate/structureview'
+        },
+        {
+          id: 'detailed-report',
+          title: 'Detailed Report',
+          type: 'item',
+          icon: <i className="ph ph-file-doc" />,
+          url: '/calculate/list'
+        }
+      ]
+    },
+    {
+      id: 'support',
+      title: 'Support',
       type: 'collapse',
       icon: <i className="ph ph-lifebuoy" />,
       children: [
         {
-          id: 'helpdesk-dashboard',
-          title: 'dashboard',
+          id: 'create-ticket',
+          title: 'Create Ticket',
           type: 'item',
-          url: '/calculate/helpdesk/dashboard'
+          icon: <i className="ph ph-plus-circle" />,
+          url: '/calculate/helpdesk/ticket/create'
         },
         {
-          id: 'helpdesk-ticket',
-          title: 'ticket',
-          type: 'collapse',
-          children: [
-            {
-              id: 'helpdesk-create',
-              title: 'create',
-              type: 'item',
-              url: '/calculate/helpdesk/ticket/create'
-            },
-            {
-              id: 'helpdesk-list',
-              title: 'list',
-              type: 'item',
-              url: '/calculate/helpdesk/ticket/list'
-            },
-            {
-              id: 'helpdesk-details',
-              title: 'details',
-              type: 'item',
-              url: '/calculate/helpdesk/ticket/details'
-            }
-          ]
-        },
-        {
-          id: 'customers',
-          title: 'customers',
+          id: 'my-tickets',
+          title: 'My Tickets',
           type: 'item',
-          url: '/calculate/helpdesk/customers'
+          icon: <i className="ph ph-ticket" />,
+          url: '/calculate/helpdesk/ticket/list'
         }
       ]
     }
