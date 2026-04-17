@@ -14,41 +14,37 @@ import branding from 'branding.json';
 
 const columns = [
   {
-    title: 'Company',
+    title: 'Platform',
     links: [
-      { text: 'Profile', href: branding.company.url },
-      { text: 'Follow Us', href: branding.company.url },
-      { text: 'Website', href: branding.company.url }
+      { text: 'Carbon Calculator', href: '/calculate/carbon-footprint' },
+      { text: 'Admin Login', href: '/auth/login' },
+      { text: 'Organization Login', href: '/orguser/login' }
     ],
     delay: '0.4s'
   },
   {
-    title: 'Help & Support',
+    title: 'Company',
     links: [
-      { text: 'Documentation', href: branding.Docs },
-      { text: 'Feature Request', href: branding.company.support },
-      { text: 'Support', href: branding.company.support },
-      { text: 'Change Log', href: branding.changeLog }
+      { text: 'About Us', href: '/' },
+      { text: 'Contact', href: 'mailto:support@planetcare.in' },
+      { text: 'Privacy Policy', href: '/' }
     ],
     delay: '0.6s'
   },
   {
-    title: 'Useful Resources',
+    title: 'Support',
     links: [
-      { text: 'Support Policy', href: branding.company.privacyPolicy },
-      { text: 'Licenses Term', href: branding.company.license }
+      { text: 'Help Center', href: 'mailto:support@planetcare.in' },
+      { text: 'FAQ', href: '/' }
     ],
     delay: '0.8s'
   }
 ];
 
 const footerLinks = [
-  { href: branding.company.socialLink.facebook, icon: 'ti ti-brand-facebook-filled', delay: '0.4s' },
-  { href: branding.company.socialLink.twitter, icon: 'ti ti-brand-twitter-filled', delay: '0.5s' },
-  { href: branding.company.socialLink.linkedin, icon: 'ti ti-brand-linkedin-filled', delay: '0.6s' },
-  { href: branding.company.socialLink.instagram, icon: 'ti ti-brand-instagram', delay: '0.7s' },
-  { href: branding.company.socialLink.discord, icon: 'ti ti-brand-discord-filled', delay: '0.8s' },
-  { href: branding.company.socialLink.github, icon: 'ti ti-brand-github-filled', delay: '0.9s' }
+  { href: '#', icon: 'ti ti-brand-linkedin-filled', delay: '0.4s' },
+  { href: '#', icon: 'ti ti-brand-twitter-filled', delay: '0.5s' },
+  { href: '#', icon: 'ti ti-brand-instagram', delay: '0.6s' }
 ];
 
 // ==============================|| SIMPLE - FOOTER BLOCK ||============================== //
@@ -69,16 +65,17 @@ export default function FooterBlock() {
                 ease: 'easeOut'
               }}
             >
-              <svg width="260" height="60" viewBox="0 0 260 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g transform="translate(0, 10)">
-                  <path d="M16 16C16 8 24 0 32 0C32 8 24 16 16 16Z" fill="#5ABA75" />
-                  <path d="M16 16C16 24 8 32 0 32C0 24 8 16 16 16Z" fill="#5ABA75" />
-                  <line x1="16" y1="16" x2="16" y2="40" stroke="white" stroke-width="2" stroke-linecap="round" />
-                </g>
-                <text x="50" y="38" fill="#FFFFFF" font-family="'Roboto Mono', monospace" font-size="24">
-                  PlanetCare
-                </text>
-              </svg>
+              <div className="mb-3" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="15" cy="15" r="14" fill="#5ABA75" fillOpacity="0.15" stroke="#5ABA75" strokeWidth="1.5" />
+                  <path d="M15 6C15 6 21.5 10.5 21.5 17C21.5 21.5 18.5 24.5 15 26C11.5 24.5 8.5 21.5 8.5 17C8.5 10.5 15 6 15 6Z" fill="#5ABA75" />
+                  <line x1="15" y1="26" x2="15" y2="28.5" stroke="#5ABA75" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1.45rem', fontWeight: 800, letterSpacing: '-0.3px' }}>
+                  <span style={{ color: '#ffffff' }}>Planet</span>
+                  <span style={{ color: '#5ABA75' }}>Care</span>
+                </span>
+              </div>
               <p className="mb-4 text-white text-opacity-50">
                 We're on a mission to help businesses understand and reduce their carbon footprints. With {branding.brandName}, we're
                 building a platform that simplifies sustainability reporting, encourages climate-conscious decisions, and supports
@@ -131,9 +128,7 @@ export default function FooterBlock() {
                 transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
               >
                 <p className="mb-0">
-                  © Handcrafted by Team {/* <a href="https://codedthemes.com/contact/" target="_blank" rel="noopener noreferrer"> */}
-                  PlanetCare
-                  {/* </a> */}
+                  &copy; {new Date().getFullYear()} PlanetCare. All rights reserved.
                 </p>
               </motion.div>
             </Col>

@@ -35,105 +35,106 @@ const pieChartOptions = {
   ]
 };
 
-// dashboard-data
+// dashboard-data — zeroed out; replace with API-fetched values
 const data = [
   {
-    title: 'Support Requests',
-    count: 350,
+    title: 'Open Tickets',
+    count: 0,
     color: '#3ebfea',
-    chartData: [0, 20, 10, 45, 30, 55, 20, 30, 0],
-    stats: { open: 10, running: 5, solved: 3 },
+    chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    stats: { open: 0, running: 0, solved: 0 },
     bgColor: 'bg-info',
     textColor: 'text-white'
   },
   {
-    title: 'Agent Response',
-    count: 500,
+    title: 'In Progress',
+    count: 0,
     color: '#04A9F5',
-    chartData: [0, 20, 10, 45, 30, 55, 20, 30, 0],
-    stats: { open: 50, running: 75, solved: 30 },
+    chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    stats: { open: 0, running: 0, solved: 0 },
     bgColor: 'bg-primary',
     textColor: 'text-white'
   },
   {
-    title: 'Support Resolved',
-    count: 800,
+    title: 'Resolved',
+    count: 0,
     color: '#1DE9B6',
-    chartData: [0, 20, 10, 45, 30, 55, 20, 30, 0],
-    stats: { open: 80, running: 60, solved: 90 },
+    chartData: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    stats: { open: 0, running: 0, solved: 0 },
     bgColor: 'bg-success',
     textColor: 'text-white'
   }
 ];
 
-// feeds-data
+// feeds-data — placeholder activity feed; replace with real API data
 const feeds = [
   {
     id: 1,
-    icon: 'ph ph-bell',
+    icon: 'ph ph-ticket',
     bgColor: 'bg-light-primary',
-    text: 'You have 3 pending tasks.',
+    text: 'A new support ticket has been submitted.',
     time: 'Just Now',
-    link: '#!'
+    link: '/admin-panel/helpdesk/ticket/list'
   },
   {
     id: 2,
-    icon: 'ph ph-shopping-cart',
-    bgColor: 'bg-light-danger',
-    text: 'New order received',
-    textColor: 'text-danger',
-    time: 'Just Now',
+    icon: 'ph ph-user-plus',
+    bgColor: 'bg-light-success',
+    text: 'New organisation user registered.',
+    textColor: 'text-success',
+    time: '1 min ago',
     link: '#!'
   },
   {
     id: 3,
     icon: 'ph ph-file-text',
-    bgColor: 'bg-light-success',
-    text: 'You have 3 pending tasks.',
-    time: 'Just Now',
+    bgColor: 'bg-light-info',
+    text: 'Carbon footprint data submitted for review.',
+    time: '5 min ago',
     link: '#!'
   },
   {
     id: 4,
-    icon: 'ph ph-shopping-cart',
+    icon: 'ph ph-check-circle',
     bgColor: 'bg-light-warning',
-    text: 'New order received',
-    time: 'Just Now',
-    link: '#!'
+    text: 'A support ticket has been resolved.',
+    textColor: 'text-warning',
+    time: '10 min ago',
+    link: '/admin-panel/helpdesk/ticket/list'
   },
   {
     id: 5,
-    icon: 'ph ph-bell',
+    icon: 'ph ph-chart-bar',
     bgColor: 'bg-light-primary',
-    text: 'You have 3 pending tasks.',
-    time: 'Just Now',
+    text: 'Monthly emission report is ready for release.',
+    time: '30 min ago',
     link: '#!'
   },
   {
     id: 6,
-    icon: 'ph ph-shopping-cart',
+    icon: 'ph ph-warning',
     bgColor: 'bg-light-danger',
-    text: 'New order received',
-    time: 'Just Now',
+    text: 'Incomplete carbon data detected for one site.',
+    textColor: 'text-danger',
+    time: '1 hour ago',
     link: '#!'
   },
-
   {
     id: 7,
-    icon: 'ph ph-file-text',
+    icon: 'ph ph-building',
     bgColor: 'bg-light-success',
-    text: 'You have 3 pending tasks.',
+    text: 'Organisation profile setup completed.',
     textColor: 'text-success',
-    time: 'Just Now',
+    time: '2 hours ago',
     link: '#!'
   },
   {
     id: 8,
-    icon: 'ph ph-shopping-cart',
+    icon: 'ph ph-envelope',
     bgColor: 'bg-light-warning',
-    text: 'New order received',
+    text: 'Registration invitation sent to a new user.',
     textColor: 'text-warning',
-    time: 'Just Now',
+    time: '3 hours ago',
     link: '#!'
   }
 ];
@@ -210,7 +211,7 @@ export default function Dashboard() {
             It takes continuous effort to maintain high customer satisfaction levels.Internal and external quality measures are often tied
             together, as the opinion...
           </span>
-          <a className="text-primary d-block">Learn more..</a>
+          <a className="text-primary d-block">Learn More</a>
 
           <Row>
             <Col>
@@ -284,7 +285,7 @@ export default function Dashboard() {
           </SimpleBarScroll>
           <Card.Footer>
             <div className="text-center">
-              <a className="b-b-primary text-primary">View all Feeds</a>
+              <a className="b-b-primary text-primary">View All Feeds</a>
             </div>
           </Card.Footer>
         </Card>

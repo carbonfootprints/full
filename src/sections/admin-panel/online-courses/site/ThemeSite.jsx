@@ -136,9 +136,9 @@ export default function ThemeSite() {
           <Image src={ImgStar} alt="img" fluid />
         </div>
         <div className="flex-grow-1 ms-3">
-          <h6 className="mb-1">Able pro Branding</h6>
+          <h6 className="mb-1">Custom Branding</h6>
           <p className="mb-0 text-muted">
-            Personalize your school and eliminate Able Pro branding from your school website, emails, and products. To access this feature,
+            Personalise your school and apply your own branding to your website, emails, and products. To access this feature,
             upgrade to the Professional plan.
           </p>
         </div>

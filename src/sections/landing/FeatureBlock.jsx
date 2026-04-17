@@ -20,7 +20,7 @@ const features = [
   },
   {
     icon: 'ti ti-dashboard',
-    title: 'Real-time GHG Calculation',
+    title: 'Real-Time GHG Calculation',
     description: `Accurate and dynamic greenhouse gas calculations tailored to your industry with ${branding.brandName}.`,
     delay: '0.4s'
   },

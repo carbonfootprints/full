@@ -74,7 +74,7 @@ function ReactTable({ columns, data }) {
   return (
     <Row>
       <Col sm={12}>
-        <MainCard className="table-card" title="Membership list">
+        <MainCard className="table-card" title="Membership List">
           <Stack direction="horizontal" className="justify-content-between align-items-center p-3">
             <SortingData getState={table.getState} setPageSize={table.setPageSize} />
             <div className="datatable-search">

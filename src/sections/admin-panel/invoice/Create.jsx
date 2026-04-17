@@ -36,8 +36,8 @@ export default function InvoiceCreate() {
               <Form.Select id="basic-url" aria-describedby="basic-addon3">
                 <option>Please Select</option>
                 <option value="1">Paid</option>
-                <option value="2">UnPaid</option>
-                <option value="2">PartialPaid</option>
+                <option value="2">Unpaid</option>
+                <option value="3">Partially Paid</option>
               </Form.Select>
             </InputGroup>
           </div>
@@ -95,19 +95,19 @@ export default function InvoiceCreate() {
               <tr>
                 <th>#</th>
                 <th>
-                  <span className="text-danger">*</span> NAME
+                  <span className="text-danger">*</span> Name
                 </th>
                 <th>
-                  <span className="text-danger">*</span>DESCRIPTION
+                  <span className="text-danger">*</span>Description
                 </th>
                 <th>
-                  <span className="text-danger">*</span>QTY
+                  <span className="text-danger">*</span>Qty
                 </th>
                 <th>
-                  <span className="text-danger">*</span>PRICE
+                  <span className="text-danger">*</span>Price
                 </th>
-                <th>TOTAL AMOUNT</th>
-                <th className="text-center">ACTION</th>
+                <th>Total Amount</th>
+                <th className="text-center">Action</th>
               </tr>
             </thead>
             <tbody>

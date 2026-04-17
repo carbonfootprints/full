@@ -1,93 +1,59 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 // react-bootstrap
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Stack from 'react-bootstrap/Stack';
 
 // third-party
 import { motion } from 'framer-motion';
 
-// project-imports
-import useConfig from 'hooks/useConfig';
-
-// assets
-import VerticalImg from 'assets/images/landing/vertical.jpg';
-import TabImg from 'assets/images/landing/tab.jpg';
-import Layout2Img from 'assets/images/landing/layout-2.jpg';
-import Layout3Img from 'assets/images/landing/layout-3.jpg';
-
-const layouts = [
+const modules = [
   {
-    id: 'vertical',
-    imgSrc: VerticalImg,
-    title: 'Vertical',
-    description: 'Default theme layout',
-    delay: '0.2s',
-    url: 'dashboard/default'
+    icon: 'ti ti-calculator',
+    title: 'Carbon Calculator',
+    description: 'Enter monthly emission data across 15+ categories covering Scope 1, 2, and 3 with automatic GHG calculations.',
+    delay: '0.2s'
   },
   {
-    id: 'tab',
-    imgSrc: TabImg,
-    title: 'Tab',
-    description: 'Menu display in tabular format',
-    delay: '0.4s',
-    url: 'layouts/tab'
+    icon: 'ti ti-chart-dots-2',
+    title: 'Analytics Dashboard',
+    description: 'Visualize your organization\'s carbon footprint with interactive charts, trend analysis, and category breakdowns.',
+    delay: '0.4s'
   },
   {
-    id: 'layout-2',
-    imgSrc: Layout2Img,
-    title: 'Layout 2',
-    description: 'Layout display in different visual',
-    delay: '0.6s',
-    url: 'layouts/layout-2'
+    icon: 'ti ti-building-skyscraper',
+    title: 'Multi-Site Management',
+    description: 'Manage emission data across multiple locations and consolidate reports at an organizational level.',
+    delay: '0.6s'
   },
   {
-    id: 'layout-3',
-    imgSrc: Layout3Img,
-    title: 'Layout 3',
-    description: 'Layout display in different visual',
-    delay: '0.8s',
-    url: 'layouts/layout-3'
+    icon: 'ti ti-target',
+    title: 'Goal Tracking',
+    description: 'Set science-based emission reduction targets and monitor progress with real-time status indicators.',
+    delay: '0.8s'
   }
 ];
 
-// ==============================|| LAYOUT CARD ||============================== //
+// ==============================|| MODULE CARD ||============================== //
 
-function LayoutCard({ id, url, imgSrc, title, description, delay }) {
-  const { onChangeMenuOrientation } = useConfig();
+function ModuleCard({ icon, title, description, delay }) {
   return (
-    <Col lg={4} md={6}>
+    <Col lg={3} md={6}>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         viewport={{ once: true }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: parseFloat(delay), duration: 0.8, ease: 'easeOut' }}
       >
-        <Card className="mb-0">
-          <Link to={`/${url}`}>
-            <Card.Img src={imgSrc} alt={title} className="img-fluid card-img-top p-2" />
-          </Link>
-          <Card.Body>
-            <h5 className="f-w-600">{title}</h5>
-            <p>{description}</p>
-            <Stack
-              direction="horizontal"
-              as="a"
-              gap={2}
-              href={url}
-              className="link-primary h6  align-items-center mb-0"
-              onClick={() => {
-                if (id) {
-                  onChangeMenuOrientation(id);
-                }
-              }}
-            >
-              <strong>Preview</strong> <i className="ti ti-arrow-narrow-right f-18" />
-            </Stack>
+        <Card className="mb-0 h-100">
+          <Card.Body className="text-center p-4">
+            <div className="mb-3">
+              <i className={`${icon} text-primary f-40`} />
+            </div>
+            <h5 className="f-w-600 mb-2">{title}</h5>
+            <p className="mb-0 text-muted">{description}</p>
           </Card.Body>
         </Card>
       </motion.div>
@@ -95,7 +61,7 @@ function LayoutCard({ id, url, imgSrc, title, description, delay }) {
   );
 }
 
-// ==============================|| LANDING - LAYOUTS BLOCK ||============================== //
+// ==============================|| LANDING - PLATFORM MODULES BLOCK ||============================== //
 
 export default function LayoutsBlock() {
   return (
@@ -104,16 +70,16 @@ export default function LayoutsBlock() {
         <Row className="title justify-content-center text-center">
           <Col lg={6} md={10}>
             <h2>
-              Our Best <strong className="landing-background-image">Layouts</strong>
+              Platform <strong className="landing-background-image">Modules</strong>
             </h2>
             <p className="mb-0">
-              Made using Bootstrap framework with high-end flexible code and well-structured documentation helper file.
+              Everything you need to measure, manage, and reduce your organization&apos;s carbon emissions — in one integrated platform.
             </p>
           </Col>
         </Row>
         <Row className="g-3 justify-content-center">
-          {layouts.map((layout, index) => (
-            <LayoutCard key={index} {...layout} />
+          {modules.map((module, index) => (
+            <ModuleCard key={index} {...module} />
           ))}
         </Row>
       </Container>
@@ -121,10 +87,8 @@ export default function LayoutsBlock() {
   );
 }
 
-LayoutCard.propTypes = {
-  id: PropTypes.string,
-  url: PropTypes.string,
-  imgSrc: PropTypes.string,
+ModuleCard.propTypes = {
+  icon: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
   delay: PropTypes.string

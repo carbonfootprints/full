@@ -116,9 +116,9 @@ export default function AuthLoginForm({ className, link, resetLink }) {
   return (
     <MainCard className="mb-0">
       <div className="text-center mb-2">
-        <a>
+        <Link to="/">
           <Image src={logo} alt="logo" />
-        </a>
+        </Link>
       </div>
 
       <h4 className={`text-center f-w-500 mt-3 mb-1 ${className}`}>Admin Login</h4>
@@ -160,7 +160,7 @@ export default function AuthLoginForm({ className, link, resetLink }) {
           <Form.Group controlId="rememberMe">
             <Form.Check
               type="checkbox"
-              label="Remember me"
+              label="Remember Me"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
               className={`input-primary ${className ? className : 'text-muted'}`}

@@ -67,7 +67,7 @@ const CATEGORIES = [
   {
     code: '3.1',
     title: 'Transport fuel combustion',
-    description: 'Between plants',
+    description: 'Fuel used for inter-site transport',
     scope: 'Scope 3',
     icon: 'ph-truck',
     color: 'danger'
@@ -75,23 +75,23 @@ const CATEGORIES = [
   {
     code: '3.2',
     title: 'Upstream road transportation',
-    description: 'Tanned leather',
+    description: 'Inbound freight and raw material logistics',
     scope: 'Scope 3',
     icon: 'ph-road-horizon',
     color: 'secondary'
   },
   {
     code: '3.3.1',
-    title: 'Upstream chemicals (Pernambut)',
-    description: 'Chemical transportation',
+    title: 'Upstream chemicals (Site 1)',
+    description: 'Chemical transportation — primary site',
     scope: 'Scope 3',
     icon: 'ph-flask',
     color: 'info'
   },
   {
     code: '3.3.2',
-    title: 'Upstream chemicals (Thirumudivakkam)',
-    description: 'Chemical transportation',
+    title: 'Upstream chemicals (Site 2)',
+    description: 'Chemical transportation — secondary site',
     scope: 'Scope 3',
     icon: 'ph-flask',
     color: 'info'
@@ -107,7 +107,7 @@ const CATEGORIES = [
   {
     code: '3.5.1',
     title: 'Downstream road transportation',
-    description: 'Finished leather',
+    description: 'Outbound freight and finished goods logistics',
     scope: 'Scope 3',
     icon: 'ph-truck',
     color: 'success'
@@ -115,23 +115,23 @@ const CATEGORIES = [
   {
     code: '3.5.2',
     title: 'Downstream sea transportation',
-    description: 'Finished leather export',
+    description: 'Export of finished goods by sea',
     scope: 'Scope 3',
     icon: 'ph-boat',
     color: 'primary'
   },
   {
     code: '3.2.3a',
-    title: 'Waste transportation (Pernambut)',
-    description: 'Solid waste disposal',
+    title: 'Waste transportation (Site 1)',
+    description: 'Solid waste disposal — primary site',
     scope: 'Scope 3',
     icon: 'ph-trash',
     color: 'danger'
   },
   {
     code: '3.2.3b',
-    title: 'Waste transportation (Thirumudivakkam)',
-    description: 'Solid waste disposal',
+    title: 'Waste transportation (Site 2)',
+    description: 'Solid waste disposal — secondary site',
     scope: 'Scope 3',
     icon: 'ph-trash',
     color: 'danger'

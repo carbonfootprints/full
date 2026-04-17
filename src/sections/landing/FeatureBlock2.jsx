@@ -25,8 +25,8 @@ const images = [
   { src: W4Img, alt: 'Overlay Image 4', delay: '1.2s', className: 'position-absolute top-0 start-0 w-100' }
 ];
 
-const list1 = ['Best customer experience in the industry.', 'Gets better and give updates.', 'Time and cost'];
-const list2 = ['RTL Support', 'Light/Dark, Semi Dark Support', 'Google Fonts'];
+const list1 = ['GHG Protocol compliant calculations', 'Covers all 3 emission scopes', 'Automatic tCO₂e conversions'];
+const list2 = ['Multi-site & multi-user support', 'Monthly data entry with draft saving', 'Audit-ready export reports'];
 
 function AnimatedImage({ src, alt, delay, className = '' }) {
   return (
@@ -104,8 +104,8 @@ export default function FeatureBlock2() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
             >
-              {branding.brandName} is a versatile and reliable choice for your admin panel, which empowers you to efficiently control and
-              manage your backend with ease.
+              {branding.brandName} is purpose-built for organizations that need reliable, accurate, and compliant carbon footprint reporting
+              — without the complexity of spreadsheets or expensive consultants.
             </motion.p>
           </Col>
         </Row>

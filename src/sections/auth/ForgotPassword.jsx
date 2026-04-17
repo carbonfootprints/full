@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // react-bootstrap
 import Button from 'react-bootstrap/Button';
@@ -83,9 +83,9 @@ export default function ForgotPasswordForm({ className, loginLink }) {
   return (
     <MainCard className="mb-0">
       <div className="text-center">
-        <a>
+        <Link to="/">
           <Image src={logo} alt="img" />
-        </a>
+        </Link>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <h4 className={`text-center f-w-500 mt-4 mb-2 ${className}`}>Forgot Password?</h4>

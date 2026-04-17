@@ -80,12 +80,12 @@ export default function Setting() {
                 <Col lg={6}>
                   <div className="mb-3">
                     <Form.Label>Current Password</Form.Label>
-                    <Form.Control type="password" placeholder="Enter New Password" />
+                    <Form.Control type="password" placeholder="Enter current password" />
                   </div>
                 </Col>
               </Row>
               <p>
-                Can’t Remember your current password? <a className="link-primary text-decoration-underline">Reset your password</a>
+                Can&apos;t remember your current password? <a href="/auth/forgot-password" className="link-primary text-decoration-underline">Reset your password</a>
               </p>
               <Button>Save Password</Button>
             </MainCard>
@@ -97,7 +97,7 @@ export default function Setting() {
           <MainCard className="shadow-none border mb-0">
             <h6 className="mb-3 fw-medium">Membership Plan</h6>
             <h4 className="mb-3 fw-normal text-muted">Addicted $150</h4>
-            <Stack as="a" href="#!" direction="horizontal" className="link-primary  align-items-center gap-2">
+            <Stack as="a" href="#" direction="horizontal" className="link-primary  align-items-center gap-2">
               See more Plan <i className="ti ti-chevron-right" />
             </Stack>
           </MainCard>
@@ -107,7 +107,7 @@ export default function Setting() {
           <MainCard className="shadow-none border mb-0">
             <h6 className="mb-3 fw-medium">Manage</h6>
             <h4 className="mb-3 fw-normal text-muted">Membership</h4>
-            <Stack as="a" href="#!" direction="horizontal" className="link-primary  align-items-center gap-2">
+            <Stack as="a" href="#" direction="horizontal" className="link-primary  align-items-center gap-2">
               Update, Cancel and more
               <i className="ti ti-chevron-right" />
             </Stack>
@@ -118,7 +118,7 @@ export default function Setting() {
           <MainCard className="shadow-none border mb-0">
             <h6 className="mb-3 fw-medium">Renewal Date</h6>
             <h4 className="mb-3 fw-normal text-muted">120 November, 2024</h4>
-            <Stack as="a" href="#!" direction="horizontal" className="link-primary  align-items-center gap-2">
+            <Stack as="a" href="#" direction="horizontal" className="link-primary  align-items-center gap-2">
               View payment method
               <i className="ti ti-chevron-right" />
             </Stack>

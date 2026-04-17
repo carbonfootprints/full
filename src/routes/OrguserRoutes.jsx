@@ -14,6 +14,7 @@ const OrguserDashboard = Loadable(lazy(() => import('views/orguser/OrguserDashbo
 const OrganizationSetup = Loadable(lazy(() => import('views/orguser/OrganizationSetup')));
 const CarbonFootprintData = Loadable(lazy(() => import('views/orguser/CarbonFootprintData')));
 const CarbonReportDownload = Loadable(lazy(() => import('views/orguser/CarbonReportDownload')));
+const EmissionGoals = Loadable(lazy(() => import('views/orguser/EmissionGoals')));
 
 // ==============================|| ORGUSER ROUTING ||============================== //
 
@@ -72,6 +73,10 @@ const OrguserRoutes = {
             {
               path: 'report',
               element: <CarbonReportDownload />
+            },
+            {
+              path: 'goals',
+              element: <EmissionGoals />
             }
           ]
         }

@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 
 // react-bootstrap
 import Button from 'react-bootstrap/Button';
@@ -12,6 +14,7 @@ import Stack from 'react-bootstrap/Stack';
 
 // third-party
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 // project-imports
 import MainCard from 'components/MainCard';
@@ -30,10 +33,12 @@ export default function AuthRegisterForm({ className, link }) {
   const { mode } = useConfig();
   const resolvedTheme = getResolvedTheme(mode);
   setResolvedTheme(mode);
+  const navigate = useNavigate();
 
   const logo = resolvedTheme === ThemeMode.DARK ? LightLogo : DarkLogo;
 
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -47,27 +52,46 @@ export default function AuthRegisterForm({ className, link }) {
     setShowPassword((prevState) => !prevState);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (data.password !== data.confirmPassword) {
-      setError('confirmPassword', {
-        type: 'manual',
-        message: 'Both Password must be match!'
+      setError('confirmPassword', { type: 'manual', message: 'Passwords must match.' });
+      return;
+    }
+    clearErrors('confirmPassword');
+
+    try {
+      setSubmitting(true);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      await axios.post(`${apiUrl}/api/auth/register`, {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password
       });
-    } else {
-      clearErrors('confirmPassword');
       reset();
+      Swal.fire({
+        icon: 'success',
+        title: 'Account Created',
+        text: 'Your account has been created successfully. Please log in.',
+        confirmButtonText: 'Go to Login'
+      }).then(() => navigate(link ?? '/auth/login'));
+    } catch (error) {
+      const message = error.response?.data?.message || 'Registration failed. Please try again.';
+      Swal.fire({ icon: 'error', title: 'Registration Failed', text: message });
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
     <MainCard className="mb-0">
       <div className="text-center">
-        <a>
+        <Link to="/">
           <Image src={logo} alt="img" />
-        </a>
+        </Link>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <h4 className={`text-center f-w-500 mt-4 mb-3 ${className}`}>Sign up</h4>
+        <h4 className={`text-center f-w-500 mt-4 mb-3 ${className}`}>Sign Up</h4>
         <Row>
           <Col sm={6}>
             <Form.Group className="mb-3" controlId="formFirstName">
@@ -87,7 +111,7 @@ export default function AuthRegisterForm({ className, link }) {
                 type="text"
                 placeholder="Last Name"
                 {...register('lastName', lastNameSchema)}
-                isInvalid={!!errors.email}
+                isInvalid={!!errors.lastName}
                 className={className && 'bg-transparent border-white text-white border-opacity-25 '}
               />
               <Form.Control.Feedback type="invalid">{errors.lastName?.message}</Form.Control.Feedback>
@@ -133,15 +157,15 @@ export default function AuthRegisterForm({ className, link }) {
           <Form.Group controlId="customCheckc1">
             <Form.Check
               type="checkbox"
-              label="I agree to all the Terms & Condition"
+              label="I agree to all the Terms & Conditions"
               defaultChecked
               className={`input-primary ${className ? className : 'text-muted'} `}
             />
           </Form.Group>
         </Stack>
         <div className="text-center mt-4">
-          <Button type="submit" className="shadow px-sm-4">
-            Sign up
+          <Button type="submit" className="shadow px-sm-4" disabled={submitting}>
+            {submitting ? 'Creating Account...' : 'Sign Up'}
           </Button>
         </div>
         <Stack direction="horizontal" className="justify-content-between align-items-end mt-4">

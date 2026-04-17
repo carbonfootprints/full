@@ -91,17 +91,17 @@ const OrguserDashboard = () => {
     let completedSteps = 0;
     const totalSteps = 3;
 
-    // Step 1: Organization details completed
+    // Step 1: Organisation profile completed
     if (organizationDetails.isCompleted) completedSteps++;
 
-    // Step 2: Site details filled
+    // Step 2: At least one active site with address and city
     const activeSites = organizationDetails.sites?.filter((site) => site.isActive) || [];
     if (activeSites.length > 0 && activeSites.every((site) => site.address && site.city)) {
       completedSteps++;
     }
 
-    // Step 3: Carbon data entered (placeholder - you'll implement this later)
-    // if (orguser?.dataEntered) completedSteps++;
+    // Step 3: All carbon data entered across all categories
+    if (reportStatus?.allDataEntered) completedSteps++;
 
     return Math.round((completedSteps / totalSteps) * 100);
   };
@@ -289,8 +289,8 @@ const OrguserDashboard = () => {
         </Col>
       </Row>
 
-      <Row>
-        <Col md={12}>
+      <Row className="mb-4">
+        <Col md={6}>
           <MainCard>
             <div className="d-flex align-items-start">
               <div className="flex-shrink-0">
@@ -308,6 +308,29 @@ const OrguserDashboard = () => {
                   <Button color="info" size="sm">
                     <i className="ti ti-database me-1"></i>
                     Enter Carbon Data
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </MainCard>
+        </Col>
+        <Col md={6}>
+          <MainCard>
+            <div className="d-flex align-items-start">
+              <div className="flex-shrink-0">
+                <div className="avatar-md bg-light-warning rounded">
+                  <i className="ti ti-target text-warning" style={{ fontSize: '2rem' }}></i>
+                </div>
+              </div>
+              <div className="flex-grow-1 ms-3">
+                <h5 className="mb-2">Emission Reduction Goals</h5>
+                <p className="text-muted mb-3">
+                  Set science-based targets to reduce your organisation&apos;s carbon footprint and track progress toward net zero.
+                </p>
+                <Link to="/orguser/goals">
+                  <Button color="warning" size="sm">
+                    <i className="ti ti-target me-1"></i>
+                    View Goals
                   </Button>
                 </Link>
               </div>

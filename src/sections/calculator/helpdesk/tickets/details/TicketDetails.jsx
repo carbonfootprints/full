@@ -44,11 +44,11 @@ export default function TicketDetails() {
 
         <div className="mb-2">
           <Form.Select className="col-sm-12">
-            <option value="prod-1">Able Admin</option>
-            <option value="prod-2">Guru Dash</option>
-            <option value="prod-3">Able Pro</option>
-            <option value="prod-4">Able Dash</option>
-            <option value="prod-5">Dash Able</option>
+            <option value="cat-1">Carbon Calculation</option>
+            <option value="cat-2">Report Generation</option>
+            <option value="cat-3">Organisation Setup</option>
+            <option value="cat-4">Data Entry</option>
+            <option value="cat-5">General Enquiry</option>
           </Form.Select>
         </div>
       </div>

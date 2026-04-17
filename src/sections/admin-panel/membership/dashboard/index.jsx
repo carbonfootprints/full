@@ -20,28 +20,28 @@ const cardData = [
   {
     title: 'Registrations',
     value: '980+',
-    dateRange: 'May 23 - June 01 (2018)',
+    dateRange: 'Apr 01 - Mar 31 (2025–26)',
     icon: 'ph ph-book-bookmark',
     backgroundColor: 'bg-light-primary'
   },
   {
     title: 'Renewals',
     value: '1,563',
-    dateRange: 'May 23 - June 01 (2018)',
+    dateRange: 'Apr 01 - Mar 31 (2025–26)',
     icon: 'ph ph-rocket',
     backgroundColor: 'bg-light-success'
   },
   {
     title: 'Revenue',
     value: '42.6%',
-    dateRange: 'May 23 - June 01 (2018)',
+    dateRange: 'Apr 01 - Mar 31 (2025–26)',
     icon: 'ph ph-credit-card',
     backgroundColor: 'bg-light-warning'
   },
   {
     title: 'Cancellations',
     value: '42.6%',
-    dateRange: 'May 23 - June 01 (2018)',
+    dateRange: 'Apr 01 - Mar 31 (2025–26)',
     icon: 'ph ph-user-minus',
     backgroundColor: 'bg-light-danger'
   }

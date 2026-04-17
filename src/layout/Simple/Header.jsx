@@ -8,9 +8,6 @@ import Image from 'react-bootstrap/Image';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-// assets
-import Logo from 'assets/images/logo-white.svg';
-
 // ==============================|| SIMPLE - HEADER ||============================== //
 
 export default function HeaderSection() {
@@ -28,19 +25,18 @@ export default function HeaderSection() {
   }, [handleScroll]);
 
   return (
-    <Navbar expand="md" className="navbar-Datta top-nav-collapse default" ref={navbarRef}>
+    <Navbar expand="md" className="navbar-planetcare top-nav-collapse default" ref={navbarRef}>
       <Container>
-        <Navbar.Brand href="/">
-          <svg width="260" height="60" viewBox="0 0 260 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g transform="translate(0, 10)">
-              <path d="M16 16C16 8 24 0 32 0C32 8 24 16 16 16Z" fill="#5ABA75" />
-              <path d="M16 16C16 24 8 32 0 32C0 24 8 16 16 16Z" fill="#5ABA75" />
-              <line x1="16" y1="16" x2="16" y2="40" stroke="white" stroke-width="2" stroke-linecap="round" />
-            </g>
-            <text x="50" y="38" fill="#FFFFFF" font-family="'Roboto Mono', monospace" font-size="24">
-              PlanetCare
-            </text>
+        <Navbar.Brand href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="15" cy="15" r="14" fill="#5ABA75" fillOpacity="0.15" stroke="#5ABA75" strokeWidth="1.5" />
+            <path d="M15 6C15 6 21.5 10.5 21.5 17C21.5 21.5 18.5 24.5 15 26C11.5 24.5 8.5 21.5 8.5 17C8.5 10.5 15 6 15 6Z" fill="#5ABA75" />
+            <line x1="15" y1="26" x2="15" y2="28.5" stroke="#5ABA75" strokeWidth="2" strokeLinecap="round" />
           </svg>
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1.45rem', fontWeight: 800, letterSpacing: '-0.3px' }}>
+            <span style={{ color: '#ffffff' }}>Planet</span>
+            <span style={{ color: '#5ABA75' }}>Care</span>
+          </span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarTogglerDemo01" />
         <Navbar.Collapse id="navbarTogglerDemo01">

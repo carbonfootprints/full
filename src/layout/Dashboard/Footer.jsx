@@ -19,10 +19,7 @@ export default function Footer() {
           {/* Footer Text */}
           <Col xs="auto" className="my-1">
             <p className="m-0">
-              {branding.brandName} ♥ Crafted By{' '}
-              <a href="www.linkedin.com/in/kavipriya-sugumar-50446b218" target="_blank" rel="noopener noreferrer" className="text-primary">
-                Kavipriya Sugumar
-              </a>
+              &copy; {new Date().getFullYear()} {branding.brandName}. All rights reserved.
             </p>
           </Col>
 
@@ -32,10 +29,7 @@ export default function Footer() {
               <Nav.Link className="p-0" as="a" href="/">
                 Home
               </Nav.Link>
-              <Nav.Link className="p-0" as="a" href="#" target="_blank" rel="noopener noreferrer">
-                Documentation
-              </Nav.Link>
-              <Nav.Link className="p-0" as="a" href="#" target="_blank" rel="noopener noreferrer">
+              <Nav.Link className="p-0" as="a" href="mailto:support@planetcare.in">
                 Support
               </Nav.Link>
             </Stack>

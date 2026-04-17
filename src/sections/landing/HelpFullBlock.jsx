@@ -12,12 +12,12 @@ import MainCard from 'components/MainCard';
 import branding from 'branding.json';
 
 const productCards = [
-  { href: '#', Icon: 'ph ph-align-center-horizontal-simple', title: 'Button', delay: '0.5s' },
-  { href: '#', Icon: 'ph ph-textbox', title: 'Forms', delay: '0.6s' },
-  { href: '#', Icon: 'ph ph-slideshow', title: 'Slider', delay: '0.7s' },
-  { href: '#', Icon: 'ph ph-align-top-simple', title: 'Dropdowns', delay: '0.8s' },
-  { href: '#', Icon: 'ph ph-table', title: 'Tables', delay: '0.9s' },
-  { href: '#', Icon: 'ph ph-feather', title: 'Icons', delay: '1.0s' }
+  { href: '/calculate/carbon-footprint', Icon: 'ph ph-flame', title: 'Stationary Combustion', delay: '0.5s' },
+  { href: '/calculate/carbon-footprint', Icon: 'ph ph-truck', title: 'Mobile Sources', delay: '0.6s' },
+  { href: '/calculate/carbon-footprint', Icon: 'ph ph-factory', title: 'Process Emissions', delay: '0.7s' },
+  { href: '/calculate/carbon-footprint', Icon: 'ph ph-lightning', title: 'Purchased Electricity', delay: '0.8s' },
+  { href: '/calculate/carbon-footprint', Icon: 'ph ph-airplane', title: 'Business Travel', delay: '0.9s' },
+  { href: '/calculate/carbon-footprint', Icon: 'ph ph-trash', title: 'Waste & Water', delay: '1.0s' }
 ];
 
 // ==============================|| PRODUCT CARD ||============================== //
@@ -57,7 +57,7 @@ export default function HelpFullComponent() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8, ease: 'easeOut' }}
             >
-              Helpful <strong className="landing-background-image">Components</strong>
+              Emission <strong className="landing-background-image">Categories</strong>
             </motion.h2>
           </Col>
           <Col md={8} xl={6}>
@@ -68,8 +68,8 @@ export default function HelpFullComponent() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
             >
-              Below are unique Components of {branding.brandName} Bootstrap admin template which are included in the theme package you
-              purchased.
+              {branding.brandName} tracks emissions across all major GHG sources — from direct combustion to indirect supply chain activities
+              — giving you a complete picture of your carbon footprint.
             </motion.p>
           </Col>
         </Row>

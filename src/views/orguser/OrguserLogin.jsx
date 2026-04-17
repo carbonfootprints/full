@@ -233,7 +233,7 @@ const OrguserLogin = () => {
                   <div className="text-center mt-3 pt-3 border-top">
                     <p className="text-muted small mb-0">
                       Don&apos;t have an account?{' '}
-                      <a href="mailto:admin@example.com" className="text-success fw-semibold">
+                      <a href="mailto:support@planetcare.in" className="text-success fw-semibold">
                         Contact Administrator
                       </a>
                     </p>

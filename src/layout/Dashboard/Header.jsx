@@ -32,41 +32,40 @@ const notifications = [
     id: 1,
     avatar: Img1,
     time: '2 min ago',
-    title: 'UI/UX Design',
-    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+    title: 'New Support Ticket',
+    description: 'A new support ticket has been submitted by an organisation user.',
     date: 'Today'
   },
   {
     id: 2,
     avatar: Img2,
     time: '1 hour ago',
-    title: 'Message',
-    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+    title: 'Carbon Data Submitted',
+    description: 'An organisation has submitted carbon footprint data for review.',
     date: 'Today'
   },
   {
     id: 3,
     avatar: Img3,
-    time: '2 hour ago',
-    title: 'Forms',
-    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+    time: '2 hours ago',
+    title: 'New Organisation Registered',
+    description: 'A new organisation user has completed their registration.',
     date: 'Yesterday'
   },
   {
     id: 4,
     avatar: Img4,
-    time: '12 hour ago',
-    title: 'Challenge invitation',
-    description: 'Jonny aber invites you to join the challenge',
-    actions: true,
+    time: '5 hours ago',
+    title: 'Report Ready',
+    description: 'The carbon footprint report is ready and awaiting release approval.',
     date: 'Yesterday'
   },
   {
     id: 5,
     avatar: Img5,
-    time: '5 hour ago',
-    title: 'Security',
-    description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+    time: '12 hours ago',
+    title: 'Incomplete Data Alert',
+    description: 'One organisation has incomplete emission data for the current reporting period.',
     date: 'Yesterday'
   }
 ];
@@ -208,7 +207,7 @@ export default function Header() {
         <div className="ms-auto">
           <Nav className="list-unstyled">
             <Dropdown className="pc-h-item" align="end">
-              <Dropdown.Toggle className="pc-head-link me-0 arrow-none" variant="link" id="dropdown-basic">
+              <Dropdown.Toggle className="pc-head-link me-0 arrow-none" variant="link" id="dropdown-basic" aria-label="Change theme">
                 <i className="ph ph-sun-dim" />
               </Dropdown.Toggle>
 
@@ -229,7 +228,7 @@ export default function Header() {
               </Dropdown.Menu>
             </Dropdown>
             <Dropdown className="pc-h-item d-none d-md-inline-flex" align="end">
-              <Dropdown.Toggle className="pc-head-link head-link-primary me-0 arrow-none" variant="link" id="language-dropdown">
+              <Dropdown.Toggle className="pc-head-link head-link-primary me-0 arrow-none" variant="link" id="language-dropdown" aria-label="Change language">
                 <i className="ph ph-translate" />
               </Dropdown.Toggle>
 
@@ -257,7 +256,7 @@ export default function Header() {
               </Dropdown.Menu>
             </Dropdown>
             <Dropdown className="pc-h-item" align="end">
-              <Dropdown.Toggle className="pc-head-link me-0 arrow-none" variant="link" id="settings-dropdown">
+              <Dropdown.Toggle className="pc-head-link me-0 arrow-none" variant="link" id="settings-dropdown" aria-label="Settings">
                 <i className="ph ph-diamonds-four" />
               </Dropdown.Toggle>
 
@@ -285,17 +284,19 @@ export default function Header() {
               </Dropdown.Menu>
             </Dropdown>
             <Dropdown className="pc-h-item" align="end">
-              <Dropdown.Toggle className="pc-head-link me-0 arrow-none" variant="link" id="notification-dropdown">
+              <Dropdown.Toggle className="pc-head-link me-0 arrow-none" variant="link" id="notification-dropdown" aria-label="Notifications">
                 <i className="ph ph-bell" />
-                <span className="badge bg-success pc-h-badge">3</span>
+                {notifications.length > 0 && (
+                  <span className="badge bg-success pc-h-badge">{notifications.length}</span>
+                )}
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="dropdown-notification pc-h-dropdown">
                 <Dropdown.Header className="d-flex align-items-center justify-content-between">
                   <h5 className="m-0">Notifications</h5>
-                  <Link className="btn btn-link btn-sm" to="#">
-                    Mark all read
-                  </Link>
+                  <button className="btn btn-link btn-sm" onClick={() => {}}>
+                    Mark All Read
+                  </button>
                 </Dropdown.Header>
                 <SimpleBarScroll style={{ maxHeight: 'calc(100vh - 215px)' }}>
                   <div className="dropdown-body text-wrap position-relative">
@@ -330,9 +331,9 @@ export default function Header() {
                 </SimpleBarScroll>
 
                 <div className="text-center py-2">
-                  <Link to="#!" className="link-danger">
-                    Clear all Notifications
-                  </Link>
+                  <button className="btn btn-link link-danger p-0" onClick={() => {}}>
+                    Clear All Notifications
+                  </button>
                 </div>
               </Dropdown.Menu>
             </Dropdown>

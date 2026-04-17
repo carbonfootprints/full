@@ -8,24 +8,24 @@ import Row from 'react-bootstrap/Row';
 
 const pricingOptions = [
   {
-    title: 'Single Use',
-    price: '$35',
-    features: ['Use for single site', '6 month premium Support', '1 year updates', 'For Non-Paying users only'],
-    link: 'https://codedthemes.com/item/datta-able-bootstrap-admin-template/'
+    title: 'Starter',
+    price: 'Free',
+    features: ['1 organization site', 'Up to 3 emission categories', 'Monthly data entry', 'Basic dashboard & reports'],
+    link: '/orguser/login'
   },
   {
-    title: 'Multiple Use',
-    price: '$129',
-    features: ['Use for up to 5 sites', '6 month premium Support', '1 year updates', 'For Non-Paying users only'],
-    link: 'https://codedthemes.com/item/datta-able-bootstrap-admin-template/',
+    title: 'Professional',
+    price: '₹2,999/yr',
+    features: ['Up to 5 sites', 'All 15+ emission categories', 'Full Scope 1, 2 & 3 tracking', 'Priority support'],
+    link: '/orguser/login',
     buttonClass: 'btn-primary',
     label: 'Popular'
   },
   {
-    title: 'Extended Use',
-    price: '$599',
-    features: ['Unlimited site (1 SaaS Product)', '6 month premium Support', '1 year updates', 'For Non-Paying users only'],
-    link: 'https://codedthemes.com/item/datta-able-bootstrap-admin-template/'
+    title: 'Enterprise',
+    price: 'Custom',
+    features: ['Unlimited sites', 'Custom emission factors', 'Dedicated account manager', 'Audit-ready exports & compliance'],
+    link: '/auth/login'
   }
 ];
 
@@ -49,10 +49,9 @@ function PricingCard({ title, price, features, link, buttonClass = 'btn-outline-
           <Button
             variant={buttonClass.includes('outline') ? 'outline-light' : 'primary'}
             href={link}
-            target="_blank"
             className={buttonClass}
           >
-            Buy Now
+            Get Started
           </Button>
         </div>
       </div>
@@ -70,12 +69,12 @@ export default function PricingBlock() {
           <Col lg={4} className="my-3 text-center text-sm-start">
             <div className="title mb-4">
               <h2 className="text-white mb-3">
-                License <strong className="landing-background-image">Pricing</strong>
+                Simple <strong className="landing-background-image">Pricing</strong>
               </h2>
             </div>
             <p className="mb-4 text-white text-opacity-50">
-              Pricing table helps you understand which type of license you require for your project. If you still have any questions, please
-              contact us on our support desk.
+              Choose a plan that fits your organization&apos;s size and reporting needs. All plans include access to the carbon calculator
+              and dashboard. Contact us for a custom enterprise quote.
             </p>
           </Col>
           <Col lg={8} className="my-3">

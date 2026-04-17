@@ -13,9 +13,9 @@ import { motion } from 'framer-motion';
 import CounterBackground from 'assets/images/landing/img-counter-bg.svg';
 
 const counters = [
-  { count: '150+', label: 'Components' },
-  { count: '8+', label: 'Application' },
-  { count: '100+', label: 'Pages' }
+  { count: '15+', label: 'Emission Categories' },
+  { count: '3', label: 'GHG Scopes' },
+  { count: '12', label: 'Months Tracked' }
 ];
 
 // ==============================|| COUNTER ITEM ||============================== //
@@ -47,9 +47,10 @@ export default function NumberBlock() {
             <Card.Body className="p-4 p-md-5">
               <Row className="align-items-center">
                 <Col lg={6} className="my-3">
-                  <span className="h3 text-white mb-3 d-block">High-performance, scalability and durability</span>
+                  <span className="h3 text-white mb-3 d-block">Comprehensive GHG Tracking Across All Scopes</span>
                   <p className="mb-0 text-white text-opacity-50">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
+                    PlanetCare covers all Scope 1, 2, and 3 greenhouse gas emissions across 15+ categories, helping your organization achieve
+                    accurate and compliant carbon reporting year-round.
                   </p>
                 </Col>
                 <Col lg={6} className="my-3">

@@ -20,30 +20,30 @@ export default function CourseAdd() {
   return (
     <Row>
       <Col xs={12}>
-        <MainCard title="Course Add">
+        <MainCard title="Add Course">
           <Row>
             <Col md={6}>
               <div className="mb-3">
                 <Form.Label>Course Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter first name" />
+                <Form.Control type="text" placeholder="Enter course name" />
               </div>
             </Col>
             <Col md={6}>
               <div className="mb-3">
                 <Form.Label>Course Code</Form.Label>
-                <Form.Control type="text" placeholder="Enter Course code" />
+                <Form.Control type="text" placeholder="e.g., CS101" />
               </div>
             </Col>
             <Col md={6}>
               <div className="mb-3">
-                <Form.Label>Start Form</Form.Label>
+                <Form.Label>Start Date</Form.Label>
                 <Form.Control type="date" />
               </div>
             </Col>
             <Col md={6}>
               <div className="mb-3">
                 <Form.Label>Course Duration</Form.Label>
-                <Form.Control type="text" placeholder="Enter Course Durations" />
+                <Form.Control type="text" placeholder="Enter course duration" />
               </div>
             </Col>
             <Col md={6}>
@@ -55,20 +55,20 @@ export default function CourseAdd() {
             <Col md={6}>
               <div className="mb-3">
                 <Form.Label>Teacher Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter Teacher name" />
+                <Form.Control type="text" placeholder="e.g., Dr. Smith" />
               </div>
             </Col>
             <Col md={6}>
               <div className="mb-3">
                 <Form.Label>Maximum Students</Form.Label>
-                <Form.Control type="number" placeholder="Enter maximum students" />
+                <Form.Control type="number" min="1" placeholder="e.g., 30" />
               </div>
             </Col>
             <Col md={6}>
               <div className="mb-3">
                 <Form.Label>Course Status</Form.Label>
                 <Form.Select>
-                  <option>Deactive</option>
+                  <option>Inactive</option>
                   <option>Active</option>
                 </Form.Select>
               </div>
@@ -90,7 +90,7 @@ export default function CourseAdd() {
               </div>
             </Col>
             <Col md={12} className="text-end">
-              <Button>Create Course</Button>
+              <Button type="submit">Create Course</Button>
             </Col>
           </Row>
         </MainCard>

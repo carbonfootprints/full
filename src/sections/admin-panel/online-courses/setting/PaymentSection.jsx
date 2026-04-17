@@ -31,7 +31,7 @@ export default function PaymentSection({
           <Stack gap={1}>
             <h4>Establish your payment gateway</h4>
             <p>
-              Able Pro: pay streamlines your payout process, facilitating faster payments while managing author and affiliate payouts on
+              PlanetCare Pay streamlines your payout process, facilitating faster payments while managing author and affiliate payouts on
               your behalf.
             </p>
           </Stack>

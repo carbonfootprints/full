@@ -12,138 +12,76 @@ import branding from 'branding.json';
 // third-party
 import { motion } from 'framer-motion';
 
-// assets
-import App1 from 'assets/images/landing/app-1.png';
-import App2 from 'assets/images/landing/app-2.png';
-import App3 from 'assets/images/landing/app-3.png';
-import App4 from 'assets/images/landing/app-4.png';
-import App5 from 'assets/images/landing/app-5.png';
-import App6 from 'assets/images/landing/app-6.png';
-import App7 from 'assets/images/landing/app-7.png';
-import App8 from 'assets/images/landing/app-8.png';
-import App9 from 'assets/images/landing/app-9.png';
-import App10 from 'assets/images/landing/app-10.png';
-import App11 from 'assets/images/landing/app-11.png';
-import App12 from 'assets/images/landing/app-12.png';
-
-const appCards = [
+const scopeCards = [
   {
-    imgSrc: App1,
-    href: 'auth/login-v1',
-    Icon: 'ph ph-lock-key',
-    title: 'Authentication',
+    scope: 'Scope 1',
+    color: 'text-danger',
+    Icon: 'ph ph-flame',
+    title: 'Direct Emissions',
+    description: 'Stationary combustion, mobile sources, process emissions, and fugitive releases from owned or controlled sources.',
     delay: '0.3s'
   },
   {
-    imgSrc: App2,
-    href: 'pages/maintenance/error',
-    Icon: 'ph ph-gear-six',
-    title: 'Maintenance',
+    scope: 'Scope 2',
+    color: 'text-warning',
+    Icon: 'ph ph-lightning',
+    title: 'Indirect Energy',
+    description: 'Purchased electricity, steam, heat, and cooling consumed by your organization from external providers.',
     delay: '0.4s'
   },
   {
-    imgSrc: App3,
-    href: 'landing',
-    Icon: 'ph ph-rocket',
-    title: 'Landing Page',
+    scope: 'Scope 3',
+    color: 'text-primary',
+    Icon: 'ph ph-arrows-out',
+    title: 'Value Chain Emissions',
+    description: 'Business travel, employee commuting, waste disposal, upstream procurement, and downstream use of sold products.',
     delay: '0.5s'
   },
   {
-    imgSrc: App4,
-    href: 'application/calendar',
-    Icon: 'ph ph-calendar',
-    title: 'Calendar',
+    scope: 'Reports',
+    color: 'text-success',
+    Icon: 'ph ph-chart-line-up',
+    title: 'Emission Reports',
+    description: 'Generate detailed GHG reports by scope, category, site, or time period — ready for disclosure and compliance.',
     delay: '0.6s'
-  },
-  {
-    imgSrc: App5,
-    href: 'application/message',
-    Icon: 'ph ph-chats-circle',
-    title: 'Chat',
-    delay: '0.4s'
-  },
-  {
-    imgSrc: App6,
-    href: 'application/task/board',
-    Icon: 'ph ph-list-checks',
-    title: 'Task',
-    delay: '0.5s'
-  },
-  {
-    imgSrc: App7,
-    href: 'application/todo',
-    Icon: 'ph ph-check-square-offset',
-    title: 'Todo',
-    delay: '0.6s'
-  },
-  {
-    imgSrc: App8,
-    href: 'application/gallery/advance',
-    Icon: 'ph ph-images',
-    title: 'Gallery',
-    delay: '0.7s'
-  },
-  {
-    imgSrc: App9,
-    href: 'application/invoice/invoice',
-    Icon: 'ph ph-clipboard-text',
-    title: 'Invoice',
-    delay: '0.5s'
-  },
-  {
-    imgSrc: App10,
-    href: 'application/users/social-profile',
-    Icon: 'ph ph-graduation-cap',
-    title: 'Social Profile',
-    delay: '0.6s'
-  },
-  {
-    imgSrc: App11,
-    href: 'application/users/profile',
-    Icon: 'ph ph-user-circle-gear',
-    title: 'User Profile',
-    delay: '0.7s'
-  },
-  {
-    imgSrc: App12,
-    href: 'dashboard/crypto',
-    Icon: 'ph ph-piggy-bank',
-    title: 'Bitcoin Dashboard',
-    delay: '0.8s'
   }
 ];
 
-// ==============================|| LANDING - APPS BLOCK ||============================== //
+// ==============================|| LANDING - SCOPE CARD ||============================== //
 
-function AppCard({ imgSrc, href, Icon, title, delay }) {
+function ScopeCard({ scope, color, Icon, title, description, delay }) {
   return (
     <Col lg={3} md={6}>
-      <motion.h2
-        className="section-title"
+      <motion.div
         initial={{ opacity: 0, y: 50 }}
         viewport={{ once: true }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: parseFloat(delay), duration: 0.8, ease: 'easeOut' }}
       >
-        <Card className="app-card mb-0">
-          <Card.Img variant="top" src={imgSrc} alt={title} className="img-fluid" />
-          <a href={href} target="_blank" rel="noopener noreferrer" className="overlay">
-            <Stack gap={3} className="justify-content-center align-items-center">
-              {Icon && <i className={`${Icon} text-primary`} />}
-              <h3 className="h5">{title}</h3>
+        <Card className="mb-0 h-100">
+          <Card.Body className="p-4">
+            <Stack gap={3}>
+              <div className="d-flex align-items-center gap-2">
+                <i className={`${Icon} ${color} f-32`} />
+                <span className={`badge bg-light ${color} f-w-600`}>{scope}</span>
+              </div>
+              <div>
+                <h5 className="f-w-600 mb-2">{title}</h5>
+                <p className="mb-0 text-muted">{description}</p>
+              </div>
             </Stack>
-          </a>
+          </Card.Body>
         </Card>
-      </motion.h2>
+      </motion.div>
     </Col>
   );
 }
 
-// ==============================|| LANDING - APPS SECTION ||============================== //
+// ==============================|| LANDING - SCOPES SECTION ||============================== //
 
 export default function AppsSection() {
   return (
-    <section className="comminuties-section">
+    <section className="communities-section">
       <Container>
         <Row className="justify-content-center text-center">
           <Col md={8} xl={6} className="title">
@@ -151,27 +89,27 @@ export default function AppsSection() {
               className="section-title"
               initial={{ opacity: 0, y: 50 }}
               viewport={{ once: true }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8, ease: 'easeOut' }}
             >
-              Ready to use <strong className="landing-background-image">Application</strong>!
+              Full <strong className="landing-background-image">GHG Coverage</strong>
             </motion.h2>
 
             <motion.p
               className="mt-lg-4 mt-2"
               initial={{ opacity: 0, y: 50 }}
               viewport={{ once: true }}
-              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
             >
-              {branding.brandName} admin template includes most common use pages to develop any applications which will ease the developer's
-              efforts.
+              {branding.brandName} covers all three GHG scopes as defined by the GHG Protocol — giving you a complete and accurate picture
+              of your organization&apos;s total carbon emissions.
             </motion.p>
           </Col>
         </Row>
         <Row className="g-3">
-          {appCards.map((card, index) => (
-            <AppCard key={index} imgSrc={card.imgSrc} href={card.href} Icon={card.Icon} title={card.title} delay={card.delay} />
+          {scopeCards.map((card) => (
+            <ScopeCard key={card.scope} {...card} />
           ))}
         </Row>
       </Container>
@@ -179,10 +117,11 @@ export default function AppsSection() {
   );
 }
 
-AppCard.propTypes = {
-  imgSrc: PropTypes.string,
-  href: PropTypes.string,
+ScopeCard.propTypes = {
+  scope: PropTypes.string,
+  color: PropTypes.string,
   Icon: PropTypes.string,
   title: PropTypes.string,
+  description: PropTypes.string,
   delay: PropTypes.string
 };

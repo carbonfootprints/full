@@ -19,30 +19,30 @@ import UserAvatar1 from 'assets/images/user/avatar-1.png';
 const testimonials = [
   {
     quote:
-      'Glad to see the designs and the components cleanliness. Quality product with great documentation. Congratulations for the good work.',
-    name: 'Karanveer S.',
-    role: 'Administrator',
+      'PlanetCare made it incredibly easy to track our Scope 1 and 2 emissions. The automated calculations save our team hours every month and the dashboard gives management exactly what they need at a glance.',
+    name: 'Priya M.',
+    role: 'Sustainability Manager',
     avatar: UserAvatar1
   },
   {
     quote:
-      'Glad to see the designs and the components cleanliness. Quality product with great documentation. Congratulations for the good work.',
-    name: 'Karanveer S.',
-    role: 'Administrator',
+      'We were previously using spreadsheets for GHG reporting. Switching to PlanetCare cut our reporting time by 60% and gave us the confidence that our numbers are accurate and audit-ready.',
+    name: 'Rajan K.',
+    role: 'Environmental Compliance Officer',
     avatar: UserAvatar1
   },
   {
     quote:
-      'Glad to see the designs and the components cleanliness. Quality product with great documentation. Congratulations for the good work.',
-    name: 'Karanveer S.',
-    role: 'Administrator',
+      'The multi-site management feature is a game changer. We manage 4 facilities and PlanetCare lets us consolidate all emission data into one report with just a few clicks.',
+    name: 'Anitha R.',
+    role: 'Operations Director',
     avatar: UserAvatar1
   },
   {
     quote:
-      'Glad to see the designs and the components cleanliness. Quality product with great documentation. Congratulations for the good work.',
-    name: 'Karanveer S.',
-    role: 'Administrator',
+      'Setting up our carbon reduction goals and tracking progress month-over-month has never been this straightforward. PlanetCare keeps our whole team aligned on our net-zero targets.',
+    name: 'Deepak S.',
+    role: 'CSR Head',
     avatar: UserAvatar1
   }
 ];
@@ -86,7 +86,7 @@ export default function ClientTestimonials() {
   };
 
   return (
-    <section className="comminuties-section">
+    <section className="communities-section">
       <Container>
         <Row className="justify-content-center text-center">
           <Col md={8} xl={6}>
@@ -98,7 +98,7 @@ export default function ClientTestimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.8, ease: 'easeOut' }}
               >
-                What Our <strong className="landing-background-image">Client Says</strong>!
+                What Our <strong className="landing-background-image">Clients Say</strong>
               </motion.h2>
               <motion.p
                 className="mt-lg-4 mt-2"
@@ -107,8 +107,7 @@ export default function ClientTestimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
-                We’re proud of the quality products and great service we offer. But don’t just take our word for it—here’s what our happy
-                clients said.
+                Organizations across industries trust PlanetCare to simplify their carbon reporting. Here&apos;s what they have to say.
               </motion.p>
             </div>
           </Col>

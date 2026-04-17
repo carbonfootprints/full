@@ -137,27 +137,27 @@ function ReactTable({ columns, data }) {
               We'll never share your email with anyone else.
             </small>
             <Form>
-              <Form.Group controlId="name">
+              <Form.Group controlId="firstName">
                 <Form.Label>First Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter First Name" />
+                <Form.Control type="text" placeholder="e.g., John" />
               </Form.Group>
-              <Form.Group controlId="email" className="mt-3">
+              <Form.Group controlId="lastName" className="mt-3">
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter Last Name" />
+                <Form.Control type="text" placeholder="e.g., Smith" />
               </Form.Group>
-              <Form.Group controlId="email" className="mt-3">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+              <Form.Group controlId="customerEmail" className="mt-3">
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control type="email" placeholder="customer@example.com" />
               </Form.Group>
 
-              <Form.Group controlId="email" className="mt-3">
+              <Form.Group controlId="password" className="mt-3">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="email" placeholder="Password" />
+                <Form.Control type="password" placeholder="Minimum 8 characters" />
               </Form.Group>
 
-              <Form.Group controlId="email" className="mt-3">
+              <Form.Group controlId="confirmPassword" className="mt-3">
                 <Form.Label>Confirm Password</Form.Label>
-                <Form.Control type="email" placeholder="Confirm Password" />
+                <Form.Control type="password" placeholder="Re-enter your password" />
               </Form.Group>
             </Form>
           </Modal.Body>

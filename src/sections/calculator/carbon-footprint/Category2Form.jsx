@@ -16,11 +16,9 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
 import MainCard from 'components/MainCard';
+import { getCurrentFinancialYearMonths } from 'utils/reportingPeriod';
 
-const MONTHS = [
-  'Apr-24', 'May-24', 'Jun-24', 'Jul-24', 'Aug-24', 'Sep-24',
-  'Oct-24', 'Nov-24', 'Dec-24', 'Jan-25', 'Feb-25', 'Mar-25'
-];
+const MONTHS = getCurrentFinancialYearMonths();
 
 const ELECTRICITY_EF = 0.727; // kgCO2/kWh — CEA India Version 20 December 2024
 

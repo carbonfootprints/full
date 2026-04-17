@@ -16,11 +16,9 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
 import MainCard from 'components/MainCard';
+import { getCurrentFinancialYearMonths } from 'utils/reportingPeriod';
 
-const MONTHS = [
-  'Apr-24', 'May-24', 'Jun-24', 'Jul-24', 'Aug-24', 'Sep-24',
-  'Oct-24', 'Nov-24', 'Dec-24', 'Jan-25', 'Feb-25', 'Mar-25'
-];
+const MONTHS = getCurrentFinancialYearMonths();
 
 // Live preview constants (IPCC EFDB EF IDs: 17143, 123005, 18166, 17201)
 const DIESEL_NCV = 43.33;    // TJ/kt

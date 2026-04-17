@@ -70,12 +70,12 @@ export default function HeaderBlock() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <Image src={MainHeaderImg} alt="images" className="img-fluid img-header" />
+              <Image src={MainHeaderImg} alt="Carbon Footprint Management Dashboard" className="img-fluid img-header" />
             </motion.div>
           </Col>
         </Row>
       </Container>
-      <Image src={ImgWave} alt="images" className="img-wave" />
+      <Image src={ImgWave} alt="" role="presentation" className="img-wave" />
     </>
   );
 }

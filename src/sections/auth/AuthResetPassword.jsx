@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 // react-bootstrap
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -41,9 +42,9 @@ export default function AuthResetPasswordForm({ className }) {
   return (
     <MainCard className="mb-0">
       <div className="text-center">
-        <a>
+        <Link to="/">
           <Image src={logo} alt="img" />
-        </a>
+        </Link>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <h4 className={`text-center f-w-500 mt-4 mb-3 ${className}`}>Reset Password</h4>

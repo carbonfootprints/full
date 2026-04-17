@@ -6,8 +6,8 @@ import branding from 'branding.json';
 
 export default function AnnouncementCard() {
   return (
-    <MainCard title="Do you know Datta Able is released?">
-      <p>{branding.brandName} comes with Bootstrap 4 & Angular 6. It is best kind of own Dashboard categoty.</p>
+    <MainCard title="Welcome to PlanetCare">
+      <p>{branding.brandName} helps you track, manage, and reduce your organisation&apos;s carbon emissions across all GHG scopes.</p>
     </MainCard>
   );
 }

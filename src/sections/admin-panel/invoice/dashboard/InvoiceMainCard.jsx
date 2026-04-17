@@ -14,16 +14,16 @@ export default function InvoiceMainCard() {
     <MainCard>
       <Row className="mb-3 g-3">
         <Col md={6} xxl={3}>
-          <InvoiceCard name="Total" total={20.3} price={5678.09} invoice={3} color="text-warning" />
+          <InvoiceCard name="Total" total={0} price={0} invoice={0} color="text-warning" />
         </Col>
         <Col md={6} xxl={3}>
-          <InvoiceCard name="Paid" total={8.73} price={5678.09} invoice={5} color="text-danger" />
+          <InvoiceCard name="Paid" total={0} price={0} invoice={0} color="text-success" />
         </Col>
         <Col md={6} xxl={3}>
-          <InvoiceCard name="Pending" total={10.73} price={5678.09} invoice={20} color="text-success" />
+          <InvoiceCard name="Unpaid" total={0} price={0} invoice={0} color="text-danger" />
         </Col>
         <Col md={6} xxl={3}>
-          <InvoiceCard name="Pending" total={-4.73} price={5678.09} invoice={5} color="text-primary" />
+          <InvoiceCard name="Overdue" total={0} price={0} invoice={0} color="text-primary" />
         </Col>
       </Row>
       <InvoiceChart />

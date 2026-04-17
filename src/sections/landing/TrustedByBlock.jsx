@@ -1,19 +1,40 @@
 // react-bootstrap
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
+import Card from 'react-bootstrap/Card';
 
 // third-party
 import { motion } from 'framer-motion';
 
-// assets
-import CrystalImg from 'assets/images/landing/client-crystal-1.svg';
-import EagamesImg from 'assets/images/landing/client-eagames.svg';
-import HaswentImg from 'assets/images/landing/client-haswent-2.svg';
-import VodafoneImg from 'assets/images/landing/client-vodafone.svg';
+const standards = [
+  {
+    icon: 'ti ti-certificate',
+    title: 'GHG Protocol',
+    description: 'Calculations aligned with the GHG Protocol Corporate Standard.',
+    delay: '0.3s'
+  },
+  {
+    icon: 'ti ti-award',
+    title: 'ISO 14064',
+    description: 'Structured to support ISO 14064 greenhouse gas reporting requirements.',
+    delay: '0.4s'
+  },
+  {
+    icon: 'ti ti-world',
+    title: 'UNFCCC Guidelines',
+    description: 'Emission factors based on nationally approved UNFCCC guidelines.',
+    delay: '0.5s'
+  },
+  {
+    icon: 'ti ti-shield-check',
+    title: 'Audit-Ready',
+    description: 'Exportable reports designed for third-party verification and audits.',
+    delay: '0.6s'
+  }
+];
 
-// ===========================|| LANDING - TRUSTED BY BLOCK ||=========================== //
+// ===========================|| LANDING - STANDARDS BLOCK ||=========================== //
 
 export default function TrustedBySection() {
   return (
@@ -27,7 +48,7 @@ export default function TrustedBySection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.8, ease: 'easeOut' }}
             >
-              <strong className="landing-background-image">Trusted </strong> By
+              <strong className="landing-background-image">Standards</strong> We Follow
             </motion.h2>
             <motion.p
               className="mt-lg-4 mt-2"
@@ -36,29 +57,27 @@ export default function TrustedBySection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              From budding startups to industry-leading entrepreneurs, our template is shaping the future of great products.
+              PlanetCare is built around internationally recognized GHG reporting frameworks to ensure your data is credible, consistent,
+              and compliant.
             </motion.p>
           </Col>
         </Row>
-        <Row className="justify-content-center client-block g-lg-4 g-3">
-          {[
-            { src: EagamesImg, delay: '0.3s' },
-            { src: HaswentImg, delay: '0.4s' },
-            { src: CrystalImg, delay: '0.5s' },
-            { src: VodafoneImg, delay: '0.6s' }
-          ].map((client, index) => (
-            <Col key={index} className="col-auto">
+        <Row className="justify-content-center g-3">
+          {standards.map((item, index) => (
+            <Col key={index} lg={3} md={6}>
               <motion.div
-                initial={{ opacity: 0, x: 50 }}
+                initial={{ opacity: 0, y: 50 }}
                 viewport={{ once: true }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{
-                  delay: parseFloat(client.delay),
-                  duration: 0.8,
-                  ease: 'easeOut'
-                }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: parseFloat(item.delay), duration: 0.8, ease: 'easeOut' }}
               >
-                <Image src={client.src} alt="client-logo" className="img-fluid" />
+                <Card className="text-center h-100">
+                  <Card.Body className="p-4">
+                    <i className={`${item.icon} text-primary f-36 mb-3 d-block`} />
+                    <h5 className="f-w-600 mb-2">{item.title}</h5>
+                    <p className="mb-0 text-muted">{item.description}</p>
+                  </Card.Body>
+                </Card>
               </motion.div>
             </Col>
           ))}
