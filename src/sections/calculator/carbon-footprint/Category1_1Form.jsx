@@ -18,6 +18,8 @@ import Tab from 'react-bootstrap/Tab';
 
 // project-imports
 import MainCard from 'components/MainCard';
+import ResultsPendingCard from 'components/ResultsPendingCard';
+import useResultsReleased from 'hooks/useResultsReleased';
 import { getReportingMonths, getCurrentFinancialYearMonths } from 'utils/reportingPeriod';
 
 const MONTHS = getCurrentFinancialYearMonths();
@@ -31,6 +33,7 @@ export default function Category1_1Form() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [calculations, setCalculations] = useState(null);
+  const resultsReleased = useResultsReleased();
 
   useEffect(() => {
     fetchCategoryData();
@@ -154,8 +157,8 @@ export default function Category1_1Form() {
 
       Swal.fire({
         icon: 'success',
-        title: 'Saved & Calculated!',
-        text: `Category 1.1 data saved. Total CO2e: ${res.data.category?.grandTotals?.totalCO2e?.toFixed(3) ?? '—'} kgCO2e`,
+        title: 'Data Saved',
+        text: 'Category 1.1 data saved successfully. Results will be available once reviewed by the administrator.',
         timer: 2500
       });
       return true;
@@ -298,8 +301,9 @@ export default function Category1_1Form() {
 
       </MainCard>
 
-      {/* Calculation Results */}
-      {calculations && (
+      {/* Calculation Results — only visible after admin releases results */}
+      {calculations && !resultsReleased && <ResultsPendingCard />}
+      {calculations && resultsReleased && (
         <MainCard className="mt-3">
           <h5 className="mb-3">
             <i className="ph ph-chart-bar me-2 text-success" />

@@ -16,6 +16,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
 import MainCard from 'components/MainCard';
+import ResultsPendingCard from 'components/ResultsPendingCard';
+import useResultsReleased from 'hooks/useResultsReleased';
 
 const TREE_CO2E_PER_YEAR = 27.5; // kgCO2e per tree per year (IPCC EFDB EF ID: 328656)
 
@@ -29,6 +31,7 @@ export default function Category1_5Form() {
   const [activeSiteIndex, setActiveSiteIndex] = useState(0);
   const [saving, setSaving] = useState(false);
   const [calculations, setCalculations] = useState(null);
+  const resultsReleased = useResultsReleased();
 
   useEffect(() => { fetchCategoryData(); }, []);
 
@@ -84,8 +87,8 @@ export default function Category1_5Form() {
       });
       if (res.data.category?.calculations) setCalculations(res.data.category.calculations);
       Swal.fire({
-        icon: 'success', title: 'Saved & Calculated!',
-        text: `Category 1.5 saved. Carbon Sink: ${res.data.category?.grandTotals?.totalCarbonSink?.toFixed(1) ?? '—'} kgCO₂e`,
+        icon: 'success', title: 'Data Saved',
+        text: 'Category 1.5 data saved successfully. Results will be available once reviewed by the administrator.',
         timer: 2500
       });
       return true;
@@ -180,8 +183,9 @@ export default function Category1_5Form() {
         )}
       </MainCard>
 
-      {/* Calculation Results */}
-      {calculations && (
+      {/* Calculation Results — only visible after admin releases results */}
+      {calculations && !resultsReleased && <ResultsPendingCard />}
+      {calculations && resultsReleased && (
         <MainCard className="mt-3">
           <h5 className="mb-3">
             <i className="ph ph-leaf me-2 text-success" />

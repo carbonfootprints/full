@@ -16,6 +16,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
 import MainCard from 'components/MainCard';
+import ResultsPendingCard from 'components/ResultsPendingCard';
+import useResultsReleased from 'hooks/useResultsReleased';
 
 const REFRIGERANT_TYPES_AC = ['HFC32', 'R134a', 'R410A', 'R22'];
 const REFRIGERANT_TYPES_FRIDGE = ['FROST FREE', 'HFC32', 'R134a', 'R410A', 'R22'];
@@ -32,6 +34,7 @@ export default function Category1_3Form() {
   const [activeSiteIndex, setActiveSiteIndex] = useState(0);
   const [saving, setSaving] = useState(false);
   const [calculations, setCalculations] = useState(null);
+  const resultsReleased = useResultsReleased();
 
   useEffect(() => { fetchCategoryData(); }, []);
 
@@ -114,7 +117,7 @@ export default function Category1_3Form() {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       const res = await axios.post(`${apiUrl}/api/carbon/category/1.3`, { sites }, { headers: { Authorization: `Bearer ${token}` } });
       if (res.data.category?.calculations) setCalculations(res.data.category.calculations);
-      Swal.fire({ icon: 'success', title: 'Saved & Calculated!', text: `Category 1.3 saved. Total CO₂e: ${res.data.category?.grandTotals?.totalCO2e?.toFixed(3) ?? '—'} kgCO₂e`, timer: 2500 });
+      Swal.fire({ icon: 'success', title: 'Data Saved', text: 'Category 1.3 data saved successfully. Results will be available once reviewed by the administrator.', timer: 2500 });
       return true;
     } catch (error) {
       Swal.fire('Error', error.response?.data?.message || 'Failed to save data', 'error'); return false;
@@ -258,8 +261,9 @@ export default function Category1_3Form() {
 
       </MainCard>
 
-      {/* Calculation Results */}
-      {calculations && (
+      {/* Calculation Results — only visible after admin releases results */}
+      {calculations && !resultsReleased && <ResultsPendingCard />}
+      {calculations && resultsReleased && (
         <MainCard className="mt-3">
           <h5 className="mb-3">
             <i className="ph ph-chart-bar me-2 text-success" />

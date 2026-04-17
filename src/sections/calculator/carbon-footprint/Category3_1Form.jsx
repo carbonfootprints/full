@@ -16,6 +16,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 
 import MainCard from 'components/MainCard';
+import ResultsPendingCard from 'components/ResultsPendingCard';
+import useResultsReleased from 'hooks/useResultsReleased';
 import { getCurrentFinancialYearMonths } from 'utils/reportingPeriod';
 
 const MONTHS = getCurrentFinancialYearMonths();
@@ -39,6 +41,7 @@ export default function Category3_1Form() {
   const [activeSiteIndex, setActiveSiteIndex] = useState(0);
   const [saving, setSaving] = useState(false);
   const [calculations, setCalculations] = useState(null);
+  const resultsReleased = useResultsReleased();
 
   useEffect(() => { fetchCategoryData(); }, []);
 
@@ -103,8 +106,8 @@ export default function Category3_1Form() {
       });
       if (res.data.category?.calculations) setCalculations(res.data.category.calculations);
       Swal.fire({
-        icon: 'success', title: 'Saved & Calculated!',
-        text: `Category 3.1 saved. Total CO₂e: ${res.data.category?.grandTotals?.totalCO2e?.toFixed(3) ?? '—'} kgCO₂e`,
+        icon: 'success', title: 'Data Saved',
+        text: 'Category 3.1 data saved successfully. Results will be available once reviewed by the administrator.',
         timer: 2500
       });
       return true;
@@ -229,8 +232,9 @@ export default function Category3_1Form() {
         </Tabs>
       </MainCard>
 
-      {/* Calculation Results */}
-      {calculations && (
+      {/* Calculation Results — only visible after admin releases results */}
+      {calculations && !resultsReleased && <ResultsPendingCard />}
+      {calculations && resultsReleased && (
         <MainCard className="mt-3">
           <h5 className="mb-3">
             <i className="ph ph-chart-bar me-2 text-success" />

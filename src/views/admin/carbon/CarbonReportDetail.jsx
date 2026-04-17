@@ -270,6 +270,13 @@ export default function CarbonReportDetail() {
 
       {/* Action Bar */}
       <MainCard className="mt-3">
+        {!isReleased && (
+          <Alert color="warning" className="mb-3">
+            <i className="ph ph-lock me-2" />
+            <strong>Results hidden from user.</strong> The organisation user cannot see any calculated CO₂e values
+            in their category screens until you release the report below. Verify all calculations before releasing.
+          </Alert>
+        )}
         <Row className="align-items-center">
           <Col>
             <Button
