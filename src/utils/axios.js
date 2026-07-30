@@ -33,7 +33,7 @@ axiosServices.interceptors.response.use(
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
       const isOrguser = window.location.pathname.startsWith('/orguser');
-      window.location.href = isOrguser ? '/orguser/login' : '/pages/auth/login';
+      window.location.href = isOrguser ? '/orguser/login' : '/auth/login';
     }
     return Promise.reject(error);
   }

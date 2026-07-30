@@ -110,7 +110,7 @@ export default function Category1_4Form() {
     }
   };
 
-  const handleSaveAndNext = async () => { if (await handleSave()) navigate('/calculate/carbon-footprint/category/1.5'); };
+  const handleSaveAndNext = async () => { if (await handleSave()) navigate('/calculate/carbon-footprint/category/1.6'); };
 
   return (
     <>

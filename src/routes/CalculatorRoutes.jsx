@@ -39,6 +39,15 @@ const Category3_5_1Form = Loadable(lazy(() => import('sections/calculator/carbon
 const Category3_5_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_5_2Form')));
 const Category3_2_3aForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_2_3aForm')));
 const Category3_2_3bForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_2_3bForm')));
+const Category3_6Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_6Form')));
+const Category4_7Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_7Form')));
+const Category4_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_1Form')));
+const Category4_2aForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_2aForm')));
+const Category4_2bForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_2bForm')));
+const Category4_3Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_3Form')));
+const Category4_4Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_4Form')));
+const Category4_5Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_5Form')));
+const Category4_6Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_6Form')));
 
 const List = Loadable(lazy(() => import('views/pages/invoice/List.jsx')));
 
@@ -134,7 +143,7 @@ const CalculatorRoutes = {
                   element: <Category1_4Form />
                 },
                 {
-                  path: 'category/1.5',
+                  path: 'category/1.6',
                   element: <Category1_5Form />
                 },
                 {
@@ -180,6 +189,42 @@ const CalculatorRoutes = {
                 {
                   path: 'category/3.2.3b',
                   element: <Category3_2_3bForm />
+                },
+                {
+                  path: 'category/3.6',
+                  element: <Category3_6Form />
+                },
+                {
+                  path: 'category/4.1',
+                  element: <Category4_1Form />
+                },
+                {
+                  path: 'category/4.2.a',
+                  element: <Category4_2aForm />
+                },
+                {
+                  path: 'category/4.2.b',
+                  element: <Category4_2bForm />
+                },
+                {
+                  path: 'category/4.3',
+                  element: <Category4_3Form />
+                },
+                {
+                  path: 'category/4.4',
+                  element: <Category4_4Form />
+                },
+                {
+                  path: 'category/4.5',
+                  element: <Category4_5Form />
+                },
+                {
+                  path: 'category/4.6',
+                  element: <Category4_6Form />
+                },
+                {
+                  path: 'category/4.7',
+                  element: <Category4_7Form />
                 }
               ]
             },

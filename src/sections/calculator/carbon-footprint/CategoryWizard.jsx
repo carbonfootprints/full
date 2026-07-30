@@ -49,7 +49,7 @@ const CATEGORIES = [
     color: 'warning'
   },
   {
-    code: '1.5',
+    code: '1.6',
     title: 'GHG sink - Tree plantation',
     description: 'Carbon sequestration from trees',
     scope: 'Scope 1',
@@ -135,6 +135,78 @@ const CATEGORIES = [
     scope: 'Scope 3',
     icon: 'ph-trash',
     color: 'danger'
+  },
+  {
+    code: '3.6',
+    title: 'Business travel',
+    description: 'Car and air travel emissions',
+    scope: 'Scope 3',
+    icon: 'ph-airplane',
+    color: 'info'
+  },
+  {
+    code: '4.1',
+    title: 'Upstream tanned leather',
+    description: 'LWG LCA — 3.07 kg CO₂/m²',
+    scope: 'Scope 4',
+    icon: 'ph-cow',
+    color: 'secondary'
+  },
+  {
+    code: '4.2.a',
+    title: 'Upstream chemicals',
+    description: 'Process chemicals — LCA carbon intensity',
+    scope: 'Scope 4',
+    icon: 'ph-flask',
+    color: 'danger'
+  },
+  {
+    code: '4.2.b',
+    title: 'Upstream finishing chemicals',
+    description: 'Finishing chemicals — LCA carbon intensity',
+    scope: 'Scope 4',
+    icon: 'ph-flask',
+    color: 'warning'
+  },
+  {
+    code: '4.3',
+    title: 'Water supply',
+    description: 'Purchased water — Defra 2025 EF',
+    scope: 'Scope 4',
+    icon: 'ph-drop',
+    color: 'primary'
+  },
+  {
+    code: '4.4',
+    title: 'Wastewater treatment',
+    description: 'UNIDO factors — wood, diesel, electricity',
+    scope: 'Scope 4',
+    icon: 'ph-wave',
+    color: 'info'
+  },
+  {
+    code: '4.5',
+    title: 'Solid waste transportation',
+    description: 'Sea freight EFs + disposal emissions',
+    scope: 'Scope 4',
+    icon: 'ph-trash',
+    color: 'danger'
+  },
+  {
+    code: '4.6',
+    title: 'Purchased transport services',
+    description: 'Contracted cars & motorcycles — Defra 2024',
+    scope: 'Scope 4',
+    icon: 'ph-car',
+    color: 'success'
+  },
+  {
+    code: '4.7',
+    title: 'Purchased services - job work',
+    description: 'Outsourced production area × 0.6324 MJ/m² × CEA EF',
+    scope: 'Scope 4',
+    icon: 'ph-factory',
+    color: 'secondary'
   }
 ];
 
@@ -215,6 +287,7 @@ export default function CategoryWizard() {
             {scope === 'Scope 1' && 'Direct Emissions'}
             {scope === 'Scope 2' && 'Indirect Emissions (Energy)'}
             {scope === 'Scope 3' && 'Other Indirect Emissions'}
+            {scope === 'Scope 4' && 'Indirect Emissions from Products & Services Used'}
           </h5>
 
           <Row>

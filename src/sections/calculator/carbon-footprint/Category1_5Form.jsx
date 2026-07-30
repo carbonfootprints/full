@@ -52,7 +52,7 @@ export default function Category1_5Form() {
   const fetchCategoryData = async () => {
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const res = await axiosServices.get(`${apiUrl}/api/carbon/category/1.5`);
+      const res = await axiosServices.get(`${apiUrl}/api/carbon/category/1.6`);
       if (res.data.category?.sites?.length > 0) {
         setSites(res.data.category.sites);
         if (res.data.category.calculations) setCalculations(res.data.category.calculations);
@@ -77,11 +77,11 @@ export default function Category1_5Form() {
     setSaving(true);
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const res = await axiosServices.post(`${apiUrl}/api/carbon/category/1.5`, { sites });
+      const res = await axiosServices.post(`${apiUrl}/api/carbon/category/1.6`, { sites });
       if (res.data.category?.calculations) setCalculations(res.data.category.calculations);
       Swal.fire({
         icon: 'success', title: 'Data Saved',
-        text: 'Category 1.5 data saved successfully. Results will be available once reviewed by the administrator.',
+        text: 'Category 1.6 data saved successfully. Results will be available once reviewed by the administrator.',
         timer: 2500
       });
       return true;
@@ -107,7 +107,7 @@ export default function Category1_5Form() {
             <Button variant="outline-secondary" size="sm" onClick={() => navigate('/calculate/carbon-footprint')} className="mb-2">
               <i className="ph ph-arrow-left me-2" />Back to Categories
             </Button>
-            <h4 className="mb-1">Category 1.5 - GHG Sink — Tree Plantation</h4>
+            <h4 className="mb-1">Category 1.6 - GHG Sink — Tree Plantation</h4>
             <p className="text-muted mb-0">Enter the total number of trees planted per site</p>
           </Col>
           <Col xs="auto">
@@ -184,7 +184,7 @@ export default function Category1_5Form() {
             <h5 className="mb-0">
               <i className="ph ph-leaf me-2 text-success" />
               Carbon Sink Results
-              <Badge bg="success" className="ms-2 px-3">Category 1.5</Badge>
+              <Badge bg="success" className="ms-2 px-3">Category 1.6</Badge>
             </h5>
             <Button
               variant={showChart ? 'success' : 'outline-success'}
@@ -195,7 +195,7 @@ export default function Category1_5Form() {
               {showChart ? 'Show Table' : 'Show Chart'}
             </Button>
           </Stack>
-          {showChart && <CategoryChart code="1.5" calculations={calculations} />}
+          {showChart && <CategoryChart code="1.6" calculations={calculations} />}
 
           <Alert variant="light" className="border mb-3 small">
             <strong>Sequestration Factor:</strong> 27.5 kgCO₂e/tree/year (IPCC EFDB EF ID: 328656 — 0.0075 tC/yr × 44/12 × 1,000) &nbsp;|&nbsp;
@@ -232,7 +232,7 @@ export default function Category1_5Form() {
           ))}
 
           <Card className="border-success">
-            <Card.Header className="bg-success text-white fw-semibold">Grand Total — All Sites (Category 1.5)</Card.Header>
+            <Card.Header className="bg-success text-white fw-semibold">Grand Total — All Sites (Category 1.6)</Card.Header>
             <Card.Body className="p-0">
               <Table bordered size="sm" className="mb-0">
                 <thead className="table-light">
