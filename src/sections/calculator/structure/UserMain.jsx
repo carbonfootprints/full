@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import { useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -24,7 +24,7 @@ function UserMain() {
   useEffect(() => {
     const fetchVisit = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/api/admin/structures/${id}/getvisits`);
+        const res = await axiosServices.get(`http://localhost:8000/api/admin/structures/${id}/getvisits`);
 
         const list = res.data?.data || [];
 

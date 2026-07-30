@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 
 // project-imports
 import MainCard from 'components/MainCard';
@@ -62,11 +62,9 @@ export default function OrgUser() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
-      const res = await axios.post(`${API_URL}/api/admin/orgusers`, formData, {
+      const res = await axiosServices.post(`${API_URL}/api/admin/orgusers`, formData, {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          'Content-Type': 'application/json'
         }
       });
 

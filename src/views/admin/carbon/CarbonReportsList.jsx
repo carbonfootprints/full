@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import { Row, Col, Card, CardBody, Table, Badge, Button, Spinner } from 'reactstrap';
 import MainCard from 'components/MainCard';
 
@@ -18,10 +18,7 @@ export default function CarbonReportsList() {
   const fetchCarbonStatus = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const res = await axios.get(`${API_URL}/api/admin/carbon-reports`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${API_URL}/api/admin/carbon-reports`);
       setOrgusers(res.data.orgusers || []);
     } catch (err) {
       console.error('Error fetching carbon reports list:', err);

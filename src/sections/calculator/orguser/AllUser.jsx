@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import { useNavigate } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
@@ -22,17 +22,11 @@ function AllUser() {
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem('token');
-
       // Fetch users
-      const usersRes = await axios.get(`${API_URL}/api/admin/orgusers`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const usersRes = await axiosServices.get(`${API_URL}/api/admin/orgusers`);
 
       // Fetch statistics
-      const statsRes = await axios.get(`${API_URL}/api/admin/orgusers/stats`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const statsRes = await axiosServices.get(`${API_URL}/api/admin/orgusers/stats`);
 
       setUsers(usersRes.data.orgusers || []);
       setStats(statsRes.data.stats || null);
@@ -68,11 +62,9 @@ function AllUser() {
 
       if (!confirm.isConfirmed) return;
 
-      const token = localStorage.getItem('token');
-      const res = await axios.post(
+      const res = await axiosServices.post(
         `${API_URL}/api/admin/orgusers/${user._id}/generate-link`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        {}
       );
 
       const { registrationLink, expiresAt } = res.data;
@@ -154,10 +146,7 @@ function AllUser() {
 
       if (!confirm.isConfirmed) return;
 
-      const token = localStorage.getItem('token');
-      await axios.delete(`${API_URL}/api/admin/orgusers/${user._id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axiosServices.delete(`${API_URL}/api/admin/orgusers/${user._id}`);
 
       Swal.fire({
         icon: 'success',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -11,7 +11,7 @@ function StructureView() {
 
   const fetchStructures = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/admin/structures');
+      const res = await axiosServices.get('http://localhost:8000/api/admin/structures');
       const data = res.data.structures || res.data.data?.structures || res.data;
       setStructures(data);
     } catch (err) {
@@ -62,7 +62,7 @@ function StructureView() {
 
       if (!visitName) return;
 
-      const res = await axios.post(`http://localhost:8000/api/admin/structures/${structure._id}/visits`, { visitName });
+      const res = await axiosServices.post(`http://localhost:8000/api/admin/structures/${structure._id}/visits`, { visitName });
 
       const newVisit = res.data.visit;
 

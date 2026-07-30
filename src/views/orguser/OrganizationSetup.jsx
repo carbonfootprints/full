@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import { Row, Col, Card, CardBody, Form, FormGroup, Label, Input, Button, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import MainCard from 'components/MainCard';
@@ -51,10 +51,7 @@ const OrganizationSetup = () => {
 
   const fetchOrganizationDetails = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/api/orguser/organization-details`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axiosServices.get(`${API_URL}/api/orguser/organization-details`);
 
       const details = response.data.organizationDetails;
       setOrganizationDetails(details);
@@ -174,10 +171,7 @@ const OrganizationSetup = () => {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.put(`${API_URL}/api/orguser/organization-details`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axiosServices.put(`${API_URL}/api/orguser/organization-details`, formData);
 
       Swal.fire({
         icon: 'success',

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import { Form, Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ function CategoryForm({ categories: initialCategories }) {
       if (!initialCategories) {
         setLoading(true);
         try {
-          const res = await axios.get(`http://localhost:8000/api/admin/structures/${id}/getvisits`);
+          const res = await axiosServices.get(`http://localhost:8000/api/admin/structures/${id}/getvisits`);
           const visit = res.data?.data?.data?.[0];
           if (visit?.categories) {
             setCategories(visit.categories);
@@ -38,7 +38,7 @@ function CategoryForm({ categories: initialCategories }) {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:8000/api/admin/visits/${id}/updateCategories`, {
+      await axiosServices.put(`http://localhost:8000/api/admin/visits/${id}/updateCategories`, {
         dataValues: formData
       });
 

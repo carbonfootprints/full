@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // react-bootstrap
@@ -151,15 +151,10 @@ export default function CategoryWizard() {
 
   const fetchCategoryStatus = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
       // Fetch status of all categories
-      const res = await axios.get(`${apiUrl}/api/carbon/categories/status`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axiosServices.get(`${apiUrl}/api/carbon/categories/status`);
 
       setCategoryStatus(res.data.status || {});
     } catch (error) {

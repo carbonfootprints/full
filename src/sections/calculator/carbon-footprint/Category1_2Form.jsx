@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // react-bootstrap
@@ -19,6 +19,7 @@ import Tab from 'react-bootstrap/Tab';
 // project-imports
 import MainCard from 'components/MainCard';
 import ResultsPendingCard from 'components/ResultsPendingCard';
+import CategoryChart from 'components/CategoryChart';
 import useResultsReleased from 'hooks/useResultsReleased';
 import { getCurrentFinancialYearMonths } from 'utils/reportingPeriod';
 
@@ -32,6 +33,7 @@ export default function Category1_2Form() {
   const [activeSiteIndex, setActiveSiteIndex] = useState(0);
   const [saving, setSaving] = useState(false);
   const [calculations, setCalculations] = useState(null);
+  const [showChart, setShowChart] = useState(false);
   const resultsReleased = useResultsReleased();
 
   useEffect(() => {
@@ -41,11 +43,8 @@ export default function Category1_2Form() {
 
   const initFromOrgSites = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const res = await axios.get(`${apiUrl}/api/orguser/organization-details`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${apiUrl}/api/orguser/organization-details`);
       const orgSites = (res.data.organizationDetails?.sites || []).filter(s => s.isActive);
       if (orgSites.length > 0) {
         setSites(orgSites.map(s => ({
@@ -72,14 +71,9 @@ export default function Category1_2Form() {
 
   const fetchCategoryData = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-      const res = await axios.get(`${apiUrl}/api/carbon/category/1.2`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axiosServices.get(`${apiUrl}/api/carbon/category/1.2`);
 
       if (res.data.category && res.data.category.sites && res.data.category.sites.length > 0) {
         setSites(res.data.category.sites);
@@ -122,13 +116,11 @@ export default function Category1_2Form() {
 
     setSaving(true);
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-      const res = await axios.post(
+      const res = await axiosServices.post(
         `${apiUrl}/api/carbon/category/1.2`,
-        { sites },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { sites }
       );
 
       if (res.data.category?.calculations) setCalculations(res.data.category.calculations);
@@ -267,11 +259,22 @@ export default function Category1_2Form() {
       {calculations && !resultsReleased && <ResultsPendingCard />}
       {calculations && resultsReleased && (
         <MainCard className="mt-3">
-          <h5 className="mb-3">
-            <i className="ph ph-chart-bar me-2 text-success" />
-            CO₂e Emission Results
-            <Badge bg="success" className="ms-2 px-3">Category 1.2</Badge>
-          </h5>
+          <Stack direction="horizontal" className="justify-content-between align-items-center mb-3">
+            <h5 className="mb-0">
+              <i className="ph ph-chart-bar me-2 text-success" />
+              CO₂e Emission Results
+              <Badge bg="success" className="ms-2 px-3">Category 1.2</Badge>
+            </h5>
+            <Button
+              variant={showChart ? 'success' : 'outline-success'}
+              size="sm"
+              onClick={() => setShowChart((v) => !v)}
+            >
+              <i className={`ph ${showChart ? 'ph-table' : 'ph-chart-bar'} me-1`} />
+              {showChart ? 'Show Table' : 'Show Chart'}
+            </Button>
+          </Stack>
+          {showChart && <CategoryChart code="1.2" calculations={calculations} />}
 
           <Alert variant="light" className="border mb-3 small">
             <strong>IPCC Emission Factors Used:</strong>

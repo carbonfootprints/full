@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import { Row, Col, Nav, NavItem, NavLink, TabContent, TabPane, Badge } from 'reactstrap';
 import MainCard from 'components/MainCard';
@@ -37,10 +37,7 @@ const CarbonFootprintData = () => {
   const fetchOrganizationDetails = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/api/orguser/organization-details`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axiosServices.get(`${API_URL}/api/orguser/organization-details`);
 
       const details = response.data.organizationDetails;
       setOrganizationDetails(details);

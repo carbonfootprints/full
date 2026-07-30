@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -17,7 +17,7 @@ function Visit() {
 
   const fetchVisits = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/admin/structures/${structureId}/getvisits`);
+      const res = await axiosServices.get(`http://localhost:8000/api/admin/structures/${structureId}/getvisits`);
       console.log('Visits Response:', res.data);
 
       // ✅ Correct path to your visit array
@@ -57,7 +57,7 @@ function Visit() {
     if (!result.isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}`);
+      await axiosServices.delete(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}`);
       Swal.fire('Deleted!', 'Visit deleted successfully.', 'success');
       fetchVisits();
     } catch (err) {
@@ -84,7 +84,7 @@ function Visit() {
 
       if (!visitData._id) {
         // Create new visit template
-        await axios.post(`http://localhost:8000/api/admin/structures/${structureId}/visits`, {
+        await axiosServices.post(`http://localhost:8000/api/admin/structures/${structureId}/visits`, {
           dataTemplate: filledTemplate,
           dataValues: {}, // user will fill later
           status: visitData.status || 'pending'
@@ -92,7 +92,7 @@ function Visit() {
         Swal.fire('Created!', 'Visit template created successfully.', 'success');
       } else {
         // Update existing visit template
-        await axios.put(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitData._id}`, {
+        await axiosServices.put(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitData._id}`, {
           dataTemplate: filledTemplate,
           dataValues: {}
         });

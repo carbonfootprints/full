@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -107,7 +107,7 @@ export default function ListTable() {
   -----------------------------------------------------------*/
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/admin/structures');
+      const res = await axiosServices.get('http://localhost:8000/api/admin/structures');
 
       const structures = res.data.structures || res.data.data?.structures || [];
 
@@ -172,7 +172,7 @@ export default function ListTable() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:8000/api/admin/structures/${row.structureId}/visits/${row.visitId}`);
+          await axiosServices.delete(`http://localhost:8000/api/admin/structures/${row.structureId}/visits/${row.visitId}`);
 
           Swal.fire('Deleted!', 'Visit has been deleted.', 'success');
 

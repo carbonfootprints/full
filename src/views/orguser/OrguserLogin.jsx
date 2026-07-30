@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // react-bootstrap
@@ -49,7 +49,7 @@ const OrguserLogin = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/api/orguser/login`, formData);
+      const response = await axiosServices.post(`${API_URL}/api/orguser/login`, formData);
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);

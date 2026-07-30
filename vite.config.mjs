@@ -68,11 +68,27 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      chunkSizeWarningLimit: 1600,
+      // No chunkSizeWarningLimit override — warnings at the default 500 KB are intentional
+      // so that oversized bundles are caught early. Fix them with lazy imports, not silence.
       rollupOptions: {
         input: {
           main: resolvePath("index.html"),
-          legacy: resolvePath("index.html"),
+        },
+        output: {
+          // Manual code-splitting: heavy libraries get their own chunk so they are
+          // only loaded when the route that needs them is visited.
+          manualChunks: {
+            // Charting libraries
+            charts: ['apexcharts', 'react-apexcharts', 'chart.js', 'react-chartjs-2'],
+            // Calendar
+            calendar: ['@fullcalendar/core', '@fullcalendar/react', '@fullcalendar/daygrid', '@fullcalendar/timegrid', '@fullcalendar/interaction'],
+            // PDF generation
+            pdf: ['jspdf', 'jspdf-autotable'],
+            // Animation
+            motion: ['framer-motion'],
+            // Core React + routing
+            vendor: ['react', 'react-dom', 'react-router-dom'],
+          },
         },
       },
     },

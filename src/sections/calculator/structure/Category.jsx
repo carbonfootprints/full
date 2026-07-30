@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -20,7 +20,7 @@ function Category() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories`);
+      const response = await axiosServices.get(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories`);
       setCategories(response.data?.categories || []);
       setCurrentCategories(response.data?.categories || []);
       setParentCategory(null); // start at top-level
@@ -47,7 +47,7 @@ function Category() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories/${categoryId}`);
+          await axiosServices.delete(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories/${categoryId}`);
           fetchCategories();
           Swal.fire('Deleted!', 'The category has been deleted.', 'success');
         } catch (err) {
@@ -85,7 +85,7 @@ function Category() {
     try {
       if (isTemplate) {
         // Template update
-        const response = await axios.put(
+        const response = await axiosServices.put(
           `http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories/${categoryData._id}/template`,
           { dataTemplate: categoryData.dataTemplate || categoryData.dataValues }
         );
@@ -94,7 +94,7 @@ function Category() {
       } else {
         if (categoryData._id) {
           // Edit existing category
-          await axios.put(
+          await axiosServices.put(
             `http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories/${categoryData._id}`,
             categoryData
           );
@@ -103,14 +103,14 @@ function Category() {
           // New category
           if (parentCategory) {
             // If adding under a parent, call addSubCategory route
-            await axios.post(
+            await axiosServices.post(
               `http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories/${parentCategory._id}`,
               { name: categoryData.name }
             );
             Swal.fire('Created!', 'Subcategory added successfully.', 'success');
           } else {
             // Normal category creation
-            await axios.post(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories`, categoryData);
+            await axiosServices.post(`http://localhost:8000/api/admin/structures/${structureId}/visits/${visitId}/categories`, categoryData);
             Swal.fire('Created!', 'Category created successfully.', 'success');
           }
         }

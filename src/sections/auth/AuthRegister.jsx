@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 
 // react-bootstrap
 import Button from 'react-bootstrap/Button';
@@ -62,7 +62,7 @@ export default function AuthRegisterForm({ className, link }) {
     try {
       setSubmitting(true);
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      await axios.post(`${apiUrl}/api/auth/register`, {
+      await axiosServices.post(`${apiUrl}/api/auth/register`, {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,

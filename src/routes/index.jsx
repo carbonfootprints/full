@@ -1,21 +1,13 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-// project-imports
+// product routes only — template demos removed
 import AdminPanelRoutes from './AdminPanelRoutes';
-import ApplicationRoutes from './ApplicationRoutes';
-import ChartMapRoutes from './ChartMapRoutes';
-import ComponentsRoutes from './ComponentsRoutes';
-import FormsRoutes from './FormsRoutes';
-import OtherRoutes from './OtherRoutes';
-import PagesRoutes from './PagesRoutes';
-import NavigationRoutes from './NavigationRoutes';
-import TablesRoutes from './TablesRoutes';
+import CalculatorRoutes from './CalculatorRoutes';
+import OrguserRoutes from './OrguserRoutes';
 
 import Loadable from 'components/Loadable';
 import SimpleLayout from 'layout/Simple';
-import CalculatorRoutes from './CalculatorRoutes';
-import OrguserRoutes from './OrguserRoutes';
 
 const PagesLanding = Loadable(lazy(() => import('../views/Landing')));
 
@@ -37,17 +29,9 @@ const router = createBrowserRouter(
         }
       ]
     },
-    ApplicationRoutes,
-    CalculatorRoutes,
     AdminPanelRoutes,
+    CalculatorRoutes,
     OrguserRoutes,
-    NavigationRoutes,
-    ComponentsRoutes,
-    FormsRoutes,
-    TablesRoutes,
-    PagesRoutes,
-    OtherRoutes,
-    ChartMapRoutes
   ],
   {
     basename: import.meta.env.VITE_APP_BASE_NAME

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import { Row, Col, Card, Form, FormGroup, Label, Input, Button, Progress } from 'reactstrap';
 
@@ -32,7 +32,7 @@ const OrguserRegistration = () => {
 
   const verifyToken = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/orguser/register/verify/${token}`);
+      const response = await axiosServices.get(`${API_URL}/api/orguser/register/verify/${token}`);
 
       if (response.data.status === 200) {
         setIsValidToken(true);
@@ -109,7 +109,7 @@ const OrguserRegistration = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_URL}/api/orguser/register/${token}`, {
+      const response = await axiosServices.post(`${API_URL}/api/orguser/register/${token}`, {
         ...formData,
         numberOfEmployees: parseInt(formData.numberOfEmployees),
         numberOfSites: parseInt(formData.numberOfSites)

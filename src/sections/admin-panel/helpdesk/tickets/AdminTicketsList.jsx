@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // react-bootstrap
@@ -35,7 +35,6 @@ export default function AdminTicketsList() {
 
   const fetchTickets = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
       let url = `${apiUrl}/api/tickets/admin/all`;
@@ -48,11 +47,7 @@ export default function AdminTicketsList() {
         url += `?${params.toString()}`;
       }
 
-      const res = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axiosServices.get(url);
 
       setTickets(res.data.tickets || []);
     } catch (error) {
@@ -69,14 +64,9 @@ export default function AdminTicketsList() {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-      const res = await axios.get(`${apiUrl}/api/tickets/admin/stats`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axiosServices.get(`${apiUrl}/api/tickets/admin/stats`);
 
       setStats(res.data.stats);
     } catch (error) {
@@ -102,14 +92,9 @@ export default function AdminTicketsList() {
 
     if (result.isConfirmed) {
       try {
-        const token = localStorage.getItem('token');
         const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-        await axios.delete(`${apiUrl}/api/tickets/${ticketId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        await axiosServices.delete(`${apiUrl}/api/tickets/${ticketId}`);
 
         Swal.fire('Deleted!', 'Ticket has been deleted.', 'success');
         fetchTickets();

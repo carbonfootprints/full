@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // react-bootstrap
@@ -36,14 +36,9 @@ export default function AdminTicketDetails() {
 
   const fetchTicket = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-      const res = await axios.get(`${apiUrl}/api/tickets/${ticketId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axiosServices.get(`${apiUrl}/api/tickets/${ticketId}`);
 
       setTicket(res.data.ticket);
       setSelectedStatus(res.data.ticket.status);
@@ -74,17 +69,11 @@ export default function AdminTicketDetails() {
     setSubmitting(true);
 
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-      const res = await axios.post(
+      const res = await axiosServices.post(
         `${apiUrl}/api/tickets/${ticketId}/reply`,
-        { message: replyMessage },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+        { message: replyMessage }
       );
 
       Swal.fire({
@@ -109,17 +98,11 @@ export default function AdminTicketDetails() {
 
   const handleStatusChange = async (newStatus) => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-      await axios.put(
+      await axiosServices.put(
         `${apiUrl}/api/tickets/${ticketId}/status`,
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+        { status: newStatus }
       );
 
       setSelectedStatus(newStatus);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // react-bootstrap
@@ -17,10 +17,6 @@ import Stack from 'react-bootstrap/Stack';
 import MainCard from 'components/MainCard';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
-const authHeaders = () => ({
-  Authorization: `Bearer ${localStorage.getItem('token')}`
-});
 
 // ==============================|| ORGUSER - EMISSION GOALS ||============================== //
 
@@ -45,7 +41,7 @@ export default function EmissionGoals() {
   const fetchGoals = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_URL}/api/orguser/goals`, { headers: authHeaders() });
+      const res = await axiosServices.get(`${API_URL}/api/orguser/goals`);
       setGoals(res.data.goals || []);
     } catch {
       // Goals endpoint may not exist yet — show empty state
@@ -63,7 +59,7 @@ export default function EmissionGoals() {
     }
     try {
       setSaving(true);
-      await axios.post(`${API_URL}/api/orguser/goals`, form, { headers: authHeaders() });
+      await axiosServices.post(`${API_URL}/api/orguser/goals`, form);
       setShowModal(false);
       setForm({ title: '', targetYear: new Date().getFullYear() + 1, baselineYear: new Date().getFullYear() - 1, baselineEmissions: '', targetReductionPct: '', notes: '' });
       fetchGoals();
@@ -79,7 +75,7 @@ export default function EmissionGoals() {
     const result = await Swal.fire({ icon: 'warning', title: 'Delete Goal?', text: 'This cannot be undone.', showCancelButton: true, confirmButtonText: 'Delete', confirmButtonColor: '#d33' });
     if (!result.isConfirmed) return;
     try {
-      await axios.delete(`${API_URL}/api/orguser/goals/${id}`, { headers: authHeaders() });
+      await axiosServices.delete(`${API_URL}/api/orguser/goals/${id}`);
       fetchGoals();
     } catch {
       Swal.fire({ icon: 'error', title: 'Error', text: 'Failed to delete goal.' });

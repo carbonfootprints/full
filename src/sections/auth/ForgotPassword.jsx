@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 // react-bootstrap
@@ -52,7 +52,7 @@ export default function ForgotPasswordForm({ className, loginLink }) {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const res = await axios.post(`${apiUrl}/api/user/forgot-password`, data);
+      const res = await axiosServices.post(`${apiUrl}/api/user/forgot-password`, data);
 
       if (res.data.message) {
         setSuccess(res.data.message);

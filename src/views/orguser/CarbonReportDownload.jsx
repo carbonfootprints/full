@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import { Row, Col, Card, CardBody, Button, Badge, Spinner, Alert } from 'reactstrap';
 import MainCard from 'components/MainCard';
@@ -29,10 +29,7 @@ const CarbonReportDownload = () => {
   const fetchReportStatus = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const res = await axios.get(`${API_URL}/api/orguser/report-status`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${API_URL}/api/orguser/report-status`);
       setReportStatus(res.data);
     } catch (error) {
       if (error.response?.status === 401) {
@@ -47,10 +44,7 @@ const CarbonReportDownload = () => {
   const handleDownload = async (format) => {
     setDownloading(true);
     try {
-      const token = localStorage.getItem('token');
-      const res = await axios.get(`${API_URL}/api/orguser/report-data`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${API_URL}/api/orguser/report-data`);
 
       const { orguser, categories, scopeTotals } = res.data;
 

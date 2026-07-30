@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import {
   Row,
@@ -42,10 +42,7 @@ const OrgusersList = () => {
   const fetchOrgusers = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/api/admin/orgusers`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axiosServices.get(`${API_URL}/api/admin/orgusers`);
 
       setOrgusers(response.data.orgusers);
     } catch (error) {
@@ -58,10 +55,7 @@ const OrgusersList = () => {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/api/admin/orgusers/stats`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axiosServices.get(`${API_URL}/api/admin/orgusers/stats`);
 
       setStats(response.data.stats);
     } catch (error) {
@@ -73,10 +67,7 @@ const OrgusersList = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(`${API_URL}/api/admin/orgusers`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axiosServices.post(`${API_URL}/api/admin/orgusers`, formData);
 
       Swal.fire('Success', response.data.message, 'success');
       setShowCreateModal(false);
@@ -90,11 +81,9 @@ const OrgusersList = () => {
 
   const handleGenerateLink = async (orguserId, email) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
+      const response = await axiosServices.post(
         `${API_URL}/api/admin/orgusers/${orguserId}/generate-link`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        {}
       );
 
       const { registrationLink, expiresAt } = response.data;
@@ -136,10 +125,7 @@ const OrgusersList = () => {
 
     if (result.isConfirmed) {
       try {
-        const token = localStorage.getItem('token');
-        await axios.delete(`${API_URL}/api/admin/orgusers/${orguserId}`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await axiosServices.delete(`${API_URL}/api/admin/orgusers/${orguserId}`);
 
         Swal.fire('Deleted!', 'Organization user has been deleted.', 'success');
         fetchOrgusers();

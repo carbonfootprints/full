@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -17,7 +17,7 @@ function Structure() {
   const navigate = useNavigate();
 
   const fetchStructures = () => {
-    axios
+    axiosServices
       .get('http://localhost:8000/api/admin/structures')
       .then((response) => setStructures(response.data.structures))
       .catch((error) => console.error('Error fetching structures:', error));
@@ -38,7 +38,7 @@ function Structure() {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        axiosServices
           .delete(`http://localhost:8000/api/admin/structures/${id}`)
           .then(() => {
             fetchStructures();
@@ -74,10 +74,10 @@ function Structure() {
   const handleSave = async (data) => {
     try {
       if (data._id) {
-        const response = await axios.put(`http://localhost:8000/api/admin/structures/${data._id}`, data);
+        const response = await axiosServices.put(`http://localhost:8000/api/admin/structures/${data._id}`, data);
         console.log('Updated structure:', response.data);
       } else {
-        const response = await axios.post('http://localhost:8000/api/admin/structures', data);
+        const response = await axiosServices.post('http://localhost:8000/api/admin/structures', data);
         console.log('Created structure:', response.data);
       }
 

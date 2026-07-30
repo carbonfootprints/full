@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import Nav from 'react-bootstrap/Nav';
 import Stack from 'react-bootstrap/Stack';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // project-imports
@@ -112,9 +112,7 @@ export default function Header() {
 
       // Call logout API
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      await axios.post(`${apiUrl}/api/user/logout`, null, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
+      await axiosServices.post(`${apiUrl}/api/user/logout`, null);
 
       // Clear all localStorage
       localStorage.clear();

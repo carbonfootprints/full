@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -14,10 +14,8 @@ export default function useResultsReleased() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    axios
-      .get(`${API_URL}/api/orguser/report-status`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+    axiosServices
+      .get(`${API_URL}/api/orguser/report-status`)
       .then((res) => {
         setResultsReleased(res.data?.reportVisible === true);
       })

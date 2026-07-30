@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import {
   Row, Col, Card, CardBody, CardHeader, Table, Badge,
@@ -32,10 +32,7 @@ export default function CarbonReportDetail() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const res = await axios.get(`${API_URL}/api/admin/orgusers/${id}/carbon-data`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${API_URL}/api/admin/orgusers/${id}/carbon-data`);
       setData(res.data);
     } catch (err) {
       console.error('Error fetching carbon data:', err);
@@ -63,10 +60,7 @@ export default function CarbonReportDetail() {
 
     try {
       setToggling(true);
-      const token = localStorage.getItem('token');
-      const res = await axios.post(`${API_URL}/api/admin/orgusers/${id}/toggle-visibility`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.post(`${API_URL}/api/admin/orgusers/${id}/toggle-visibility`, {});
       Swal.fire('Done!', res.data.message, 'success');
       fetchData();
     } catch (err) {
@@ -79,10 +73,7 @@ export default function CarbonReportDetail() {
   const handleRecalculate = async () => {
     try {
       setRecalculating(true);
-      const token = localStorage.getItem('token');
-      await axios.post(`${API_URL}/api/admin/orgusers/${id}/recalculate`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await axiosServices.post(`${API_URL}/api/admin/orgusers/${id}/recalculate`, {});
       Swal.fire('Done!', 'All categories recalculated successfully.', 'success');
       fetchData();
     } catch (err) {

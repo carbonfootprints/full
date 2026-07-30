@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import { Row, Col, Card, CardBody, Button, Badge, Progress, Alert } from 'reactstrap';
 import MainCard from 'components/MainCard';
@@ -38,10 +38,7 @@ const OrguserDashboard = () => {
   const fetchOrganizationDetails = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/api/orguser/organization-details`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axiosServices.get(`${API_URL}/api/orguser/organization-details`);
 
       setOrganizationDetails(response.data.organizationDetails);
     } catch (error) {
@@ -59,10 +56,7 @@ const OrguserDashboard = () => {
 
   const fetchReportStatus = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/orguser/report-status`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/orguser/report-status`);
       setReportStatus(res.data);
     } catch {
       // silently ignore

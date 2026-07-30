@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import VisitShowTemplate from './VisitShowTemplate';
 
@@ -19,7 +19,7 @@ function VisitForm({ structureId, visitId, enableCategories }) {
   useEffect(() => {
     const fetchVisit = async () => {
       try {
-        const res = await axios.get(`http://localhost:8000/api/admin/structures/${structureId}/getvisits`);
+        const res = await axiosServices.get(`http://localhost:8000/api/admin/structures/${structureId}/getvisits`);
 
         const visitList = res.data?.data?.data || res.data?.data || [];
 
@@ -86,7 +86,7 @@ function VisitForm({ structureId, visitId, enableCategories }) {
         status: 'pending'
       };
 
-      await axios.put(`http://localhost:8000/api/admin/structures/${structureId}/visits/${existingVisit._id}`, updatedData);
+      await axiosServices.put(`http://localhost:8000/api/admin/structures/${structureId}/visits/${existingVisit._id}`, updatedData);
 
       Swal.fire({
         icon: 'success',

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 import Button from 'react-bootstrap/Button';
@@ -17,6 +17,7 @@ import Tab from 'react-bootstrap/Tab';
 
 import MainCard from 'components/MainCard';
 import ResultsPendingCard from 'components/ResultsPendingCard';
+import CategoryChart from 'components/CategoryChart';
 import useResultsReleased from 'hooks/useResultsReleased';
 
 // UK Govt GHG Conversion Factors 2025 — Freight goods by sea
@@ -43,17 +44,15 @@ export default function Category3_5_2Form() {
   const [activeSiteIndex, setActiveSiteIndex] = useState(0);
   const [saving, setSaving] = useState(false);
   const [calculations, setCalculations] = useState(null);
+  const [showChart, setShowChart] = useState(false);
   const resultsReleased = useResultsReleased();
 
   useEffect(() => { fetchCategoryData(); }, []);
 
   const initFromOrgSites = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const res = await axios.get(`${apiUrl}/api/orguser/organization-details`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${apiUrl}/api/orguser/organization-details`);
       const orgSites = (res.data.organizationDetails?.sites || []).filter((s) => s.isActive);
       setSites(orgSites.length > 0 ? orgSites.map((s) => newSite(s.siteName)) : [newSite()]);
       setActiveSiteIndex(0);
@@ -64,11 +63,8 @@ export default function Category3_5_2Form() {
 
   const fetchCategoryData = async () => {
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const res = await axios.get(`${apiUrl}/api/carbon/category/3.5.2`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.get(`${apiUrl}/api/carbon/category/3.5.2`);
       if (res.data.category?.sites?.length > 0) {
         setSites(res.data.category.sites);
         if (res.data.category.calculations) setCalculations(res.data.category.calculations);
@@ -111,11 +107,8 @@ export default function Category3_5_2Form() {
     }
     setSaving(true);
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-      const res = await axios.post(`${apiUrl}/api/carbon/category/3.5.2`, { sites }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axiosServices.post(`${apiUrl}/api/carbon/category/3.5.2`, { sites });
       if (res.data.category?.calculations) setCalculations(res.data.category.calculations);
       Swal.fire({
         icon: 'success', title: 'Data Saved',
@@ -269,11 +262,22 @@ export default function Category3_5_2Form() {
       {calculations && !resultsReleased && <ResultsPendingCard />}
       {calculations && resultsReleased && (
         <MainCard className="mt-3">
-          <h5 className="mb-3">
-            <i className="ph ph-chart-bar me-2 text-success" />
-            CO₂e Emission Results
-            <Badge bg="success" className="ms-2 px-3">Category 3.5.2</Badge>
-          </h5>
+          <Stack direction="horizontal" className="justify-content-between align-items-center mb-3">
+            <h5 className="mb-0">
+              <i className="ph ph-chart-bar me-2 text-success" />
+              CO₂e Emission Results
+              <Badge bg="success" className="ms-2 px-3">Category 3.5.2</Badge>
+            </h5>
+            <Button
+              variant={showChart ? 'success' : 'outline-success'}
+              size="sm"
+              onClick={() => setShowChart((v) => !v)}
+            >
+              <i className={`ph ${showChart ? 'ph-table' : 'ph-chart-bar'} me-1`} />
+              {showChart ? 'Show Table' : 'Show Chart'}
+            </Button>
+          </Stack>
+          {showChart && <CategoryChart code="3.5.2" calculations={calculations} />}
 
           <Alert variant="light" className="border mb-3 small">
             <strong>EFs:</strong> CO₂ 0.01592 + N₂O 0.00019 = 0.01611 kg/t·km &nbsp;|&nbsp;

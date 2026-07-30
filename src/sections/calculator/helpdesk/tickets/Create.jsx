@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,17 +45,11 @@ export default function Create() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-      const res = await axios.post(
+      const res = await axiosServices.post(
         `${apiUrl}/api/tickets/create`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+        formData
       );
 
       if (res.data.status === 201) {

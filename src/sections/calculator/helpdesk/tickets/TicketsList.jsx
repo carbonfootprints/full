@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosServices from 'utils/axios';
 import Swal from 'sweetalert2';
 
 // react-bootstrap
@@ -56,11 +56,7 @@ export default function TicketsList() {
 
       console.log('API URL:', url);
 
-      const res = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axiosServices.get(url);
 
       console.log('✅ Tickets fetched:', res.data.tickets?.length || 0, 'tickets');
       if (res.data.tickets && res.data.tickets.length > 0) {
