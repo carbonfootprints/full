@@ -135,7 +135,7 @@ export default function Category1_5Form() {
                 <Col md={6}>
                   <Form.Group>
                     <Form.Label>Site Name <span className="text-danger">*</span></Form.Label>
-                    <Form.Control type="text" placeholder="e.g., BAB Pernambut" value={site.siteName}
+                    <Form.Control type="text" placeholder="Enter site name" value={site.siteName}
                       onChange={(e) => updateSite(si, 'siteName', e.target.value)} />
                   </Form.Group>
                 </Col>

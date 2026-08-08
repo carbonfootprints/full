@@ -51,7 +51,7 @@ export default function Category4_7Form() {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-  const [sites, setSites] = useState([makeSite('Pernambut')]);
+  const [sites, setSites] = useState([makeSite('')]);
   const [saving, setSaving] = useState(false);
   const [existing, setExisting] = useState(false);
 
@@ -140,7 +140,7 @@ export default function Category4_7Form() {
 
     try {
       await axiosServices.delete(`${apiUrl}/api/carbon/category/4.7`);
-      setSites([makeSite('Pernambut')]);
+      setSites([makeSite('')]);
       setExisting(false);
       Swal.fire({ icon: 'success', title: 'Cleared', text: 'Category 4.7 data removed.' });
     } catch {

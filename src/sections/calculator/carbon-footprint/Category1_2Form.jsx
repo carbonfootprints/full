@@ -202,7 +202,7 @@ export default function Category1_2Form() {
                     </Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="e.g., BAB Pernambut"
+                      placeholder="Enter site name"
                       value={site.siteName}
                       onChange={(e) => handleSiteNameChange(index, e.target.value)}
                     />

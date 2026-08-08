@@ -38,7 +38,7 @@ export default function Category4_2aForm() {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-  const [sites, setSites] = useState([makeSite('BAB Pernambut')]);
+  const [sites, setSites] = useState([makeSite('')]);
   const [saving, setSaving] = useState(false);
   const [existing, setExisting] = useState(false);
 
@@ -156,7 +156,7 @@ export default function Category4_2aForm() {
 
     try {
       await axiosServices.delete(`${apiUrl}/api/carbon/category/4.2.a`);
-      setSites([makeSite('BAB Pernambut')]);
+      setSites([makeSite('')]);
       setExisting(false);
       Swal.fire({ icon: 'success', title: 'Cleared', text: 'Category 4.2.a data removed.' });
     } catch {
@@ -182,7 +182,7 @@ export default function Category4_2aForm() {
               <div>
                 <h4 className="mb-1">Category 4.2.a — Upstream Chemicals</h4>
                 <p className="text-muted mb-0 small">
-                  Pernambut site · LCA-based EF: {CHEMICAL_EF} kg CO₂e/kg
+                  LCA-based EF: {CHEMICAL_EF} kg CO₂e/kg
                 </p>
               </div>
             </div>
@@ -240,7 +240,7 @@ export default function Category4_2aForm() {
                 <Form.Control
                   size="sm"
                   style={{ maxWidth: 260 }}
-                  placeholder="Site name (e.g. BAB Pernambut)"
+                  placeholder="Enter site name"
                   value={site.siteName}
                   onChange={(e) => updateSiteName(sIdx, e.target.value)}
                 />

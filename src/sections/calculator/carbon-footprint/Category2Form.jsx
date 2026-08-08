@@ -180,7 +180,7 @@ export default function Category2Form() {
                   <Form.Group>
                     <Form.Label>Site Name <span className="text-danger">*</span></Form.Label>
                     <Form.Control
-                      type="text" placeholder="e.g., BAB Pernambut" value={site.siteName}
+                      type="text" placeholder="Enter site name" value={site.siteName}
                       onChange={(e) => {
                         const next = [...sites]; next[si].siteName = e.target.value; setSites(next);
                       }}

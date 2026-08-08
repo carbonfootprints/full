@@ -54,7 +54,7 @@ export default function Category4_3Form() {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-  const [siteName, setSiteName] = useState('BAB Pernambut');
+  const [siteName, setSiteName] = useState('');
   const [tankerRows, setTankerRows] = useState(MONTHS.map(makeTankerRow));
   const [drinkingRows, setDrinkingRows] = useState(MONTHS.map(makeDrinkingRow));
   const [recoveredRows, setRecoveredRows] = useState(MONTHS.map(makeRecoveredRow));
@@ -72,7 +72,7 @@ export default function Category4_3Form() {
       const res = await axiosServices.get(`${apiUrl}/api/carbon/category/4.3`);
       if (res.data?.category?.sites?.length) {
         const site = res.data.category.sites[0];
-        setSiteName(site.siteName || 'BAB Pernambut');
+        setSiteName(site.siteName || '');
 
         if (site.tankerWaterEntries?.length) {
           setTankerRows(
@@ -216,7 +216,7 @@ export default function Category4_3Form() {
               <div>
                 <h4 className="mb-1">Category 4.3 — Water Supply</h4>
                 <p className="text-muted mb-0 small">
-                  Pernambut site · Defra 2025 EF: 0.15311 kg CO₂e/m³
+                  Defra 2025 EF: 0.15311 kg CO₂e/m³
                 </p>
               </div>
             </div>
@@ -271,7 +271,7 @@ export default function Category4_3Form() {
               <Form.Control
                 value={siteName}
                 onChange={e => setSiteName(e.target.value)}
-                placeholder="e.g. BAB Pernambut"
+                placeholder="Enter site name"
               />
             </Col>
           </Form.Group>

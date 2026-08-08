@@ -129,7 +129,7 @@ export default function Category3_3_1Form() {
             <Button variant="outline-secondary" size="sm" onClick={() => navigate('/calculate/carbon-footprint')} className="mb-2">
               <i className="ph ph-arrow-left me-2" />Back to Categories
             </Button>
-            <h4 className="mb-1">Category 3.3.1 - Upstream Road Transportation (Chemicals to Pernambut)</h4>
+            <h4 className="mb-1">Category 3.3.1 — Upstream Road Transportation (Chemicals)</h4>
             <p className="text-muted mb-0">Incoming chemical consignment data — weight × distance = t·km → CO₂e</p>
           </Col>
           <Col xs="auto">
@@ -162,7 +162,7 @@ export default function Category3_3_1Form() {
                     <Form.Group>
                       <Form.Label>Site Name <span className="text-danger">*</span></Form.Label>
                       <Form.Control
-                        type="text" placeholder="e.g., BAB Pernambut" value={site.siteName}
+                        type="text" placeholder="Enter site name" value={site.siteName}
                         onChange={(e) => {
                           const next = [...sites]; next[si].siteName = e.target.value; setSites(next);
                         }}

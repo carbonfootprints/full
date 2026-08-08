@@ -23,6 +23,7 @@ const DashboardMain = Loadable(lazy(() => import('views/pages/helpdesk/Dashboard
 
 // render - carbon footprint calculator pages
 const CategoryWizard = Loadable(lazy(() => import('sections/calculator/carbon-footprint/CategoryWizard')));
+const GHGReport = Loadable(lazy(() => import('sections/calculator/carbon-footprint/GHGReport')));
 const Category1_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_1Form')));
 const Category1_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_2Form')));
 const Category1_3Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category1_3Form')));
@@ -41,6 +42,8 @@ const Category3_2_3aForm = Loadable(lazy(() => import('sections/calculator/carbo
 const Category3_2_3bForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_2_3bForm')));
 const Category3_6Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category3_6Form')));
 const Category4_7Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_7Form')));
+const Category5_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category5_1Form')));
+const Category5_2Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category5_2Form')));
 const Category4_1Form = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_1Form')));
 const Category4_2aForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_2aForm')));
 const Category4_2bForm = Loadable(lazy(() => import('sections/calculator/carbon-footprint/Category4_2bForm')));
@@ -225,6 +228,18 @@ const CalculatorRoutes = {
                 {
                   path: 'category/4.7',
                   element: <Category4_7Form />
+                },
+                {
+                  path: 'category/5.1',
+                  element: <Category5_1Form />
+                },
+                {
+                  path: 'category/5.2',
+                  element: <Category5_2Form />
+                },
+                {
+                  path: 'report',
+                  element: <GHGReport />
                 }
               ]
             },
