@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
+import Modal from 'react-bootstrap/Modal';
 import Nav from 'react-bootstrap/Nav';
 import Stack from 'react-bootstrap/Stack';
 import axiosServices from 'utils/axios';
@@ -93,6 +94,83 @@ export default function Header() {
     onChangeLocalization(lang);
   };
   const navigate = useNavigate();
+
+  // ── Change Password Modal ───────────────────────────────────────────────────
+  const [showChangePwd, setShowChangePwd] = useState(false);
+  const [pwdForm, setPwdForm] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
+  const [pwdErrors, setPwdErrors] = useState({});
+  const [pwdLoading, setPwdLoading] = useState(false);
+  const [showOld, setShowOld] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const openChangePwd = () => {
+    setPwdForm({ oldPassword: '', newPassword: '', confirmPassword: '' });
+    setPwdErrors({});
+    setShowChangePwd(true);
+  };
+
+  const handlePwdChange = (e) => {
+    const { name, value } = e.target;
+    setPwdForm((prev) => ({ ...prev, [name]: value }));
+    setPwdErrors((prev) => ({ ...prev, [name]: '' }));
+  };
+
+  const validatePwd = () => {
+    const errs = {};
+    if (!pwdForm.oldPassword) errs.oldPassword = 'Current password is required.';
+    if (!pwdForm.newPassword) errs.newPassword = 'New password is required.';
+    else if (pwdForm.newPassword.length < 8) errs.newPassword = 'Must be at least 8 characters.';
+    if (!pwdForm.confirmPassword) errs.confirmPassword = 'Please confirm your new password.';
+    else if (pwdForm.newPassword !== pwdForm.confirmPassword) errs.confirmPassword = 'Passwords do not match.';
+    return errs;
+  };
+
+  const handleChangePwdSubmit = async (e) => {
+    e.preventDefault();
+    const errs = validatePwd();
+    if (Object.keys(errs).length) { setPwdErrors(errs); return; }
+
+    setPwdLoading(true);
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const userType = localStorage.getItem('userType');
+      const endpoint = userType === 'orguser'
+        ? `${API_URL}/api/orguser/change-password`
+        : `${API_URL}/api/user/change-password`;
+
+      await axiosServices.put(endpoint, {
+        oldPassword: pwdForm.oldPassword,
+        newPassword: pwdForm.newPassword,
+      });
+
+      setShowChangePwd(false);
+      await Swal.fire({
+        icon: 'success',
+        title: 'Password Changed',
+        text: 'Your password has been changed successfully. Please log in again.',
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      // Force re-login after password change
+      localStorage.clear();
+      if (userType === 'orguser') {
+        navigate('/orguser/login', { replace: true });
+      } else {
+        navigate('/auth/login', { replace: true });
+      }
+    } catch (error) {
+      const status = error.response?.status;
+      const msg = error.response?.data?.message
+        || error.response?.data?.error
+        || (status ? `Server error (${status}). Please try again.` : 'Unable to connect to server. Please check if the server is running.');
+      setPwdErrors({ api: msg });
+    } finally {
+      setPwdLoading(false);
+    }
+  };
+  // ────────────────────────────────────────────────────────────────────────────
 
   const handleLogout = async () => {
     try {
@@ -369,7 +447,7 @@ export default function Header() {
                       <i className="ph ph-share-network me-2" />
                       Share
                     </Dropdown.Item>
-                    <Dropdown.Item as={Link} to="#" className="justify-content-start">
+                    <Dropdown.Item as="button" className="justify-content-start" onClick={openChangePwd}>
                       <i className="ph ph-lock-key me-2" />
                       Change Password
                     </Dropdown.Item>
@@ -386,6 +464,84 @@ export default function Header() {
           </Nav>
         </div>
       </div>
+      {/* ── Change Password Modal ─────────────────────────────────────────── */}
+      <Modal show={showChangePwd} onHide={() => setShowChangePwd(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Change Password</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={handleChangePwdSubmit}>
+          <Modal.Body>
+            {pwdErrors.api && (
+              <div className="alert alert-danger py-2">{pwdErrors.api}</div>
+            )}
+
+            <Form.Group className="mb-3">
+              <Form.Label>Current Password</Form.Label>
+              <div className="input-group">
+                <Form.Control
+                  type={showOld ? 'text' : 'password'}
+                  name="oldPassword"
+                  value={pwdForm.oldPassword}
+                  onChange={handlePwdChange}
+                  isInvalid={!!pwdErrors.oldPassword}
+                  placeholder="Enter current password"
+                  autoComplete="current-password"
+                />
+                <Button variant="outline-secondary" type="button" onClick={() => setShowOld((v) => !v)}>
+                  <i className={`ph ${showOld ? 'ph-eye' : 'ph-eye-slash'}`} />
+                </Button>
+                <Form.Control.Feedback type="invalid">{pwdErrors.oldPassword}</Form.Control.Feedback>
+              </div>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>New Password</Form.Label>
+              <div className="input-group">
+                <Form.Control
+                  type={showNew ? 'text' : 'password'}
+                  name="newPassword"
+                  value={pwdForm.newPassword}
+                  onChange={handlePwdChange}
+                  isInvalid={!!pwdErrors.newPassword}
+                  placeholder="Enter new password (min. 8 characters)"
+                  autoComplete="new-password"
+                />
+                <Button variant="outline-secondary" type="button" onClick={() => setShowNew((v) => !v)}>
+                  <i className={`ph ${showNew ? 'ph-eye' : 'ph-eye-slash'}`} />
+                </Button>
+                <Form.Control.Feedback type="invalid">{pwdErrors.newPassword}</Form.Control.Feedback>
+              </div>
+            </Form.Group>
+
+            <Form.Group className="mb-1">
+              <Form.Label>Confirm New Password</Form.Label>
+              <div className="input-group">
+                <Form.Control
+                  type={showConfirm ? 'text' : 'password'}
+                  name="confirmPassword"
+                  value={pwdForm.confirmPassword}
+                  onChange={handlePwdChange}
+                  isInvalid={!!pwdErrors.confirmPassword}
+                  placeholder="Re-enter new password"
+                  autoComplete="new-password"
+                />
+                <Button variant="outline-secondary" type="button" onClick={() => setShowConfirm((v) => !v)}>
+                  <i className={`ph ${showConfirm ? 'ph-eye' : 'ph-eye-slash'}`} />
+                </Button>
+                <Form.Control.Feedback type="invalid">{pwdErrors.confirmPassword}</Form.Control.Feedback>
+              </div>
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowChangePwd(false)} disabled={pwdLoading}>
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit" disabled={pwdLoading}>
+              {pwdLoading ? 'Changing...' : 'Change Password'}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
     </header>
   );
 }

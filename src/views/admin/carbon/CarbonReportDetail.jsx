@@ -83,17 +83,19 @@ export default function CarbonReportDetail() {
     }
   };
 
+  // Always fetch fresh data on download so stale page state never causes missing scopes
+  const fetchFreshForDownload = async () => {
+    const res = await axiosServices.get(`${API_URL}/api/admin/orgusers/${id}/carbon-data`);
+    return res.data;
+  };
+
   const handleDownloadPDF = async () => {
     setDownloading(true);
     try {
-      const allCats = [
-        ...(data.categories.scope1 || []),
-        ...(data.categories.scope2 || []),
-        ...(data.categories.scope3 || [])
-      ].map(c => ({ ...c, scope: c.code.startsWith('1') ? 1 : c.code === '2' ? 2 : 3 }));
-      downloadCarbonReportPDF(data.orguser, allCats, data.scopeTotals);
+      const fresh = await fetchFreshForDownload();
+      downloadCarbonReportPDF(fresh.orguser, fresh.categories, fresh.scopeTotals);
     } catch (err) {
-      Swal.fire('Error', 'Failed to generate PDF', 'error');
+      Swal.fire('Error', err?.response?.data?.message || 'Failed to generate PDF', 'error');
     } finally {
       setDownloading(false);
     }
@@ -102,14 +104,10 @@ export default function CarbonReportDetail() {
   const handleDownloadExcel = async () => {
     setDownloading(true);
     try {
-      const allCats = [
-        ...(data.categories.scope1 || []),
-        ...(data.categories.scope2 || []),
-        ...(data.categories.scope3 || [])
-      ].map(c => ({ ...c, scope: c.code.startsWith('1') ? 1 : c.code === '2' ? 2 : 3 }));
-      downloadCarbonReportExcel(data.orguser, allCats, data.scopeTotals);
+      const fresh = await fetchFreshForDownload();
+      downloadCarbonReportExcel(fresh.orguser, fresh.categories, fresh.scopeTotals);
     } catch (err) {
-      Swal.fire('Error', 'Failed to generate Excel', 'error');
+      Swal.fire('Error', err?.response?.data?.message || 'Failed to generate Excel', 'error');
     } finally {
       setDownloading(false);
     }
@@ -217,41 +215,83 @@ export default function CarbonReportDetail() {
         </div>
       </MainCard>
 
+      {/* Scope 4 */}
+      <MainCard className="mt-3">
+        <h5 className="mb-3" style={{ color: '#673AB7' }}>
+          <i className="ph ph-package me-2" />
+          Scope 4 — Indirect Emissions from Products & Services Used
+        </h5>
+        <CategoryTable categories={categories.scope4} />
+        <div className="text-end mt-2">
+          <strong>Scope 4 Total: {safe(scopeTotals.scope4)} kgCO₂e</strong>
+        </div>
+      </MainCard>
+
+      {/* Scope 5 */}
+      <MainCard className="mt-3">
+        <h5 className="mb-3" style={{ color: '#00897B' }}>
+          <i className="ph ph-recycle me-2" />
+          Scope 5 — Indirect GHG Emissions from Use of Products
+        </h5>
+        <CategoryTable categories={categories.scope5} />
+        <div className="text-end mt-2">
+          <strong>Scope 5 Total: {safe(scopeTotals.scope5)} kgCO₂e</strong>
+        </div>
+      </MainCard>
+
       {/* Grand Total */}
       <MainCard className="mt-3">
-        <Row className="text-center">
-          <Col md={3}>
+        <Row className="text-center g-3">
+          <Col md={2}>
             <Card className="border-primary h-100">
               <CardBody>
                 <h6 className="text-muted">Scope 1</h6>
-                <h4 className="text-primary">{safe(scopeTotals.scope1)}</h4>
+                <h5 className="text-primary">{safe(scopeTotals.scope1)}</h5>
                 <small className="text-muted">kgCO₂e</small>
               </CardBody>
             </Card>
           </Col>
-          <Col md={3}>
+          <Col md={2}>
             <Card className="border-success h-100">
               <CardBody>
                 <h6 className="text-muted">Scope 2</h6>
-                <h4 className="text-success">{safe(scopeTotals.scope2)}</h4>
+                <h5 className="text-success">{safe(scopeTotals.scope2)}</h5>
                 <small className="text-muted">kgCO₂e</small>
               </CardBody>
             </Card>
           </Col>
-          <Col md={3}>
+          <Col md={2}>
             <Card className="border-warning h-100">
               <CardBody>
                 <h6 className="text-muted">Scope 3</h6>
-                <h4 className="text-warning">{safe(scopeTotals.scope3)}</h4>
+                <h5 className="text-warning">{safe(scopeTotals.scope3)}</h5>
                 <small className="text-muted">kgCO₂e</small>
               </CardBody>
             </Card>
           </Col>
-          <Col md={3}>
+          <Col md={2}>
+            <Card className="h-100" style={{ borderColor: '#673AB7' }}>
+              <CardBody>
+                <h6 className="text-muted">Scope 4</h6>
+                <h5 style={{ color: '#673AB7' }}>{safe(scopeTotals.scope4)}</h5>
+                <small className="text-muted">kgCO₂e</small>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md={2}>
+            <Card className="h-100" style={{ borderColor: '#00897B' }}>
+              <CardBody>
+                <h6 className="text-muted">Scope 5</h6>
+                <h5 style={{ color: '#00897B' }}>{safe(scopeTotals.scope5)}</h5>
+                <small className="text-muted">kgCO₂e</small>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md={2}>
             <Card className="border-danger h-100" style={{ backgroundColor: '#fff5f5' }}>
               <CardBody>
                 <h6 className="text-muted">Grand Total</h6>
-                <h3 className="text-danger">{safe(scopeTotals.grandTotal)}</h3>
+                <h4 className="text-danger">{safe(scopeTotals.grandTotal)}</h4>
                 <small className="text-muted">kgCO₂e</small>
               </CardBody>
             </Card>
@@ -358,11 +398,32 @@ function getInputSummary(code, ri = {}) {
     case '3.3.2':
       return [`Quantity: ${n(ri.quantityKg)} kg`, `Tonne·km: ${n(ri.tonneKm)}`];
     case '3.4.1':
+    case '3.4.2':
     case '3.5.2':
       return [`Weight: ${n(ri.weightTonnes)} t`, `Tonne·km: ${n(ri.tonneKm)}`];
     case '3.2.3a':
     case '3.2.3b':
       return [`Weight: ${n(ri.weightTonnes)} t`, `Tonne·km: ${n(ri.tonneKm)}`];
+    case '3.6':
+      return [`Car groups: ${ri.carGroups || 0}`, `Air groups: ${ri.airGroups || 0}`];
+    case '4.1':
+    case '4.7':
+      return [`Area: ${n(ri.totalAreaM2)} m²`];
+    case '4.2.a':
+    case '4.2.b':
+      return [`Chemicals: ${n(ri.totalChemicalsKg)} kg`];
+    case '4.3':
+      return [`Water: ${n(ri.totalPurchasedM3)} m³`];
+    case '4.4':
+      return [`Effluent: ${n(ri.totalEffluentM3)} m³`];
+    case '4.5':
+      return [`Waste: ${n(ri.totalWeightTonnes)} t`];
+    case '4.6':
+      return [`Car km: ${n(ri.totalCarKm)}`, `Moto km: ${n(ri.totalMotoKm)}`];
+    case '5.1':
+      return [`Electricity: ${n(ri.totalKWh)} kWh`];
+    case '5.2':
+      return [`Weight disposed: ${n(ri.totalWeightKg)} kg`];
     default:
       return [];
   }

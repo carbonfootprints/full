@@ -46,21 +46,21 @@ const CarbonReportDownload = () => {
     try {
       const res = await axiosServices.get(`${API_URL}/api/orguser/report-data`);
 
-      const { orguser, categories, scopeTotals } = res.data;
+      const { orguser, categories = [], scopeTotals } = res.data;
 
-      const allCats = [
-        ...(categories.scope1 || []),
-        ...(categories.scope2 || []),
-        ...(categories.scope3 || [])
-      ].map((c) => ({
-        ...c,
-        scope: c.code.startsWith('1') ? 1 : c.code === '2' ? 2 : 3
-      }));
+      // orguser report-data returns a flat categories array — group by scope
+      const categoriesByScope = {
+        scope1: categories.filter(c => c.scope === 1),
+        scope2: categories.filter(c => c.scope === 2),
+        scope3: categories.filter(c => c.scope === 3),
+        scope4: categories.filter(c => c.scope === 4),
+        scope5: categories.filter(c => c.scope === 5),
+      };
 
       if (format === 'pdf') {
-        downloadCarbonReportPDF(orguser, allCats, scopeTotals);
+        downloadCarbonReportPDF(orguser, categoriesByScope, scopeTotals);
       } else {
-        downloadCarbonReportExcel(orguser, allCats, scopeTotals);
+        downloadCarbonReportExcel(orguser, categoriesByScope, scopeTotals);
       }
     } catch (error) {
       const msg = error.response?.data?.message || 'Failed to download report.';

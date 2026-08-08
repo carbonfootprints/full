@@ -105,6 +105,14 @@ const CATEGORIES = [
     color: 'primary'
   },
   {
+    code: '3.4.2',
+    title: 'Upstream sea transportation (Site 2)',
+    description: 'Chemical transportation by sea — secondary site',
+    scope: 'Scope 3',
+    icon: 'ph-boat',
+    color: 'primary'
+  },
+  {
     code: '3.5.1',
     title: 'Downstream road transportation',
     description: 'Outbound freight and finished goods logistics',
@@ -207,6 +215,22 @@ const CATEGORIES = [
     scope: 'Scope 4',
     icon: 'ph-factory',
     color: 'secondary'
+  },
+  {
+    code: '5.1',
+    title: 'Indirect GHG — purchased energy (use of products)',
+    description: 'Electricity used in leather upholstery by customers × CEA EF',
+    scope: 'Scope 5',
+    icon: 'ph-lightning',
+    color: 'warning'
+  },
+  {
+    code: '5.2',
+    title: 'Indirect GHG — disposal of products',
+    description: 'Weight of leather products × Defra 2024 landfill EF (496.78 kgCO₂e/t)',
+    scope: 'Scope 5',
+    icon: 'ph-trash',
+    color: 'danger'
   }
 ];
 
@@ -288,6 +312,7 @@ export default function CategoryWizard() {
             {scope === 'Scope 2' && 'Indirect Emissions (Energy)'}
             {scope === 'Scope 3' && 'Other Indirect Emissions'}
             {scope === 'Scope 4' && 'Indirect Emissions from Products & Services Used'}
+            {scope === 'Scope 5' && 'Indirect GHG Emissions from Use of Products'}
           </h5>
 
           <Row>
@@ -397,6 +422,15 @@ export default function CategoryWizard() {
               >
                 <i className="ph ph-paper-plane-right me-2"></i>
                 Go to Dashboard
+              </Button>
+              <Button
+                variant="outline-success"
+                size="lg"
+                className="ms-2"
+                onClick={() => navigate('/calculate/carbon-footprint/report')}
+              >
+                <i className="ph ph-file-text me-2"></i>
+                View GHG Report
               </Button>
             </Card.Body>
           </Card>
