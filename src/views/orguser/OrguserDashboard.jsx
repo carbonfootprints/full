@@ -25,7 +25,7 @@ const OrguserDashboard = () => {
         text: 'Please login as an organization user.',
         confirmButtonText: 'Go to Login'
       }).then(() => {
-        navigate('/orguser/login');
+        navigate('/login');
       });
       return;
     }
@@ -46,7 +46,7 @@ const OrguserDashboard = () => {
       if (error.response?.status === 401) {
         Swal.fire('Session Expired', 'Please login again', 'warning').then(() => {
           localStorage.clear();
-          navigate('/orguser/login');
+          navigate('/login');
         });
       }
     } finally {
@@ -74,7 +74,7 @@ const OrguserDashboard = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.clear();
-        navigate('/orguser/login');
+        navigate('/login');
       }
     });
   };

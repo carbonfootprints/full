@@ -33,7 +33,7 @@ export default function CallToActionBlock() {
               </Col>
               <Col md={3}>
                 <Stack direction="horizontal" className="justify-content-center justify-content-md-end align-items-center">
-                  <Button className="px-sm-5" href="/orguser/login">
+                  <Button className="px-sm-5" href="/login">
                     Get Started
                   </Button>
                 </Stack>

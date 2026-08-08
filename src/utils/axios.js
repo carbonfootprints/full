@@ -29,11 +29,10 @@ axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Clear stale auth state; redirect to the appropriate login page
+      // Clear stale auth state; redirect to the unified login page
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
-      const isOrguser = window.location.pathname.startsWith('/orguser');
-      window.location.href = isOrguser ? '/orguser/login' : '/auth/login';
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }

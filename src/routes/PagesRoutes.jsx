@@ -16,6 +16,7 @@ const LoginV3Page = Loadable(lazy(() => import('views/auth/login/LoginV3')));
 const LoginV4Page = Loadable(lazy(() => import('views/auth/login/LoginV4')));
 const LoginV5Page = Loadable(lazy(() => import('views/auth/login/LoginV5')));
 const Login = Loadable(lazy(() => import('views/pages/Login')));
+const UnifiedLogin = Loadable(lazy(() => import('views/pages/UnifiedLogin')));
 
 // render - forgot password page
 const ForgotPassword = Loadable(lazy(() => import('views/pages/ForgotPassword')));
@@ -73,6 +74,10 @@ const PagesRoutes = {
           ]
         },
 
+        {
+          path: 'login',
+          element: <UnifiedLogin />
+        },
         {
           path: 'auth',
           children: [

@@ -11,13 +11,13 @@ const pricingOptions = [
     title: 'Starter',
     price: 'Free',
     features: ['1 organization site', 'Up to 3 emission categories', 'Monthly data entry', 'Basic dashboard & reports'],
-    link: '/orguser/login'
+    link: '/login'
   },
   {
     title: 'Professional',
     price: '₹2,999/yr',
     features: ['Up to 5 sites', 'All 15+ emission categories', 'Full Scope 1, 2 & 3 tracking', 'Priority support'],
-    link: '/orguser/login',
+    link: '/login',
     buttonClass: 'btn-primary',
     label: 'Popular'
   },
@@ -25,7 +25,7 @@ const pricingOptions = [
     title: 'Enterprise',
     price: 'Custom',
     features: ['Unlimited sites', 'Custom emission factors', 'Dedicated account manager', 'Audit-ready exports & compliance'],
-    link: '/auth/login'
+    link: '/login'
   }
 ];
 

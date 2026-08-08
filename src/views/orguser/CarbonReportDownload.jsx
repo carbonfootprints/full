@@ -19,7 +19,7 @@ const CarbonReportDownload = () => {
     const userType = localStorage.getItem('userType');
 
     if (!user || userType !== 'orguser') {
-      navigate('/orguser/login');
+      navigate('/login');
       return;
     }
 
@@ -34,7 +34,7 @@ const CarbonReportDownload = () => {
     } catch (error) {
       if (error.response?.status === 401) {
         localStorage.clear();
-        navigate('/orguser/login');
+        navigate('/login');
       }
     } finally {
       setLoading(false);

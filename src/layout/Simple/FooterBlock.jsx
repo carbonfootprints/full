@@ -17,8 +17,7 @@ const columns = [
     title: 'Platform',
     links: [
       { text: 'Carbon Calculator', href: '/calculate/carbon-footprint' },
-      { text: 'Admin Login', href: '/auth/login' },
-      { text: 'Organization Login', href: '/orguser/login' }
+      { text: 'Login', href: '/login' }
     ],
     delay: '0.4s'
   },

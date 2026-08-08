@@ -54,13 +54,9 @@ export default function HeaderBlock() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <Link to="/auth/login" className="btn btn-light me-3 px-4">
-                <i className="ph ph-shield-check me-2" />
-                Admin Login
-              </Link>
-              <Link to="/orguser/login" className="btn btn-outline-light px-4">
-                <i className="ph ph-buildings me-2" />
-                Organization Login
+              <Link to="/login" className="btn btn-light px-5">
+                <i className="ph ph-sign-in me-2" />
+                Login
               </Link>
             </motion.div>
             <motion.div

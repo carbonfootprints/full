@@ -42,18 +42,10 @@ export default function HeaderSection() {
         <Navbar.Collapse id="navbarTogglerDemo01">
           <Nav className="ms-auto mb-2 mb-md-0 align-items-center gap-2">
             <Nav.Item>
-              <Link to="/orguser/login">
-                <Button variant="outline-light" size="sm">
-                  <i className="ph ph-buildings me-1" />
-                  Organization Login
-                </Button>
-              </Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Link to="/auth/login">
+              <Link to="/login">
                 <Button variant="light" size="sm">
-                  <i className="ph ph-shield-check me-1" />
-                  Admin Login
+                  <i className="ph ph-sign-in me-1" />
+                  Login
                 </Button>
               </Link>
             </Nav.Item>

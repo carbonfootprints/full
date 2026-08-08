@@ -155,11 +155,7 @@ export default function Header() {
 
       // Force re-login after password change
       localStorage.clear();
-      if (userType === 'orguser') {
-        navigate('/orguser/login', { replace: true });
-      } else {
-        navigate('/auth/login', { replace: true });
-      }
+      navigate('/login', { replace: true });
     } catch (error) {
       const status = error.response?.status;
       const msg = error.response?.data?.message
@@ -203,29 +199,9 @@ export default function Header() {
         showConfirmButton: false
       });
 
-      // Redirect based on user type
-      if (userType === 'orguser' || userRole === 'orguser') {
-        navigate('/orguser/login', { replace: true });
-      } else {
-        navigate('/auth/login', { replace: true });
-      }
+      navigate('/login', { replace: true });
     } catch (error) {
       console.error('Logout error:', error);
-
-      // Still clear localStorage and redirect even if API call fails
-      const userType = localStorage.getItem('userType');
-      const userData = localStorage.getItem('user');
-      let userRole = null;
-
-      if (userData) {
-        try {
-          const parsedUser = JSON.parse(userData);
-          userRole = parsedUser.role;
-        } catch (e) {
-          console.error('Error parsing user data:', e);
-        }
-      }
-
       localStorage.clear();
 
       Swal.fire({
@@ -234,12 +210,7 @@ export default function Header() {
         text: 'You have been logged out.'
       });
 
-      // Redirect based on user type
-      if (userType === 'orguser' || userRole === 'orguser') {
-        navigate('/orguser/login', { replace: true });
-      } else {
-        navigate('/auth/login', { replace: true });
-      }
+      navigate('/login', { replace: true });
     }
   };
 

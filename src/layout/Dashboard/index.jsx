@@ -19,8 +19,7 @@ export default function MainLayout() {
   const userType = localStorage.getItem('userType');
 
   if (!token) {
-    const loginPath = userType === 'orguser' ? '/orguser/login' : '/auth/login';
-    return <Navigate to={loginPath} replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return (
