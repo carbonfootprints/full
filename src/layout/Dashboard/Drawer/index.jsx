@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // react-bootstrap
 import Image from 'react-bootstrap/Image';
@@ -26,6 +26,12 @@ export default function MainDrawer() {
   const overlayRef = useRef(null);
   const { menuOrientation, sidebarTheme } = useConfig();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    const userType = localStorage.getItem('userType');
+    navigate(userType === 'orguser' ? '/orguser/dashboard' : '/admin-panel/orgusers/list');
+  };
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 1024);
@@ -98,7 +104,7 @@ export default function MainDrawer() {
     <nav id="pc-sidebar" className={`pc-sidebar ${drawerOpen ? 'pc-sidebar-hide mob-sidebar-active' : ''} `}>
       <div className="navbar-wrapper">
         <div className="m-header">
-          <a className="b-brand text-primary">
+          <a className="b-brand text-primary" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
             <Image src={sidebarTheme === true ? DarkLogo : logo} fluid className="logo logo-lg" alt="logo" />
           </a>
         </div>
