@@ -22,54 +22,36 @@ import { setResolvedTheme } from 'components/setResolvedTheme';
 import { ThemeMode } from 'config';
 
 // assets
-import Img1 from 'assets/images/user/avatar-1.png';
 import Img2 from 'assets/images/user/avatar-2.png';
-import Img3 from 'assets/images/user/avatar-3.png';
-import Img4 from 'assets/images/user/avatar-4.png';
-import Img5 from 'assets/images/user/avatar-5.png';
 
-const notifications = [
-  {
-    id: 1,
-    avatar: Img1,
-    time: '2 min ago',
-    title: 'New Support Ticket',
-    description: 'A new support ticket has been submitted by an organisation user.',
-    date: 'Today'
-  },
-  {
-    id: 2,
-    avatar: Img2,
-    time: '1 hour ago',
-    title: 'Carbon Data Submitted',
-    description: 'An organisation has submitted carbon footprint data for review.',
-    date: 'Today'
-  },
-  {
-    id: 3,
-    avatar: Img3,
-    time: '2 hours ago',
-    title: 'New Organisation Registered',
-    description: 'A new organisation user has completed their registration.',
-    date: 'Yesterday'
-  },
-  {
-    id: 4,
-    avatar: Img4,
-    time: '5 hours ago',
-    title: 'Report Ready',
-    description: 'The carbon footprint report is ready and awaiting release approval.',
-    date: 'Yesterday'
-  },
-  {
-    id: 5,
-    avatar: Img5,
-    time: '12 hours ago',
-    title: 'Incomplete Data Alert',
-    description: 'One organisation has incomplete emission data for the current reporting period.',
-    date: 'Yesterday'
-  }
-];
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+// Icon map per notification type
+const TYPE_ICON = {
+  TICKET_CREATED:   { icon: 'ph-ticket',          bg: '#eff6ff', color: '#3b82f6' },
+  TICKET_REPLIED:   { icon: 'ph-chat-dots',        bg: '#f0fdf4', color: '#22c55e' },
+  ORG_REGISTERED:   { icon: 'ph-buildings',        bg: '#fefce8', color: '#eab308' },
+  CARBON_SUBMITTED: { icon: 'ph-leaf',             bg: '#f0fdf4', color: '#16a34a' },
+  REPORT_READY:     { icon: 'ph-file-text',        bg: '#faf5ff', color: '#a855f7' },
+  ACCOUNT_ACTIVATED:{ icon: 'ph-check-circle',     bg: '#f0fdf4', color: '#22c55e' },
+  DEFAULT:          { icon: 'ph-bell',             bg: '#f1f5f9', color: '#64748b' }
+};
+
+function formatTimeAgo(dateStr) {
+  const diff = (Date.now() - new Date(dateStr)) / 1000;
+  if (diff < 60)   return 'Just now';
+  if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hr ago`;
+  if (diff < 172800) return 'Yesterday';
+  return new Date(dateStr).toLocaleDateString();
+}
+
+function getDateLabel(dateStr) {
+  const diff = (Date.now() - new Date(dateStr)) / 1000;
+  if (diff < 86400)  return 'Today';
+  if (diff < 172800) return 'Yesterday';
+  return new Date(dateStr).toLocaleDateString();
+}
 
 // =============================|| MAIN LAYOUT - HEADER ||============================== //
 
@@ -94,6 +76,46 @@ export default function Header() {
     onChangeLocalization(lang);
   };
   const navigate = useNavigate();
+
+  // ── Notifications ───────────────────────────────────────────────────────────
+  const [notifications, setNotifications]   = useState([]);
+  const [unreadCount, setUnreadCount]       = useState(0);
+  const [notifOpen, setNotifOpen]           = useState(false);
+
+  const fetchNotifications = async () => {
+    try {
+      const res = await axiosServices.get(`${API_URL}/api/notifications`);
+      setNotifications(res.data.notifications || []);
+      setUnreadCount(res.data.unreadCount || 0);
+    } catch { /* silent — bell stays empty if backend unreachable */ }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000); // poll every 30s
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleNotifToggle = async (isOpen) => {
+    setNotifOpen(isOpen);
+    if (isOpen && unreadCount > 0) {
+      // Mark all as read when dropdown opens
+      try {
+        await axiosServices.put(`${API_URL}/api/notifications/read-all`);
+        setUnreadCount(0);
+        setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+      } catch { /* silent */ }
+    }
+  };
+
+  const handleClearAll = async () => {
+    try {
+      await axiosServices.delete(`${API_URL}/api/notifications/clear`);
+      setNotifications([]);
+      setUnreadCount(0);
+    } catch { /* silent */ }
+  };
+  // ────────────────────────────────────────────────────────────────────────────
 
   // ── Change Password Modal ───────────────────────────────────────────────────
   const [showChangePwd, setShowChangePwd] = useState(false);
@@ -330,58 +352,67 @@ export default function Header() {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            <Dropdown className="pc-h-item" align="end">
+            <Dropdown className="pc-h-item" align="end" onToggle={handleNotifToggle}>
               <Dropdown.Toggle className="pc-head-link me-0 arrow-none" variant="link" id="notification-dropdown" aria-label="Notifications">
                 <i className="ph ph-bell" />
-                {notifications.length > 0 && (
-                  <span className="badge bg-success pc-h-badge">{notifications.length}</span>
+                {unreadCount > 0 && (
+                  <span className="badge bg-success pc-h-badge">{unreadCount}</span>
                 )}
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="dropdown-notification pc-h-dropdown">
                 <Dropdown.Header className="d-flex align-items-center justify-content-between">
                   <h5 className="m-0">Notifications</h5>
-                  <button className="btn btn-link btn-sm" onClick={() => {}}>
-                    Mark All Read
-                  </button>
+                  {notifications.length > 0 && (
+                    <button className="btn btn-link btn-sm p-0" onClick={handleClearAll}>
+                      Clear All
+                    </button>
+                  )}
                 </Dropdown.Header>
+
                 <SimpleBarScroll style={{ maxHeight: 'calc(100vh - 215px)' }}>
                   <div className="dropdown-body text-wrap position-relative">
-                    {notifications.map((notification, index) => (
-                      <React.Fragment key={notification.id}>
-                        {index === 0 || notifications[index - 1].date !== notification.date ? (
-                          <p className="text-span">{notification.date}</p>
-                        ) : null}
-                        <MainCard className="mb-0">
-                          <Stack direction="horizontal" gap={3}>
-                            <Image className="img-radius avatar rounded-0" src={notification.avatar} alt="Generic placeholder image" />
-                            <div>
-                              <span className="float-end text-sm text-muted">{notification.time}</span>
-                              <h5 className="text-body mb-2">{notification.title}</h5>
-                              <p className="mb-0">{notification.description}</p>
-                              {notification.actions && (
-                                <div className="mt-2">
-                                  <Button variant="outline-secondary" size="sm" className="me-2">
-                                    Decline
-                                  </Button>
-                                  <Button variant="primary" size="sm">
-                                    Accept
-                                  </Button>
+                    {notifications.length === 0 ? (
+                      <div className="text-center py-4 text-muted">
+                        <i className="ph ph-bell-slash" style={{ fontSize: 32, opacity: 0.4 }} />
+                        <p className="mt-2 mb-0 small">No notifications yet</p>
+                      </div>
+                    ) : (
+                      notifications.map((notif, index) => {
+                        const dateLabel  = getDateLabel(notif.createdAt);
+                        const prevLabel  = index > 0 ? getDateLabel(notifications[index - 1].createdAt) : null;
+                        const showLabel  = index === 0 || prevLabel !== dateLabel;
+                        const iconStyle  = TYPE_ICON[notif.type] || TYPE_ICON.DEFAULT;
+
+                        return (
+                          <React.Fragment key={notif._id}>
+                            {showLabel && <p className="text-span">{dateLabel}</p>}
+                            <MainCard className={`mb-0 ${!notif.isRead ? 'border-start border-2 border-success' : ''}`}>
+                              <Stack direction="horizontal" gap={3} className="align-items-start">
+                                <div
+                                  style={{
+                                    width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+                                    background: iconStyle.bg,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                  }}
+                                >
+                                  <i className={`ph ${iconStyle.icon}`} style={{ fontSize: 20, color: iconStyle.color }} />
                                 </div>
-                              )}
-                            </div>
-                          </Stack>
-                        </MainCard>
-                      </React.Fragment>
-                    ))}
+                                <div className="flex-grow-1" style={{ minWidth: 0 }}>
+                                  <span className="float-end text-sm text-muted" style={{ fontSize: '0.75rem', whiteSpace: 'nowrap', marginLeft: 8 }}>
+                                    {formatTimeAgo(notif.createdAt)}
+                                  </span>
+                                  <h5 className="text-body mb-1" style={{ fontSize: '0.875rem', fontWeight: 600 }}>{notif.title}</h5>
+                                  <p className="mb-0 text-muted" style={{ fontSize: '0.8rem' }}>{notif.description}</p>
+                                </div>
+                              </Stack>
+                            </MainCard>
+                          </React.Fragment>
+                        );
+                      })
+                    )}
                   </div>
                 </SimpleBarScroll>
-
-                <div className="text-center py-2">
-                  <button className="btn btn-link link-danger p-0" onClick={() => {}}>
-                    Clear All Notifications
-                  </button>
-                </div>
               </Dropdown.Menu>
             </Dropdown>
             <Dropdown className="pc-h-item" align="end">
