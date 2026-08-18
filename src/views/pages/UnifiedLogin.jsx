@@ -25,11 +25,6 @@ const FEATURES = [
   { icon: 'ph-shield-check',   label: 'Role-based access control' }
 ];
 
-const STATS = [
-  { icon: 'ph-buildings',    label: '500+ Organisations' },
-  { icon: 'ph-leaf',         label: '50K Tonnes Tracked' },
-  { icon: 'ph-chart-bar',    label: '15+ Categories' }
-];
 
 // =============================================
 // LEAF SVG
@@ -183,19 +178,6 @@ export default function UnifiedLogin() {
             Track. Reduce.<br />
             <em>Sustain the Planet.</em>
           </h1>
-          <p>
-            A unified platform for monitoring carbon emissions across all your sites and categories — from Scope 1 to Scope 3.
-          </p>
-        </div>
-
-        {/* Stats pills */}
-        <div className="ul-stats">
-          {STATS.map((s, i) => (
-            <div className="ul-stat-pill" key={i}>
-              <i className={`ph ${s.icon}`} />
-              {s.label}
-            </div>
-          ))}
         </div>
 
         {/* Feature list */}
