@@ -79,6 +79,7 @@ export default function UnifiedLogin() {
 
   const handleFocus  = (field) => () => setFocused((prev) => ({ ...prev, [field]: true }));
   const handleBlur   = (field) => () => setFocused((prev) => ({ ...prev, [field]: false }));
+  const handleKeyDown = (e) => { if (e.key === 'Enter') handleSubmit(e); };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -225,6 +226,7 @@ export default function UnifiedLogin() {
                 onChange={handleChange('email')}
                 onFocus={handleFocus('email')}
                 onBlur={handleBlur('email')}
+                onKeyDown={handleKeyDown}
                 autoComplete="email"
               />
               {errors.email && (
@@ -246,6 +248,7 @@ export default function UnifiedLogin() {
                 onChange={handleChange('password')}
                 onFocus={handleFocus('password')}
                 onBlur={handleBlur('password')}
+                onKeyDown={handleKeyDown}
                 autoComplete="current-password"
                 style={{ paddingRight: '44px' }}
               />
