@@ -1,0 +1,492 @@
+/* =============================================
+   UNIFIED LOGIN — Full Redesign
+   Nature-themed | Animated | Modern
+   ============================================= */
+
+/* ---- Page wrapper ---- */
+.ul-page {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* =============================================
+   LEFT PANEL — Nature / Brand side
+   ============================================= */
+.ul-left {
+  position: relative;
+  flex: 0 0 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 64px;
+  background: linear-gradient(160deg, #011a0e 0%, #022c1a 25%, #064e3b 60%, #047857 100%);
+  overflow: hidden;
+}
+
+/* ---- Animated gradient mesh behind content ---- */
+.ul-left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 20%, rgba(16,185,129,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 10% 80%, rgba(5,150,105,0.22) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* ---- Floating orbs ---- */
+.ul-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.25;
+  pointer-events: none;
+}
+.ul-orb-1 {
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, #34d399, #059669);
+  top: -80px; left: -60px;
+  animation: orbFloat1 12s ease-in-out infinite alternate;
+}
+.ul-orb-2 {
+  width: 240px; height: 240px;
+  background: radial-gradient(circle, #6ee7b7, #10b981);
+  bottom: -40px; right: -40px;
+  animation: orbFloat2 15s ease-in-out infinite alternate;
+}
+.ul-orb-3 {
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, #a7f3d0, #34d399);
+  top: 55%; left: 55%;
+  animation: orbFloat3 9s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, 60px) scale(1.1); }
+}
+@keyframes orbFloat2 {
+  from { transform: translate(0, 0) scale(1.1); }
+  to   { transform: translate(-50px, -40px) scale(1); }
+}
+@keyframes orbFloat3 {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(-30px, 20px); }
+}
+
+/* ---- Floating leaf particles ---- */
+.ul-leaf {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  animation: leafRise linear infinite;
+}
+.ul-leaf svg { display: block; }
+
+@keyframes leafRise {
+  0%   { transform: translateY(0) rotate(0deg) scale(0.8);  opacity: 0; }
+  10%  { opacity: 0.55; }
+  85%  { opacity: 0.4; }
+  100% { transform: translateY(-110vh) rotate(360deg) scale(1.1); opacity: 0; }
+}
+
+/* ---- Grid overlay ---- */
+.ul-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* ---- Brand logo ---- */
+.ul-brand {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+.ul-brand-icon {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.ul-brand-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #fff;
+  line-height: 1;
+}
+.ul-brand-name span { color: #6ee7b7; }
+
+/* ---- Headline ---- */
+.ul-headline {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 32px;
+}
+.ul-headline h1 {
+  font-size: clamp(2rem, 3.5vw, 2.9rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  margin: 0 0 16px;
+}
+.ul-headline h1 em {
+  font-style: normal;
+  color: #6ee7b7;
+  position: relative;
+}
+.ul-headline p {
+  color: rgba(255,255,255,0.6);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0;
+}
+
+/* ---- Stat pills ---- */
+.ul-stats {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.ul-stat-pill {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.82rem;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s;
+}
+.ul-stat-pill:hover {
+  background: rgba(255,255,255,0.12);
+}
+.ul-stat-pill i {
+  font-size: 15px;
+  color: #6ee7b7;
+}
+
+/* ---- Feature list ---- */
+.ul-features {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ul-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+.ul-feature-item:hover { color: #fff; }
+.ul-feature-dot {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(110,231,183,0.12);
+  border: 1px solid rgba(110,231,183,0.25);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.ul-feature-item:hover .ul-feature-dot {
+  background: rgba(110,231,183,0.22);
+}
+.ul-feature-dot i { color: #6ee7b7; font-size: 17px; }
+
+/* ---- Bottom badge ---- */
+.ul-badge {
+  position: absolute;
+  bottom: 36px; left: 64px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.78rem;
+}
+.ul-badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(110,231,183,0.5); }
+  50%       { box-shadow: 0 0 0 6px rgba(110,231,183,0); }
+}
+
+/* =============================================
+   RIGHT PANEL — Form side
+   ============================================= */
+.ul-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 40px;
+  background: #f1f5f2;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle right-panel background decoration */
+.ul-right::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 350px; height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(110,231,183,0.1), transparent 70%);
+  pointer-events: none;
+}
+.ul-right::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(5,150,105,0.07), transparent 70%);
+  pointer-events: none;
+}
+
+/* ---- Form card ---- */
+.ul-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 44px 40px;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.04),
+    0 8px 32px rgba(0,0,0,0.08),
+    0 0 0 1px rgba(0,0,0,0.04);
+  animation: cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- Form header ---- */
+.ul-form-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.ul-form-icon {
+  width: 60px; height: 60px;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border-radius: 18px;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(16,185,129,0.15);
+}
+.ul-form-icon i { font-size: 26px; color: #059669; }
+.ul-form-header h2 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px;
+  letter-spacing: -0.4px;
+}
+.ul-form-header p {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ---- Floating label inputs ---- */
+.ul-field {
+  position: relative;
+  margin-bottom: 24px;
+}
+.ul-field label {
+  position: absolute;
+  top: 50%;
+  left: 44px;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 0.9rem;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  background: transparent;
+  padding: 0 4px;
+  z-index: 1;
+}
+.ul-field.has-value label,
+.ul-field.focused label {
+  top: 0;
+  font-size: 0.75rem;
+  color: #059669;
+  background: #fff;
+  left: 40px;
+}
+.ul-field-icon {
+  position: absolute;
+  left: 14px; top: 50%; transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 18px;
+  pointer-events: none;
+  transition: color 0.2s;
+  z-index: 2;
+}
+.ul-field.focused .ul-field-icon { color: #059669; }
+.ul-field input {
+  width: 100%;
+  height: 54px;
+  padding: 0 44px 0 42px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background: #f8fafc;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  position: relative;
+  z-index: 0;
+}
+.ul-field input:focus {
+  border-color: #059669;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(5,150,105,0.08);
+}
+.ul-field.error input {
+  border-color: #f43f5e;
+  box-shadow: 0 0 0 4px rgba(244,63,94,0.08);
+}
+.ul-field-error {
+  font-size: 0.78rem;
+  color: #f43f5e;
+  margin-top: 5px;
+  padding-left: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ul-eye-btn {
+  position: absolute;
+  right: 14px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; padding: 0;
+  cursor: pointer;
+  color: #94a3b8;
+  font-size: 18px;
+  z-index: 2;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.ul-eye-btn:hover { color: #059669; }
+
+/* ---- Submit button ---- */
+.ul-btn {
+  position: relative;
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
+  background-size: 200% 100%;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-position 0.4s ease, transform 0.15s, box-shadow 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 16px rgba(5,150,105,0.35);
+  margin-top: 8px;
+}
+.ul-btn:hover:not(:disabled) {
+  background-position: right center;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(5,150,105,0.45);
+}
+.ul-btn:active:not(:disabled) { transform: translateY(0); }
+.ul-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+/* shimmer sweep on hover */
+.ul-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+  transform: skewX(-20deg);
+  transition: left 0.5s;
+}
+.ul-btn:hover:not(:disabled)::after { left: 130%; }
+
+/* spinner */
+.ul-spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- Divider ---- */
+.ul-divider {
+  display: flex; align-items: center; gap: 14px;
+  margin: 28px 0 20px;
+}
+.ul-divider::before, .ul-divider::after {
+  content: ''; flex: 1;
+  height: 1px; background: #e2e8f0;
+}
+.ul-divider span { color: #94a3b8; font-size: 0.78rem; white-space: nowrap; }
+
+/* ---- Back link ---- */
+.ul-back {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  color: #64748b; font-size: 0.85rem; text-decoration: none;
+  transition: color 0.2s;
+}
+.ul-back:hover { color: #059669; }
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .ul-left { display: none; }
+  .ul-right {
+    padding: 32px 20px;
+    background: linear-gradient(160deg, #022c1a 0%, #047857 100%);
+  }
+  .ul-card { padding: 36px 28px; }
+}
+@media (max-width: 480px) {
+  .ul-card { padding: 28px 20px; border-radius: 18px; }
+  .ul-form-header h2 { font-size: 1.4rem; }
+}
